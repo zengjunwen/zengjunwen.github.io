@@ -201,6 +201,8 @@ The topic as a logical concept is represented by one or more physical log files 
 <p><img src="media/15807992240443/%E6%88%AA%E5%B1%8F2020-02-05%E4%B8%8B%E5%8D%885.02.35.png" alt="截屏2020-02-05下午5.02.35"/><br/>
 Configuration properties needed to start up a producer. As indicated here, there are three required properties needed: <strong>bootstrap. servers, and both key and value serializers.</strong> </p>
 
+<h4 id="toc_11">KafkaProducer</h4>
+
 <p>When we use the Kafka producer shell program, we simply needed to supply a list of brokers for the producer to connect to. This corresponds to the bootstrap. servers configuration setting needed for the producer to start up. The producer doesn&#39;t connect to every broker referenced in this list, just the first available one. It uses the broker it connects to for discovering the full membership of the cluster, which of course can change at any time. It uses this list to determine the partition owners or leaders so that when it&#39;s ready to send messages, it can do so immediately. It is a best practice to provide more than one broker in the broker list, in the unlikely event that the first broker specified is unavailable. </p>
 
 <p>About key and value serializers. This is to optimize the size of the messages, not only for network transmission, but for storage and even compression. In this example, you&#39;ll notice that for both the key and value serializer, we&#39;re using the string serializer class, which is the most common serializer scheme used in Kafka. </p>
@@ -215,6 +217,49 @@ Configuration properties needed to start up a producer. As indicated here, there
         
     KafkaProducer&lt;String, String&gt; myProducer = new KafkaProducer&lt;String, String&gt;(props);
 </code></pre>
+
+<h4 id="toc_12">ProduceRecord</h4>
+
+<p>ProducerRecord, it represents what will be published by the Kafka producer. A ProducerRecord is also fairly basic and straightforward. It only requires two values to be set in order for it to be considered a valid record that can be sent by the Kafka producer. <strong>These two required values are the topic and the value</strong>. </p>
+
+<pre><code class="language-java">ProducerRecord&lt;String, String&gt;(&quot;my_topic&quot;, &quot;My Message 1&quot;)
+</code></pre>
+
+<p><strong>KafkaProducer instances can only send ProducerRecords that match the key and value serializers types it is configured with.</strong></p>
+
+<pre><code class="language-java">ProducerRecord&lt;String, String&gt;(&quot;my_topic&quot;, &quot;My Message 1&quot;)`
+SerializationException: Can&#39;t convert value of class ...
+</code></pre>
+
+<h4 id="toc_13">ProduceRecord&#39;s Optional Properties</h4>
+
+<p><strong>partition</strong>: specific partition within the topic to send ProduceRecord.<br/>
+<strong>timestamp</strong>: the Unix timestamp applied to the record.<br/>
+<strong>key</strong>: a value to be used as the basis of determining the partitioning strategy to be employed by the Kafka Producer.Defined a key has two useful purposes:</p>
+
+<ul>
+<li>Additional information in the message.</li>
+<li>Can determine what partitions the message will be written to.</li>
+</ul>
+
+<p>Downside:</p>
+
+<ul>
+<li>Additional overhead.</li>
+<li>Depends on the serializer type used.</li>
+</ul>
+
+<h4 id="toc_14">The Process of Sending Message</h4>
+
+<p>Now that we have a ProducerRecord for the producer to send, the message sending process in two parts. </p>
+
+<p><strong>Part 1</strong><br/>
+When calling the send method, the producer will reach out to the cluster using the bootstrap servers list to discover the cluster membership. The response comes back as metadata, containing detailed information related to the topics, their partitions, and their managing brokers on the cluster. This metadata is used to instantiate a metadata object in the producer, and throughout the producer&#39;s life cycle, it will keep this object fresh with the latest information about the cluster. Additionally, a pseudo processing pipeline within the Kafka producer is engaged. With the producer now having an actual producer record to work with, the first step in this pipeline will be to pass the message through the serializer using the configured serializer. The next step in the pipeline is the partitioner, whose job it is to determine what partition to send the record to. Here the producer can employ different partitioning strategies depending on the values being passed to it in the producer record, and the information it has regarding the cluster membership.<br/>
+<img src="media/15807992240443/%E6%88%AA%E5%B1%8F2020-02-05%E4%B8%8B%E5%8D%8810.30.42.png" alt="截屏2020-02-05下午10.30.42"/></p>
+
+<p><strong>Part 2</strong><br/>
+The RecordAccumulator gives the producer its ability to micro-batch records intended to be sent at high volumes and high frequencies. When a ProducerRecord has been assigned to a partition through the partitioner, it will get handed over to a RecordAccumulator, where it will be added to a collection of RecordBatch objects for each topic partition combination needed by the producer instance. Each of these RecordBatch objects, as the name suggests, is a small batch of records that is going to be sent to the broker that owns the assigned partition. There are a lot of factors that determine how many ProducerRecords are to be accumulated and buffered into a RecordBatch before it is sent off to the brokers. Most of these factors are based on advanced configuration settings defined at the producer level, that are set using a properties object, similar to the way the other properties were set.<br/>
+<img src="media/15807992240443/%E6%88%AA%E5%B1%8F2020-02-05%E4%B8%8B%E5%8D%884.58.04.png" alt="截屏2020-02-05下午4.58.04"/></p>
 
               </div>
             </div>
