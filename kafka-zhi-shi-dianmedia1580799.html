@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,minimum-scale=1" />
     <title>
         
-      Kafka知识点 - zengjunwen
+      Kafka - zengjunwen
       
     </title>
     <meta name="keywords" content="zengjunwen" />
@@ -14,9 +14,9 @@
       <meta name="twitter:card" content="summary_large_image" />
       
       <meta property="og:url" content="kafka-zhi-shi-dianmedia1580799.html" />
-      <meta property="og:title" content="Kafka知识点" />
+      <meta property="og:title" content="Kafka" />
       
-        <meta property="og:description" content="Kafka知识点" />
+        <meta property="og:description" content="Kafka" />
       
       
       <meta property="og:site_name" content="zengjunwen" />
@@ -60,7 +60,7 @@
         <div class="row">
           <div class="col-md-10">
             <div class="post">
-              <div class="headline"><a href="kafka-zhi-shi-dianmedia1580799.html">Kafka知识点</a></div>
+              <div class="headline"><a href="kafka-zhi-shi-dianmedia1580799.html">Kafka</a></div>
               
               <div class="meta"><span class="time">$[timeformat('2020-02-04T14:53:44+08:00')]</span><br><span class="tags"></span></div>
               <div class="body">
@@ -195,6 +195,26 @@ The topic as a logical concept is represented by one or more physical log files 
 
 <p>With a replication factor of three set, it is the leader&#39;s job to get peer brokers to participate in a quorum for the purposes of replicating the log to achieve the intended redundancy level. When the leader of a partition has a quorum, it will engage its peers and start copying the partition log. When all members of the replication quorum are caught up, and a full synchronized replica set is in place, it is reported throughout the cluster that the number of in-sync replicas, or ISRs is equal to the replication factor for that topic in each partition within it. Obviously, this is an important metric.<br/>
 <img src="media/15807992240443/%E6%88%AA%E5%B1%8F2020-02-05%E4%B8%8A%E5%8D%8810.50.21.png" alt="截屏2020-02-05上午10.50.21"/></p>
+
+<h3 id="toc_10">11. Producing Messages with Kafka Producers</h3>
+
+<p><img src="media/15807992240443/%E6%88%AA%E5%B1%8F2020-02-05%E4%B8%8B%E5%8D%885.02.35.png" alt="截屏2020-02-05下午5.02.35"/><br/>
+Configuration properties needed to start up a producer. As indicated here, there are three required properties needed: <strong>bootstrap. servers, and both key and value serializers.</strong> </p>
+
+<p>When we use the Kafka producer shell program, we simply needed to supply a list of brokers for the producer to connect to. This corresponds to the bootstrap. servers configuration setting needed for the producer to start up. The producer doesn&#39;t connect to every broker referenced in this list, just the first available one. It uses the broker it connects to for discovering the full membership of the cluster, which of course can change at any time. It uses this list to determine the partition owners or leaders so that when it&#39;s ready to send messages, it can do so immediately. It is a best practice to provide more than one broker in the broker list, in the unlikely event that the first broker specified is unavailable. </p>
+
+<p>About key and value serializers. This is to optimize the size of the messages, not only for network transmission, but for storage and even compression. In this example, you&#39;ll notice that for both the key and value serializer, we&#39;re using the string serializer class, which is the most common serializer scheme used in Kafka. </p>
+
+<p>We instantiated an object of type Kafka producers, and called it myProducer, and passed it a properties object named props. If you look inside the implementation of the Kafka producer, you will notice a type called ProducerConfig. When the Kafka producer object is created, the properties are used to instantiate an instance of the ProducerConfig class, and from there, all producer configuration is defined and referenced internally. </p>
+
+<pre><code class="language-java">    // Create the Properties class to instantiate the Consumer with the desired settings:
+    Properties props = new Properties();
+    props.put(&quot;bootstrap.servers&quot;, &quot;localhost:9092, localhost:9093&quot;);
+    props.put(&quot;key.serializer&quot;, &quot;org.apache.kafka.common.serialization.StringSerializer&quot;);
+    props.put(&quot;value.serializer&quot;, &quot;org.apache.kafka.common.serialization.StringSerializer&quot;);
+        
+    KafkaProducer&lt;String, String&gt; myProducer = new KafkaProducer&lt;String, String&gt;(props);
+</code></pre>
 
               </div>
             </div>
