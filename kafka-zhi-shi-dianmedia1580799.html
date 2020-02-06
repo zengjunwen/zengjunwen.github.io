@@ -307,6 +307,88 @@ props.put(“value.deserializer”, “org.apache.kafka.common.serialization.Str
 KafkaConsumer myConsumer = new KafkaConsumer(props);
 </code></pre>
 
+<h4 id="toc_17">Subscribing to Topics</h4>
+
+<p>There are two methods: subscribe and assign. It&#39;s as simple as calling the subscribe method, and passing it a list. By calling this method, you are asking for automatic or dynamic partition assignment. That is to say that you&#39;re enlisting the single consumer instance to eventually pull from every partition within that topic, which can be at least one, but likely many. When adding multiple topics to the list, you&#39;re enlisting the consumer instance to pull from every partition within every topic, which is guaranteed to be many. Besides subscribing to topics, there&#39;s another option: subscribing to individual partitions. This is done through the assign method. The assign method is only valid for subscribing to a list containing the class topic partition.</p>
+
+<ul>
+<li><strong>subscribe method</strong></li>
+</ul>
+
+<pre><code class="language-java">// Properties code ommitted...
+KafkaConsumer myConsumer = new KafkaConsumer(props); 
+myConsumer.subscribe(Arrays.asList(“my-topic”));// Remember this is NOT incremental!
+
+// Alternatively, use regular expressions: 
+myConsumer.subscribe(“my-*”);// Remember this is NOT incremental!
+
+</code></pre>
+
+<ul>
+<li><strong>assign method</strong></li>
+</ul>
+
+<pre><code class="language-java">// Similar pattern as subscribe():
+TopicPartition partition0 = new TopicPartition(“myTopic”, 0); 
+ArrayList&lt;TopicPartition&gt; partitions = new ArrayList&lt;TopicPartition&gt;(); 
+partitions.add(partition0);
+myConsumer.assign(partitions); // Remember this is NOT incremental!
+</code></pre>
+
+<h3 id="toc_18">Unsubscribing to Topics</h3>
+
+<pre><code class="language-java">ArrayList&lt;String&gt; topics = new ArrayList&lt;String&gt;(); 
+topics.add(“myTopic”);
+topics.add(“myOtherTopic”);
+myConsumer.subscribe(topics);
+myConsumer.unsubscribe();
+
+// Less-than-intuitive unsubscribe alternative:
+topics.clear(); // Emptying out the list
+myConsumer.subscribe(topics); // passing the subscribe() method a list of empty strings
+</code></pre>
+
+<pre><code class="language-text">// Similar pattern as subscribe():
+TopicPartition partition0 = new TopicPartition(“myTopic”, 0); 
+ArrayList&lt;TopicPartition&gt; partitions = new ArrayList&lt;TopicPartition&gt;(); 
+partitions.add(partition0);
+myConsumer.assign(partitions); // Remember this is NOT incremental!
+partitions.clear();
+myConsumer.assign(partitions); // Remember this is NOT incremental!
+</code></pre>
+
+<h4 id="toc_19">Poll Loop</h4>
+
+<p>poll() is the primary function of the Kafka Consumer, it Continuously poll the brokers for data.</p>
+
+<pre><code class="language-java">// Set the topic subscription or partition assignments:
+myConsumer.subscribe(topics); 
+myConsumer.assign(partitions); 
+try {
+    while (true) {
+        ConsumerRecords&lt;String, String&gt; records =
+        myConsumer.poll(100); 
+        // Your processing logic goes here...
+    } finally {
+        myConsumer.close();
+    } 
+}
+</code></pre>
+
+<h4 id="toc_20">Processing Messages</h4>
+
+<p><img src="media/15807992240443/%E6%88%AA%E5%B1%8F2020-02-06%E4%B8%8B%E5%8D%884.45.09.png" alt="截屏2020-02-06下午4.45.09"/><br/>
+When the subscriber assign method is invoked, the content of the collections they were passed to are used to set fields within the <strong>subscription state object</strong>. This object serves as the source of truth for any and all details related to the topics and partitions this consumer instance is subscribed or assigned to. This object also plays a very important role with the consumer coordinator in managing the offsets. When poll is invoked, consumer settings, particularly those referring to the bootstrap servers, is used to request the metadata about the cluster. The <strong>Fetcher</strong> servers as the responsible object for most of the communication between the consumer and the cluster. Within it, there are several fetch-related operations that are executed to initiate communication with the cluster, but the Fetcher itself doesn&#39;t actually communicate with the cluster, that is the job of the <strong>Consumer Network Client</strong>. With the client open and sending TCP packets, the consumer starts sending heartbeats, which enable the cluster to know what consumers are still connected. Additionally, the initial request for metadata is sent and received. The response is used to instantiate its internal metadata object, which will keep up to date while the poll method runs, getting periodic updates from the cluster, when cluster details change. With metadata available, other major elements become more involved. With information about the cluster, the consumer <strong>coordinator</strong> can now take responsibility to coordinate between the consumer. This object has two main duties:</p>
+
+<ul>
+<li>First, being aware of automatic or dynamic partition reassignment, and notification of assignment changes to the subscription state object. </li>
+<li>second, for committing offsets to the cluster, the confirmation of which will cause the update of the subscription state, so it can always be aware of the status of topics and partitions. </li>
+</ul>
+
+<p>To actually start retrieving messages, the Fetcher needs to know what topics or individual partitions it should be asking for. It gets this information from the subscription state object, and with it, starts requesting messages. </p>
+
+<p>An important thing to understand about Kafka consumers is that they are essentially single-threaded. There is one poll loop per Kafka consumer, and you can only have a single thread per Kafka consumer. </p>
+
               </div>
             </div>
             
