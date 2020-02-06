@@ -199,7 +199,12 @@ The topic as a logical concept is represented by one or more physical log files 
 <h3 id="toc_10">11. Producing Messages with Kafka Producers</h3>
 
 <p><img src="media/15807992240443/%E6%88%AA%E5%B1%8F2020-02-05%E4%B8%8B%E5%8D%885.02.35.png" alt="截屏2020-02-05下午5.02.35"/><br/>
-Configuration properties needed to start up a producer. As indicated here, there are three required properties needed: <strong>bootstrap. servers, and both key and value serializers.</strong> </p>
+Properties(props)-&gt;ProducerConfig Class<br/>
+Message-&gt;ProducerRecord(myRecord)<br/>
+Processing Pipeline-&gt;Serializer and Partitioner<br/>
+Micro-batching-&gt;RecordAccunulator and RecordBuffer</p>
+
+<p>Configuration properties needed to start up a producer. As indicated here, there are three required properties needed: <strong>bootstrap. servers, and both key and value serializers.</strong> </p>
 
 <h4 id="toc_11">KafkaProducer</h4>
 
@@ -260,6 +265,47 @@ When calling the send method, the producer will reach out to the cluster using t
 <p><strong>Part 2</strong><br/>
 The RecordAccumulator gives the producer its ability to micro-batch records intended to be sent at high volumes and high frequencies. When a ProducerRecord has been assigned to a partition through the partitioner, it will get handed over to a RecordAccumulator, where it will be added to a collection of RecordBatch objects for each topic partition combination needed by the producer instance. Each of these RecordBatch objects, as the name suggests, is a small batch of records that is going to be sent to the broker that owns the assigned partition. There are a lot of factors that determine how many ProducerRecords are to be accumulated and buffered into a RecordBatch before it is sent off to the brokers. Most of these factors are based on advanced configuration settings defined at the producer level, that are set using a properties object, similar to the way the other properties were set.<br/>
 <img src="media/15807992240443/%E6%88%AA%E5%B1%8F2020-02-05%E4%B8%8B%E5%8D%884.58.04.png" alt="截屏2020-02-05下午4.58.04"/></p>
+
+<p><strong>About Delivery Guarantees:</strong></p>
+
+<p>Broker acknowledgement (“acks”)</p>
+
+<ul>
+<li>0: fire and forget</li>
+<li>1: leader acknowledged</li>
+<li>2: replication quorum acknowledged</li>
+</ul>
+
+<p>Broker responds with error</p>
+
+<ul>
+<li>“retries”</li>
+<li>“retry.backoff.ms”</li>
+</ul>
+
+<p><strong>In future, advanced topics we will dive into:</strong></p>
+
+<ul>
+<li>Custom Serializers</li>
+<li>Custom Partitioners</li>
+<li>Asynchronous Send</li>
+<li>Compression</li>
+</ul>
+
+<h3 id="toc_15">12. Consuming Messages with Kafka Consumers and Consumer Groups</h3>
+
+<p><img src="media/15807992240443/%E6%88%AA%E5%B1%8F2020-02-06%E4%B8%8B%E5%8D%883.31.53.png" alt="截屏2020-02-06下午3.31.53"/><br/>
+Configuration properties needed to start up a consumer. As indicated here, there are three required properties needed: <strong>bootstrap. servers, and both key and value deserialization.</strong></p>
+
+<h4 id="toc_16">Creating a Kafka Consumer</h4>
+
+<pre><code class="language-java">Properties props = new Properties();
+props.put(“bootstrap.servers”, “BROKER-1:9092, BROKER-2:9093”);
+props.put(“key.deserializer”, “org.apache.kafka.common.serialization.StringDeserializer”); 
+props.put(“value.deserializer”, “org.apache.kafka.common.serialization.StringDeserializer”);
+
+KafkaConsumer myConsumer = new KafkaConsumer(props);
+</code></pre>
 
               </div>
             </div>
