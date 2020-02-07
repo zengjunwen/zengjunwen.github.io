@@ -441,6 +441,16 @@ Callback option</p>
 </code></pre></li>
 </ul>
 
+<h4 id="toc_21">When to Manager Your Own Offsets Altogether？</h4>
+
+<p>The place where offset management occurs is after the poll method has timed out and presented records for processing. Whether this is an auto commit operation happening behind the scenes, or an explicit call to one of the commit APIs, the commit process will take a batch of records, determine their offsets, and ask the consumer coordinator to commit them to the Kafka cluster via the consumer network client, which it does immediately. When the offsets have been confirmed to be committed, the consumer coordinator updates the subscription state object accordingly, so the Fetcher can always know what offsets have bene committed and what next records it should be retrieving. </p>
+
+<h4 id="toc_22">Consumer Group Rebalancing</h4>
+
+<p><img src="media/15807992240443/%E6%88%AA%E5%B1%8F2020-02-07%E4%B8%8B%E5%8D%8812.06.53.png" alt="截屏2020-02-07下午12.06.53"/></p>
+
+<p><center><a href="https://github.com/zengjunwen/kafka">reference code</a></center></p>
+
               </div>
             </div>
             
