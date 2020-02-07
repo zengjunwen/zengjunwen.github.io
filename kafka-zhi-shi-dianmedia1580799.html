@@ -389,6 +389,58 @@ When the subscriber assign method is invoked, the content of the collections the
 
 <p>An important thing to understand about Kafka consumers is that they are essentially single-threaded. There is one poll loop per Kafka consumer, and you can only have a single thread per Kafka consumer. </p>
 
+<p><img src="media/15807992240443/%E6%88%AA%E5%B1%8F2020-02-06%E4%B8%8B%E5%8D%8811.02.28.png" alt="截屏2020-02-06下午11.02.28"/></p>
+
+<p>If a consumer is continous running, last committed offset is useless for it. But when consumer is shutdown and adding a new customer, will tigger rebalance. New consumer will according to, or not the last committed offset to consume topic record. The a gap between last committed offset and current position of old consumer. Witch is determined by the commit behavior configuration:</p>
+
+<ul>
+<li>enable.auto.commit = true (default)</li>
+<li>auto.commit.interval.ms = 5000 (default) </li>
+<li>auto.offset.reset = “latest” (default) , “earliest”, “none”</li>
+</ul>
+
+<p>Kafka stores the committed offsets in a special topic called __consumer_offsets. It has 50 partitions. Consumer coordinator is the responsible object for communicating to the cluster and ensuring the committed offsets are produced into the topic. This means that a consumer is also a producer of sorts.</p>
+
+<p>You would not use the auto-commit log method when you want precise control over when to consider a record truly processed. There are two methods to control:</p>
+
+<ul>
+<li><p><strong>commitSync</strong> </p>
+<p>Synchronous</p>
+<ul>
+<li>blocks until receives response from cluster Retries until succeeds or unrecoverable error</li>
+<li>retry.backoff.ms (default: 100)</li>
+</ul>
+<pre><code class="language-java">try {
+for (...) { <br/>
+    // Processing batches of records... <br/>
+}<br/>
+    // Commit when you know you’re done, after the batch is processed:<br/>
+    myConsumer.commitSync();<br/>
+} catch (CommitFailedException) {<br/>
+    log.error(“there’s not much else we can do at this point...”); <br/>
+}
+</code></pre></li>
+<li><p><strong>commitAsync</strong><br/>
+Asynchronous</p>
+<ul>
+<li>non-blocking but non-deterministic </li>
+</ul>
+<p>No retries<br/>
+Callback option</p>
+<pre><code class="language-java">try {
+    for (...) { // Processing batches of records... }<br/>
+    // Not recommended:<br/>
+    myConsumer.commitAsync();<br/>
+    // Recommended:<br/>
+    myConsumer.commitAsync(new OffsetCommitCallback() {<br/>
+            public void onComplete(..., ..., ...) { <br/>
+            // do something...<br/>
+            } <br/>
+        }<br/>
+    );
+</code></pre></li>
+</ul>
+
               </div>
             </div>
             
