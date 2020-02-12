@@ -48,35 +48,29 @@
   
     
       <div class="article huge">
-        <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
+        <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/TuningTheJVM.png')"></div>
         <div class="row content">
           <div class="col-md-2"></div>
           <div class="col-md-10 main">
             <div class="row">
               <div class="col-md-10 post">
-                <div class="headline"><a href="15813454180710.html">Multithreading and Concurrency</a></div>
+                <div class="headline"><a href="15815193362338.html">Tuning the JVM</a></div>
                 
-                <div class="meta"><span class="time">$[timeformat('2020-02-10T22:36:58+08:00')]</span></div>
+                <div class="meta"><span class="time">$[timeformat('2020-02-12T22:55:36+08:00')]</span></div>
                 <div class="body">
-                    <h2 id="toc_0">Threading Foundation Types</h2>
+                    <h2 id="toc_0">Outline</h2>
 
-<ol>
-<li><strong>Runnable interface</strong>
-<ul>
-<li>Represents a task to be run on a thread</li>
-<li>Only member is the run method</li>
-</ul></li>
-<li><strong>Thread class</strong>
-<ul>
-<li>Represents a thread of execution</li>
-<li>Can interact with and effect thread state</li>
-<li>Begin execution with start method</li>
-</ul></li>
-</ol>
+<p><img src="media/15815193362338/%E6%88%AA%E5%B1%8F2020-02-12%E4%B8%8B%E5%8D%8811.17.14.png" alt="截屏2020-02-12下午11.17.14"/><br/>
+The performance of interpreted bytecode still lags behind the performance of precompiled binary code. So in 1999, the JIT compiler was introduced and added to Sun&#39;s HotSpot JVM. The function of the JIT compiler is that during runtime, it identifies the parts of the application where the most time is spent executing bytecode, commonly known as hotspots, and then compiles the bytecode dynamically into machine code so that the program can run faster. The code is compiled just before execution, hence the name just-in-time, and is cached for future runs in the code cache. In this module, we&#39;ll talk about different types of JIT compilers in Java and how to choose a compilation mode. Then we&#39;ll look at the tuning flags for JIT compilation and what their effects are. Afterwards, we&#39;ll pivot to a detailed discussion of Java garbage collection. We&#39;ll discuss the different types of garbage collectors, how to monitor and measure garbage collection performance, and how to select and tune your garbage collector.</p>
+
+<h2 id="toc_1">JIT Compilation Modes</h2>
+
+<p>In the HotSpot JVM, there are two JIT compilers, compiler 1, commonly known as the C1 compiler, or the client compiler, and compiler 2, commonly known as the C2 compiler, or server compiler. The C1 compiler is intended to be used by client applications, so for that reason, it&#39;s optimized for startup performance. This means that it tries to find hot methods pretty early on, produces some basic, relatively unintrusive optimizations, and then compiles the method&#39;s bytecode to machine code. The C2 compiler is intended for use by server applications. The C2 compiler waits for a longer period of time before deciding to compile a hot method. This gives the compiler more time to learn about the method&#39;s execution pattern so that it can infer and apply more aggressive optimizations. As a result, methods compiled with C2 are generally faster than methods compiled with C1. However, because the C1 starts earlier than C2, an application running with the C1 compiler will be faster earlier on in its lifecycle before the C2 catches up and overtakes it. Therefore, if an application is short lived or sensitive to startup times, then the C1 compiler is actually a better choice for it. But what if you could combine the two? What if you could have an application start running, and then after some runs, the C1 compiler picks up a method and optimizes it get the intermediate performance benefit. And then at a later time, after some more runs, the method is reoptimized with the C2 compiler to get the faster machine code. This is exactly what the tiered compilation does. Tiered compilation is a compilation mode that was introduced in Java 7, and in tiered compilation, hot methods are first compiled with C1, and then as they get hotter, they are recompiled with C2. Although tiered compilation was introduced in Java 7, it wasn&#39;t until Java 8 that it became the default JIT compilation mode in the HotSpot JVM. The actual mechanism of tiered compilation is a bit complex, so I&#39;ll present a simplified version of it here. In tiered compilation, there are five execution levels. <br/>
+<img src="media/15815193362338/%E6%88%AA%E5%B1%8F2020-02-12%E4%B8%8B%E5%8D%8811.57.23.png" alt="截屏2020-02-12下午11.57.23"/></p>
 
                 </div>
                 <div class="bottom">
-                  <a href="15813454180710.html" class="continue float-right">
+                  <a href="15815193362338.html" class="continue float-right">
                     继续阅读
                   </a>
                 </div>
@@ -90,12 +84,12 @@
   
     
         <div class="col-md-6">
-          <a href="15812327320844.html" class="item">
+          <a href="15813454180710.html" class="item">
             <div class="article normal">
               <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
               <div class="articleinfo">
-                <div class="headline">Java BDD with Cucumber and Gherkin</div>
-                <div class="subtitle">The article covers the essence of behavior-driven development (BDD)</div>
+                <div class="headline">Multithreading and Concurrency</div>
+                
               </div>
             </div>
           </a>
@@ -104,12 +98,12 @@
   
     
         <div class="col-md-6">
-          <a href="15812210243672.html" class="item">
+          <a href="15812327320844.html" class="item">
             <div class="article normal">
               <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
               <div class="articleinfo">
-                <div class="headline">Spring Picture</div>
-                <div class="subtitle">Spring Ecosystem的简单概述</div>
+                <div class="headline">Java BDD with Cucumber and Gherkin</div>
+                <div class="subtitle">The article covers the essence of behavior-driven development (BDD)</div>
               </div>
             </div>
           </a>
