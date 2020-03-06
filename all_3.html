@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,minimum-scale=1" />
     <title>
         
-      Archives - Zjunwen
+      Zjunwen
       
     </title>
     <meta name="keywords" content="Zjunwen" />
@@ -44,72 +44,69 @@
         </div>
       </div>
       <hr>
-    </div> <div class="container archives">
-    <h1>存档</h1>
+    </div> <div class="container" id="category">
+  
     
-		 
-		  	<h2 class="yeartitle">2020</h2>
-		
-		
-        <article>
-            <span><a href="15835098177103.html">Master Git</a> / 2020 3月 06</span>
-        </article>
- 	
-		
-		
-        <article>
-            <span><a href="15815193362338.html">Tuning the JVM</a> / 2020 2月 12</span>
-        </article>
- 	
-		
-		
-        <article>
-            <span><a href="15813454180710.html">Multithreading and Concurrency</a> / 2020 2月 10</span>
-        </article>
- 	
-		
-		
-        <article>
-            <span><a href="15812327320844.html">Java BDD with Cucumber and Gherkin</a> / 2020 2月 09</span>
-        </article>
- 	
-		
-		
-        <article>
-            <span><a href="15812210243672.html">Spring Picture</a> / 2020 2月 09</span>
-        </article>
- 	
-		
-		
-        <article>
-            <span><a href="15811346971820.html">Spring Framework：Spring Fundamentals</a> / 2020 2月 08</span>
-        </article>
- 	
-		
-		
-        <article>
-            <span><a href="15809755312648.html">设计模式</a> / 2020 2月 06</span>
-        </article>
- 	
-		
-		
-        <article>
-            <span><a href="15809754787359.html">创建型模式</a> / 2020 2月 06</span>
-        </article>
- 	
-		
-		
-        <article>
-            <span><a href="kafka-zhi-shi-dianmedia1580799.html">Kafka</a> / 2020 2月 04</span>
-        </article>
- 	
-		
-		
-        <article>
-            <span><a href="neo4j-zhi-shi-dian1-if-we-have.html">Neo4j知识点</a> / 2020 2月 04</span>
-        </article>
- 	 
-</div>      <div class="container">
+      <div class="article huge">
+        <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/Noe4j.png')"></div>
+        <div class="row content">
+          <div class="col-md-2"></div>
+          <div class="col-md-10 main">
+            <div class="row">
+              <div class="col-md-10 post">
+                <div class="headline"><a href="neo4j-zhi-shi-dian1-if-we-have.html">Neo4j知识点</a></div>
+                <div class="subtitle">「Neo4j学习小记」</div>
+                <div class="meta"><span class="time">$[timeformat('2020-02-04T10:01:30+08:00')]</span></div>
+                <div class="body">
+                    <h3 id="toc_0">1. If we have a database with TV episodes, what a good way to model the data if we want to query episodes by year?</h3>
+
+<p><strong>Ceate nodes for years and setup relationships between the episode and the year nodes.</strong><br/>
+We could choose to create a property in the episodes with date. When you want make a query that shows all episodes that were aired in December 2014. If the date was in a property, getting the desired result would <strong>involve inspecting and parsing the property, and create some logic to determine the right episodes.</strong></p>
+
+<h3 id="toc_1">2. What is a good way to come up with a Cypher pattern?</h3>
+
+<p><strong>You should picture a pattern in your mind, then translate to ASCII.</strong><br/>
+<img src="media/15807816907881/%E6%88%AA%E5%B1%8F2020-02-05%E4%B8%8B%E5%8D%881.09.50.png" alt="截屏2020-02-05下午1.09.50"/><br/>
+Cypher is declarative, that means you specify what you want to retrieve, not how Neo4j should retrieve it.<br/>
+Easy on the brain, it&#39;s not as steep as a learning curve you would have if you started with SQL from scratch. Because use patterns to match the data in the database.</p>
+
+                </div>
+                <div class="bottom">
+                  <a href="neo4j-zhi-shi-dian1-if-we-have.html" class="continue float-right">
+                    继续阅读
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="otherposts row">
+    
+   
+  </div>
+  <div class="pagenavi">
+    <div class="item"><a href="all_2.html">更新文章</a></div>
+    <div class="item"> · </div>
+    <div class="item">已是最旧一页</div>
+  </div>
+ </div>
+ <script>
+   let category = new Vue({
+    el: '#category',
+    data: {},
+    methods: {
+      indexOddandEven(index) {
+        return index%2 ? 'odd' : 'even';
+      },
+      timeformat(raw) {
+        return moment(raw).format("YYYY 年 MM 月 DD 日");
+      }
+    },
+    delimiters: ['$[', ']']
+  })
+ </script>
+      <div class="container">
       <hr>
       <div class="footer" id="footer">
         <div class="slogan">提问🙋🏼、思考🤔、专注🙇🏻、解决问题💁🏻‍♂️</div>
