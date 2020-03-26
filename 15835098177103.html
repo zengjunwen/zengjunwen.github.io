@@ -76,6 +76,9 @@
 <p>workflow: <strong>edit file</strong> -git add/git diff-&gt; <strong>stage file</strong> -git commit -m &quot;message&quot;/git diff --cached-&gt; <strong>commit file</strong> map to <strong>working are</strong>-&gt;<strong>Index</strong>-&gt;<strong>repository</strong></p>
 
 <p>git log<br/>
+git log --grep=&#39;homepage&#39; 提交日志中包含homepage的提交记录<br/>
+git log --author=‘zeng’<br/>
+git log --graph --decorate --oneline<br/>
 git status<br/>
 git diff<br/>
 git diff --cached<br/>
@@ -86,6 +89,18 @@ git commit -m &quot;message&quot;</p>
 
 <p>git reset<br/>
 <img src="media/15835098177103/15835605386664.jpg" alt=""/></p>
+
+<p>git show<br/>
+git show head~3<br/>
+git show head^^<br/>
+git show head^2</p>
+
+<p>git blame &lt;filename&gt; 某个文件的修改过程</p>
+
+<p>git commit --amend 修改commit</p>
+
+<p>帮助：<br/>
+git help blame</p>
 
               </div>
             </div>

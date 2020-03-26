@@ -48,35 +48,110 @@
   
     
       <div class="article huge">
-        <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/MasterGit.png')"></div>
+        <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
         <div class="row content">
           <div class="col-md-2"></div>
           <div class="col-md-10 main">
             <div class="row">
               <div class="col-md-10 post">
-                <div class="headline"><a href="15835098177103.html">Master Git</a></div>
+                <div class="headline"><a href="15852382259972.html">Java 8 Lambda Expression</a></div>
                 
-                <div class="meta"><span class="time">$[timeformat('2020-03-06T23:50:17+08:00')]</span></div>
+                <div class="meta"><span class="time">$[timeformat('2020-03-26T23:57:05+08:00')]</span></div>
                 <div class="body">
-                    <p><img src="media/15835098177103/%E6%88%AA%E5%B1%8F2020-03-07%E4%B8%8A%E5%8D%8812.28.47.png" alt="截屏2020-03-07上午12.28.47"/></p>
+                    <h2 id="toc_0">什么是Lambda表达式</h2>
 
-<p>workflow: <strong>edit file</strong> -git add/git diff-&gt; <strong>stage file</strong> -git commit -m &quot;message&quot;/git diff --cached-&gt; <strong>commit file</strong> map to <strong>working are</strong>-&gt;<strong>Index</strong>-&gt;<strong>repository</strong></p>
+<p>Lambda表达式又称匿名函数，其并非一个函数，而是一个没有标识的一个对象，它提供了一种便于实例化匿名类和代码阅读的书写方式。1、它是一个功能/函数接口；2、它是功能/函数接口的实现类；3、它是一个对象。</p>
 
-<p>git log<br/>
-git status<br/>
-git diff<br/>
-git diff --cached<br/>
-git add xxx<br/>
-git rm --cached xxx<br/>
-rename file: git mv xxx xxx  equal to  mv xxx xxx; git add xxx; git add xxx;<br/>
-git commit -m &quot;message&quot;</p>
+<p>在没有Lambda表达式之前，对于功能/函数接口：</p>
 
-<p>git reset<br/>
-<img src="media/15835098177103/15835605386664.jpg" alt=""/></p>
+<pre><code class="language-text">public interface FileFilter {
+        boolean accept(File file) ;
+}
+</code></pre>
+
+<p>通过过匿名函数实现的方式为：</p>
+
+<pre><code class="language-text">FileFilter fileFilter = new FileFilter() {
+    @Override
+    public boolean accept(Filefile) {
+        return file.getName().endsWith(&quot;.java&quot;); 
+    }
+};
+</code></pre>
+
+<p>有了Lambda表达式之后，上面的代码可以简写为：</p>
+
+<pre><code class="language-text">FileFilter filter = (File file) -&gt; file.getName().endsWith(&quot;.java&quot;);
+</code></pre>
+
+<p>OR</p>
+
+<pre><code class="language-text">FileFilter filter = (file) -&gt; file.getName().endsWith(&quot;.java&quot;);
+</code></pre>
+
+<h2 id="toc_1">功能/函数接口</h2>
+
+<p>只拥有一个抽象方法的接口，可以有多个静态、默认方法。通常会使用@FunctionalInterface进行注解。如：</p>
+
+<pre><code class="language-text">@FunctionalInterface
+public interface Supplier&lt;T&gt; {
+    T get(); 
+}
+</code></pre>
+
+<p>Java提供的java.util.function中包含了很多常用的功能/函数接口，如：</p>
+
+<h3 id="toc_2">Supplier</h3>
+
+<pre><code class="language-text">@FunctionalInterface
+public interface Supplier&lt;T&gt; {
+    T get(); 
+}
+</code></pre>
+
+<h3 id="toc_3">Consumer</h3>
+
+<pre><code class="language-text">@FunctionalInterface
+public interface Consumer&lt;T&gt; {
+   void accept(T t);
+}
+</code></pre>
+
+<h3 id="toc_4">Predicate</h3>
+
+<pre><code class="language-text">@FunctionalInterface
+public interface Predicate&lt;T&gt; {
+    boolean test(T t);
+   
+    default Predicate&lt;T&gt; and(Predicate&lt;? super T&gt; other) { 
+    Objects.requireNonNull(other);
+    return (t) -&gt; test(t) &amp;&amp; other.test(t); }
+}
+
+Predicate&lt;String&gt; p1 = s -&gt; s.length() &lt; 20;
+Predicate&lt;String&gt; p2 = s -&gt; s.length() &gt; 10;
+Predicate&lt;String&gt; p3 = p1.and(p2);
+</code></pre>
+
+<h2 id="toc_5">用对象的方法、类的静态方法实例化功能/函数接口</h2>
+
+<pre><code class="language-text">Consumer&lt;String&gt; c = s -&gt; System.out.println(s);
+</code></pre>
+
+<p>可写为</p>
+
+<pre><code class="language-text">Consumer&lt;String&gt; c = System.out::println;
+</code></pre>
+
+<h2 id="toc_6">默认方法</h2>
+
+<p>在方法前加default关键字，目的是在兼容老接口实现类的情况下，将接口改造为功能/函数接口。</p>
+
+<p><strong>待补充高级用法，在设计模式中的使用》〉》〉</strong></p>
 
                 </div>
                 <div class="bottom">
-                  <a href="15835098177103.html" class="continue float-right">
+                  <a href="15852382259972.html" class="continue float-right">
                     继续阅读
                   </a>
                 </div>
@@ -90,11 +165,11 @@ git commit -m &quot;message&quot;</p>
   
     
         <div class="col-md-6">
-          <a href="15815193362338.html" class="item">
+          <a href="15844566053629.html" class="item">
             <div class="article normal">
-              <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/TuningTheJVM.png')"></div>
+              <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
               <div class="articleinfo">
-                <div class="headline">Tuning the JVM</div>
+                <div class="headline">Python常用方法</div>
                 
               </div>
             </div>
@@ -104,11 +179,11 @@ git commit -m &quot;message&quot;</p>
   
     
         <div class="col-md-6">
-          <a href="15813454180710.html" class="item">
+          <a href="15835098177103.html" class="item">
             <div class="article normal">
-              <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/MultithreadingAndConcurrency.png')"></div>
+              <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/MasterGit.png')"></div>
               <div class="articleinfo">
-                <div class="headline">Multithreading and Concurrency</div>
+                <div class="headline">Master Git</div>
                 
               </div>
             </div>
