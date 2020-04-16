@@ -48,62 +48,31 @@
   
     
       <div class="article huge">
-        <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
+        <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/Noe4j.png')"></div>
         <div class="row content">
           <div class="col-md-2"></div>
           <div class="col-md-10 main">
             <div class="row">
               <div class="col-md-10 post">
-                <div class="headline"><a href="15870430111214.html">Java类加载</a></div>
-                
-                <div class="meta"><span class="time">$[timeformat('2020-04-16T21:16:51+08:00')]</span></div>
+                <div class="headline"><a href="neo4j-zhi-shi-dian1-if-we-have.html">Neo4j知识点</a></div>
+                <div class="subtitle">「Neo4j学习小记」</div>
+                <div class="meta"><span class="time">$[timeformat('2020-02-04T10:01:30+08:00')]</span></div>
                 <div class="body">
-                    <p>类加载分为几个阶段完成，装载、链接（验证、准备、解析）、初始化。</p>
+                    <h3 id="toc_0">1. If we have a database with TV episodes, what a good way to model the data if we want to query episodes by year?</h3>
 
-<h3 id="toc_0">装载</h3>
+<p><strong>Ceate nodes for years and setup relationships between the episode and the year nodes.</strong><br/>
+We could choose to create a property in the episodes with date. When you want make a query that shows all episodes that were aired in December 2014. If the date was in a property, getting the desired result would <strong>involve inspecting and parsing the property, and create some logic to determine the right episodes.</strong></p>
 
-<p>将字节流转化为方法区的数据结构，堆中生成代表该类的java.lang.Class对象，提供给方法区的访问入口。</p>
+<h3 id="toc_1">2. What is a good way to come up with a Cypher pattern?</h3>
 
-<h3 id="toc_1">准备</h3>
-
-<p>为静态变量在方法区分配内存，初始化为默认值。</p>
-
-<h3 id="toc_2">解析</h3>
-
-<p>符号引用转为直接引用。</p>
-
-<h3 id="toc_3">初始化</h3>
-
-<p>在发生以下动作时触发初始化：</p>
-
-<ol>
-<li>new</li>
-<li>访问静态方法、变量</li>
-<li>反射</li>
-<li>初始化子类</li>
-</ol>
-
-<h2 id="toc_4">内存</h2>
-
-<h3 id="toc_5">方法区</h3>
-
-<p>加载的类信息、常量、静态变量、方法代码。</p>
-
-<h3 id="toc_6">常量池</h3>
-
-<p>方法区的一部分，存放常量和类中的符号引用。</p>
-
-<h3 id="toc_7">堆区</h3>
-
-<p>存放类的对象实例。</p>
-
-<h3 id="toc_8">栈区</h3>
-
-<p>Java虚拟机栈，由一个个栈帧组成的后进先出的栈式结构。栈帧中存放方法运行时产生的局部变量、方法出口等信息。当调用一个方法时，虚拟机栈中会创建一个栈帧存放这些数据，发放调用完成时，栈帧消失，如果方法中调用了其他方法，则继续在栈顶创建新的栈帧。</p>
+<p><strong>You should picture a pattern in your mind, then translate to ASCII.</strong><br/>
+<img src="media/15807816907881/%E6%88%AA%E5%B1%8F2020-02-05%E4%B8%8B%E5%8D%881.09.50.png" alt="截屏2020-02-05下午1.09.50"/><br/>
+Cypher is declarative, that means you specify what you want to retrieve, not how Neo4j should retrieve it.<br/>
+Easy on the brain, it&#39;s not as steep as a learning curve you would have if you started with SQL from scratch. Because use patterns to match the data in the database.</p>
 
                 </div>
                 <div class="bottom">
-                  <a href="15870430111214.html" class="continue float-right">
+                  <a href="neo4j-zhi-shi-dian1-if-we-have.html" class="continue float-right">
                     继续阅读
                   </a>
                 </div>
@@ -114,40 +83,12 @@
       </div>
       <div class="otherposts row">
     
-  
-    
-        <div class="col-md-6">
-          <a href="15867880029166.html" class="item">
-            <div class="article normal">
-              <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
-              <div class="articleinfo">
-                <div class="headline">Spring AOP</div>
-                
-              </div>
-            </div>
-          </a>
-        </div>
-    
-  
-    
-        <div class="col-md-6">
-          <a href="15865773197608.html" class="item">
-            <div class="article normal">
-              <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
-              <div class="articleinfo">
-                <div class="headline">Hadoop Ecosystem</div>
-                
-              </div>
-            </div>
-          </a>
-        </div>
-    
    
   </div>
   <div class="pagenavi">
-    <div class="item">已是最新一页</div>
+    <div class="item"><a href="all_4.html">更新文章</a></div>
     <div class="item"> · </div>
-    <div class="item"><a href="all_1.html">旧有文章</a></div>
+    <div class="item">已是最旧一页</div>
   </div>
  </div>
  <script>

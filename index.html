@@ -54,31 +54,56 @@
           <div class="col-md-10 main">
             <div class="row">
               <div class="col-md-10 post">
-                <div class="headline"><a href="15867880029166.html">Spring AOP</a></div>
+                <div class="headline"><a href="15870430111214.html">Java类加载</a></div>
                 
-                <div class="meta"><span class="time">$[timeformat('2020-04-13T22:26:42+08:00')]</span></div>
+                <div class="meta"><span class="time">$[timeformat('2020-04-16T21:16:51+08:00')]</span></div>
                 <div class="body">
-                    <p>Aspect-Oriented Programming (AOP) complements Object-Oriented Programming (OOP) by providing another way of thinking about program structure. AOP实现了业务逻辑与日志（Tracing）、异常处理（Exception）、事物（Transactions）、安全（Security）解耦，更加的聚焦于业务逻辑的编写。</p>
+                    <p>类加载分为几个阶段完成，装载、链接（验证、准备、解析）、初始化。</p>
 
-<p><img src="media/15867880029166/%E6%88%AA%E5%B1%8F2020-04-13%20%E4%B8%8B%E5%8D%8810.42.55.png" alt="截屏2020-04-13 下午10.42.55"/></p>
+<h3 id="toc_0">装载</h3>
 
-<p>Spring AOP的设计模式采用了代理模式，代理模式分为静态代理、JDK动态代理接口、CGlib代理类。静态代理比较简单，不进行描述。JDK动态代理只能对接口进行代理，如果要对类进行代理只能使用CGlib进行代理。</p>
+<p>将字节流转化为方法区的数据结构，堆中生成代表该类的java.lang.Class对象，提供给方法区的访问入口。</p>
 
-<p>JDK动态代理基于反射实现；GLIB包的底层是通过使用一个小而快的字节码处理框架ASM，来转换字节码并生成新的类。</p>
+<h3 id="toc_1">准备</h3>
 
-<h3 id="toc_0">Aspect</h3>
+<p>为静态变量在方法区分配内存，初始化为默认值。</p>
 
-<p>Aspect = Pointcut + Advice<br/>
-Pointcut决定Aspect使用在什么地方，Advice决定执行的动作。</p>
+<h3 id="toc_2">解析</h3>
 
-<p>Advice 总共有五种类型，如下图所示，通过图片很容易的理解各个类型与需要执行的Method的关系。<br/>
-<img src="media/15867880029166/%E6%88%AA%E5%B1%8F2020-04-13%20%E4%B8%8B%E5%8D%8811.04.02.png" alt="截屏2020-04-13 下午11.04.02"/></p>
+<p>符号引用转为直接引用。</p>
 
-<p>代码<a href="https://github.com/zengjunwen/SpringAOP">Link</a></p>
+<h3 id="toc_3">初始化</h3>
+
+<p>在发生以下动作时触发初始化：</p>
+
+<ol>
+<li>new</li>
+<li>访问静态方法、变量</li>
+<li>反射</li>
+<li>初始化子类</li>
+</ol>
+
+<h2 id="toc_4">内存</h2>
+
+<h3 id="toc_5">方法区</h3>
+
+<p>加载的类信息、常量、静态变量、方法代码。</p>
+
+<h3 id="toc_6">常量池</h3>
+
+<p>方法区的一部分，存放常量和类中的符号引用。</p>
+
+<h3 id="toc_7">堆区</h3>
+
+<p>存放类的对象实例。</p>
+
+<h3 id="toc_8">栈区</h3>
+
+<p>Java虚拟机栈，由一个个栈帧组成的后进先出的栈式结构。栈帧中存放方法运行时产生的局部变量、方法出口等信息。当调用一个方法时，虚拟机栈中会创建一个栈帧存放这些数据，发放调用完成时，栈帧消失，如果方法中调用了其他方法，则继续在栈顶创建新的栈帧。</p>
 
                 </div>
                 <div class="bottom">
-                  <a href="15867880029166.html" class="continue float-right">
+                  <a href="15870430111214.html" class="continue float-right">
                     继续阅读
                   </a>
                 </div>
@@ -92,11 +117,11 @@ Pointcut决定Aspect使用在什么地方，Advice决定执行的动作。</p>
   
     
         <div class="col-md-6">
-          <a href="15865773197608.html" class="item">
+          <a href="15867880029166.html" class="item">
             <div class="article normal">
               <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
               <div class="articleinfo">
-                <div class="headline">Hadoop Ecosystem</div>
+                <div class="headline">Spring AOP</div>
                 
               </div>
             </div>
@@ -106,11 +131,11 @@ Pointcut决定Aspect使用在什么地方，Advice决定执行的动作。</p>
   
     
         <div class="col-md-6">
-          <a href="15857401206120.html" class="item">
+          <a href="15865773197608.html" class="item">
             <div class="article normal">
               <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
               <div class="articleinfo">
-                <div class="headline">Employing Ensemble Methods with scikit-learn</div>
+                <div class="headline">Hadoop Ecosystem</div>
                 
               </div>
             </div>
