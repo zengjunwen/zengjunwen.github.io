@@ -54,56 +54,94 @@
           <div class="col-md-10 main">
             <div class="row">
               <div class="col-md-10 post">
-                <div class="headline"><a href="15870430111214.html">Java类加载</a></div>
+                <div class="headline"><a href="15914059244688.html">找梯子</a></div>
                 
-                <div class="meta"><span class="time">$[timeformat('2020-04-16T21:16:51+08:00')]</span></div>
+                <div class="meta"><span class="time">$[timeformat('2020-06-06T09:12:04+08:00')]</span></div>
                 <div class="body">
-                    <p>类加载分为几个阶段完成，装载、链接（验证、准备、解析）、初始化。</p>
+                    <p>给定一个训练场，训练场为一个n*m的矩阵，每个格子中有不同高度的箱子，训练人员需要从训练场左上方到达右下方。要从所在格子location到达附近格子locationNext需要一把梯子，梯子高度遵循以下规则：<br/>
+1、如果location中的箱子高度高于或等于locationNew中的箱子高度，需要高度为0的梯子；<br/>
+2、如果location中的箱子高度h低于locationNew中的箱子高度hNew，需要梯子高度为hNew-h。<br/>
+对于给定输入训练场信息，求所需高度最低的梯子。<br/>
+例：<br/>
+输入 [[1,2,2],[1,1,1]]<br/>
+输出 1</p>
 
-<h3 id="toc_0">装载</h3>
+<p>方法一：使用队列进行BFS</p>
 
-<p>将字节流转化为方法区的数据结构，堆中生成代表该类的java.lang.Class对象，提供给方法区的访问入口。</p>
+<pre><code class="language-text">public class Solution {
+    Queue&lt;Pair&lt;Integer, Integer&gt;&gt; queue = new LinkedList&lt;&gt;();
+    int[][] heighs = null;
+    int[][] input = null;
+    int len = 0;
+    int heigh = 0;
 
-<h3 id="toc_1">准备</h3>
+    public int minLengthLadder(int[][] grid) {
+        if (grid == null || grid.length == 0) {
+            return 0;
+        }
 
-<p>为静态变量在方法区分配内存，初始化为默认值。</p>
+        input = grid;
+        heigh = grid.length;
+        len = grid[0].length;
+        heighs = new int[heigh][len];
+        for (int i = 0; i &lt; heigh; i++) {
+            for (int j = 0; j &lt; len; j++) {
+                heighs[i][j] = Integer.MAX_VALUE;
+            }
+        }
+        heighs[0][0] = 0;
+        queue.add(new Pair&lt;&gt;(0, 0));
 
-<h3 id="toc_2">解析</h3>
+        Pair&lt;Integer, Integer&gt; location = null;
+        while (!queue.isEmpty()) {
+            location = queue.poll();
+            bfs(location.getKey(), location.getValue());
+        }
 
-<p>符号引用转为直接引用。</p>
+        return heighs[heigh - 1][len - 1];
+    }
 
-<h3 id="toc_3">初始化</h3>
-
-<p>在发生以下动作时触发初始化：</p>
-
-<ol>
-<li>new</li>
-<li>访问静态方法、变量</li>
-<li>反射</li>
-<li>初始化子类</li>
-</ol>
-
-<h2 id="toc_4">内存</h2>
-
-<h3 id="toc_5">方法区</h3>
-
-<p>加载的类信息、常量、静态变量、方法代码。</p>
-
-<h3 id="toc_6">常量池</h3>
-
-<p>方法区的一部分，存放常量和类中的符号引用。</p>
-
-<h3 id="toc_7">堆区</h3>
-
-<p>存放类的对象实例。</p>
-
-<h3 id="toc_8">栈区</h3>
-
-<p>Java虚拟机栈，由一个个栈帧组成的后进先出的栈式结构。栈帧中存放方法运行时产生的局部变量、方法出口等信息。当调用一个方法时，虚拟机栈中会创建一个栈帧存放这些数据，发放调用完成时，栈帧消失，如果方法中调用了其他方法，则继续在栈顶创建新的栈帧。</p>
+    private void bfs(Integer locationX, Integer locationY) {
+        int temp = 0;
+        if (locationX &gt; 0) {
+            temp = input[locationX - 1][locationY] - input[locationX][locationY];
+            temp = Math.max(temp, heighs[locationX][locationY]);
+            if (heighs[locationX - 1][locationY] &gt; temp) {
+                heighs[locationX - 1][locationY] = temp;
+                queue.add(new Pair&lt;&gt;(locationX - 1, locationY));
+            }
+        }
+        if (locationY &gt; 0) {
+            temp = input[locationX][locationY - 1] - input[locationX][locationY];
+            temp = Math.max(temp, heighs[locationX][locationY]);
+            if (heighs[locationX][locationY - 1] &gt; temp) {
+                heighs[locationX][locationY - 1] = temp;
+                queue.add(new Pair&lt;&gt;(locationX, locationY - 1));
+            }
+        }
+        if (locationX &lt; heigh - 1) {
+            temp = input[locationX + 1][locationY] - input[locationX][locationY];
+            temp = Math.max(temp, heighs[locationX][locationY]);
+            if (heighs[locationX + 1][locationY] &gt; temp) {
+                heighs[locationX + 1][locationY] = temp;
+                queue.add(new Pair&lt;&gt;(locationX + 1, locationY));
+            }
+        }
+        if (locationY &lt; len - 1) {
+            temp = input[locationX][locationY + 1] - input[locationX][locationY];
+            temp = Math.max(temp, heighs[locationX][locationY]);
+            if (heighs[locationX][locationY + 1] &gt; temp) {
+                heighs[locationX][locationY + 1] = temp;
+                queue.add(new Pair&lt;&gt;(locationX, locationY + 1));
+            }
+        }
+    }
+}
+</code></pre>
 
                 </div>
                 <div class="bottom">
-                  <a href="15870430111214.html" class="continue float-right">
+                  <a href="15914059244688.html" class="continue float-right">
                     继续阅读
                   </a>
                 </div>
@@ -117,11 +155,11 @@
   
     
         <div class="col-md-6">
-          <a href="15867880029166.html" class="item">
+          <a href="15870430111214.html" class="item">
             <div class="article normal">
               <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
               <div class="articleinfo">
-                <div class="headline">Spring AOP</div>
+                <div class="headline">Java类加载</div>
                 
               </div>
             </div>
@@ -131,11 +169,11 @@
   
     
         <div class="col-md-6">
-          <a href="15865773197608.html" class="item">
+          <a href="15867880029166.html" class="item">
             <div class="article normal">
               <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
               <div class="articleinfo">
-                <div class="headline">Hadoop Ecosystem</div>
+                <div class="headline">Spring AOP</div>
                 
               </div>
             </div>
