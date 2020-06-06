@@ -149,6 +149,56 @@
 }
 </code></pre>
 
+<p>方法二 DFS</p>
+
+<pre><code class="language-text">public class Solution {
+    int[][] ladderLens = null;
+    int[][] input = null;
+    int len = 0;
+    int heigh = 0;
+
+    public int minLengthLadder(int[][] grid) {
+        if (grid == null || grid.length == 0) {
+            return 0;
+        }
+
+        input = grid;
+        heigh = grid.length;
+        len = grid[0].length;
+        ladderLens = new int[heigh][len];
+        for (int i = 0; i &lt; heigh; i++) {
+            for (int j = 0; j &lt; len; j++) {
+                ladderLens[i][j] = Integer.MAX_VALUE;
+            }
+        }
+
+        bfs(0, 0, 0, input[0][0]);
+
+        return ladderLens[heigh - 1][len - 1];
+    }
+
+    private void bfs(Integer locationX, Integer locationY, int ladderLen, int beforeHeigh) {
+        if (locationX &gt;= heigh || locationY &gt;= len || locationX &lt; 0 || locationY &lt; 0) {
+            return;
+        }
+        int temp = input[locationX][locationY] - beforeHeigh;
+        temp = Math.max(temp, ladderLen);
+        if (temp &lt; ladderLens[locationX][locationY]) {
+            ladderLens[locationX][locationY] = temp;
+
+            bfs(locationX + 1, locationY, ladderLens[locationX][locationY], input[locationX][locationY]);
+            bfs(locationX - 1, locationY, ladderLens[locationX][locationY], input[locationX][locationY]);
+            bfs(locationX, locationY + 1, ladderLens[locationX][locationY], input[locationX][locationY]);
+            bfs(locationX, locationY - 1, ladderLens[locationX][locationY], input[locationX][locationY]);
+        }
+    }
+}
+</code></pre>
+
+<p>对于网格总结为：<br/>
+1、使用递归进行DFS；此情况在非尾递归时会导致压栈，在输入数据很大时可能会导致堆栈溢出；如果是尾递归优先采用递归进行DFS，能大大减少代码量。<br/>
+2、使用队列进行BFS。</p>
+
               </div>
             </div>
             
