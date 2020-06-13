@@ -48,44 +48,28 @@
   
     
       <div class="article huge">
-        <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/SpringFundamentals.png')"></div>
+        <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/SpringPicture.png')"></div>
         <div class="row content">
           <div class="col-md-2"></div>
           <div class="col-md-10 main">
             <div class="row">
               <div class="col-md-10 post">
-                <div class="headline"><a href="15811346971820.html">Spring Framework：Spring Fundamentals</a></div>
-                
-                <div class="meta"><span class="time">$[timeformat('2020-02-08T12:04:57+08:00')]</span></div>
+                <div class="headline"><a href="15812210243672.html">Spring Picture</a></div>
+                <div class="subtitle">Spring Ecosystem的简单概述</div>
+                <div class="meta"><span class="time">$[timeformat('2020-02-09T12:03:44+08:00')]</span></div>
                 <div class="body">
-                    <h2 id="toc_0">What is Spring Framework?</h2>
+                    <h2 id="toc_0">What is Spring?</h2>
 
-<p><img src="media/15811346971820/%E6%88%AA%E5%B1%8F2020-02-08%E4%B8%8B%E5%8D%8812.18.27.png" alt="截屏2020-02-08下午12.18.27"/><br/>
-Spring Framework started out as just an inversion of control container. This technique is often referred to as dependency injection. It was conceived to reduce or replace some of the complex configuration of the earlier Java Enterprise Edition. Spring was later built around using Java without EJBs, so its original concept was how to work better with EJBs, and then they realized they just didn&#39;t need those for a lot of situations. Dependency injection is very simply removing hard-coded wiring in your app and using a framework to inject dependency resources where they are needed.The solution we&#39;re looking to get from Spring or from using the <strong>Spring Framework is that we can remove configuration code or lookup code, and developers can focus on the business needs and increase code Testability Maintainability and Scalability.</strong><br/>
-<img src="media/15811346971820/%E6%88%AA%E5%B1%8F2020-02-08%E4%B8%8B%E5%8D%8812.17.19.png" alt="截屏2020-02-08下午12.17.19"/><br/>
-The Spring Framework utilizes a modular architecture, meaning that it&#39;s broken up into separate individual components that can be connected together. And each of those components is then responsible for providing a specific set of functionality, and together as a whole, they make up the Spring Framework. <strong>The Spring Framework can be broken up into six different key areas, core, web, AOP, or aspect-oriented programming, data access, integration, and testing.</strong> For the remainder of the module, we&#39;ll take a look at each of these key areas and understand what they are, what they provide, and how they simplify Java development.<br/>
-<img src="media/15811346971820/%E6%88%AA%E5%B1%8F2020-02-09%E4%B8%8B%E5%8D%883.03.36.png" alt="截屏2020-02-09下午3.03.36"/></p>
+<p>Surely you&#39;re wondering what exactly is Spring, and to be honest, the answer is a bit confusing. In a technology context when someone says Spring, you can be sure that they&#39;re definitely not talking about the season, but they could be referring to one of a number of different things. Spring could mean the Spring Framework, Spring Boot, Spring Data, Spring Cloud, Spring Batch, and a whole lot more; however, most often when people say Spring, they&#39;re actually referring to the entire family of projects, or the Spring ecosystem. </p>
 
-<h2 id="toc_1">Spring Framework Foundation</h2>
+<h3 id="toc_1">Spring Family or Spring Ecosystem</h3>
 
-<p>The Spring Framework&#39;s Core module, or Spring Core as it&#39;s often called, is one of the most important of the Spring Framework. It serves as the foundational module upon which every other module is built. Spring Core is responsible for providing a number of different functionalities, such as internationalization support, validation support, data binding support, type conversion support, and a whole lot more; <strong>however, at the center of Spring Core is something called dependency injection</strong>. <br/>
-<img src="media/15811346971820/%E6%88%AA%E5%B1%8F2020-02-09%E4%B8%8B%E5%8D%883.08.40.png" alt="截屏2020-02-09下午3.08.40"/></p>
-
-<h2 id="toc_2">Spring Download</h2>
-
-<p>Spring wants you to download their tools using Maven.The main reason Spring wants you to use Maven is because of their transitive dependencies that are required to run the projects. Spring Boot could be used to set up your application as well, but it&#39;s much too complex and a black box for trying to show you just the basic fundamentals of what Spring needs to run in order how to set it up. </p>
-
-<h2 id="toc_3">Java Configuration Approach</h2>
-
-<ul>
-<li>Java configuration</li>
-<li>Annotation Configuration</li>
-<li>XML configuration</li>
-</ul>
+<p><img src="media/15812210243672/%E6%88%AA%E5%B1%8F2020-02-09%E4%B8%8B%E5%8D%8812.11.42.png" alt="截屏2020-02-09下午12.11.42"/><br/>
+The Spring family all began with the creation of the Spring Framework, which was built largely in response to the complexity of developing applications using Java&#39;s enterprise framework called J2EE, it&#39;s now called Java EE, and <strong>the Spring Framework aimed at removing the complexity and helped to make things like web development and data access easier for developers to implement.</strong> It also aimed at reducing boilerplate code, and if you&#39;re not familiar with what that is, it&#39;s repetitive code that&#39;s often needed as part of the logic, but tends to clutter the application and draw focus away from the main logic. The Spring Framework is still heavily used today, and it&#39;s the foundation upon which everything else is built. The success of the Spring Framework led to the creation of several Spring projects that were built on top of the Spring Framework, but tailored to specific needs or domains. For example, the Spring Security project（面向切片编程AOP的思想） was created to remove the complexity and challenges with securing a Java application, and another project, like the Spring Data project, was created to further simplify data access in Java applications. The Spring Framework and Spring projects continued to evolve and thrive, eventually resulting in the creation of a particularly impactful project called Spring Boot. Spring Boot was a real game changer. It provided a new and drastically faster way of building Spring-based applications. Up until Spring Boot, building a Spring-based application had always involved a lot of choice making, configuration, and a cumbersome deployment model. Spring Boot removed all of that by taking an opinionated view of building Spring-based applications including sensible defaults for library choices and configuration, and adding smarts for auto-detecting and auto-configuring other common configurations. It also massively simplified the deployment process and made running a Spring-based application as simple as running a single command. Lastly came the Spring Cloud project. Spring Cloud was built on top of Spring Boot and simplified the development of applications that make use of distributed architectures, such as microservice architectures, and these type of architectures often have many common patterns that are implemented, such as service discovery and distributed configuration, and Spring Cloud helped to make it easier for developers to build applications that use those patterns. </p>
 
                 </div>
                 <div class="bottom">
-                  <a href="15811346971820.html" class="continue float-right">
+                  <a href="15812210243672.html" class="continue float-right">
                     继续阅读
                   </a>
                 </div>
@@ -99,12 +83,12 @@ The Spring Framework utilizes a modular architecture, meaning that it&#39;s brok
   
     
         <div class="col-md-6">
-          <a href="15809755312648.html" class="item">
+          <a href="15811346971820.html" class="item">
             <div class="article normal">
-              <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/设计模式.png')"></div>
+              <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/SpringFundamentals.png')"></div>
               <div class="articleinfo">
-                <div class="headline">设计模式</div>
-                <div class="subtitle">「简单介绍下」</div>
+                <div class="headline">Spring Framework：Spring Fundamentals</div>
+                
               </div>
             </div>
           </a>
@@ -113,12 +97,12 @@ The Spring Framework utilizes a modular architecture, meaning that it&#39;s brok
   
     
         <div class="col-md-6">
-          <a href="15809754787359.html" class="item">
+          <a href="15809755312648.html" class="item">
             <div class="article normal">
-              <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/创建型模式.png')"></div>
+              <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/设计模式.png')"></div>
               <div class="articleinfo">
-                <div class="headline">创建型模式</div>
-                <div class="subtitle">「五种创建型模式」UML及Java代码实现</div>
+                <div class="headline">设计模式</div>
+                <div class="subtitle">「简单介绍下」</div>
               </div>
             </div>
           </a>
