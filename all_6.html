@@ -48,50 +48,31 @@
   
     
       <div class="article huge">
-        <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/MasterGit.png')"></div>
+        <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/Noe4j.png')"></div>
         <div class="row content">
           <div class="col-md-2"></div>
           <div class="col-md-10 main">
             <div class="row">
               <div class="col-md-10 post">
-                <div class="headline"><a href="15835098177103.html">Master Git</a></div>
-                
-                <div class="meta"><span class="time">$[timeformat('2020-03-06T23:50:17+08:00')]</span></div>
+                <div class="headline"><a href="neo4j-zhi-shi-dian1-if-we-have.html">Neo4j知识点</a></div>
+                <div class="subtitle">「Neo4j学习小记」</div>
+                <div class="meta"><span class="time">$[timeformat('2020-02-04T10:01:30+08:00')]</span></div>
                 <div class="body">
-                    <p><img src="media/15835098177103/%E6%88%AA%E5%B1%8F2020-03-07%E4%B8%8A%E5%8D%8812.28.47.png" alt="截屏2020-03-07上午12.28.47"/></p>
+                    <h3 id="toc_0">1. If we have a database with TV episodes, what a good way to model the data if we want to query episodes by year?</h3>
 
-<p>workflow: <strong>edit file</strong> -git add/git diff-&gt; <strong>stage file</strong> -git commit -m &quot;message&quot;/git diff --cached-&gt; <strong>commit file</strong> map to <strong>working are</strong>-&gt;<strong>Index</strong>-&gt;<strong>repository</strong></p>
+<p><strong>Ceate nodes for years and setup relationships between the episode and the year nodes.</strong><br/>
+We could choose to create a property in the episodes with date. When you want make a query that shows all episodes that were aired in December 2014. If the date was in a property, getting the desired result would <strong>involve inspecting and parsing the property, and create some logic to determine the right episodes.</strong></p>
 
-<p>git log<br/>
-git log --grep=&#39;homepage&#39; 提交日志中包含homepage的提交记录<br/>
-git log --author=‘zeng’<br/>
-git log --graph --decorate --oneline<br/>
-git status<br/>
-git diff<br/>
-git diff --cached<br/>
-git add xxx<br/>
-git rm --cached xxx<br/>
-rename file: git mv xxx xxx  equal to  mv xxx xxx; git add xxx; git add xxx;<br/>
-git commit -m &quot;message&quot;</p>
+<h3 id="toc_1">2. What is a good way to come up with a Cypher pattern?</h3>
 
-<p>git reset<br/>
-<img src="media/15835098177103/15835605386664.jpg" alt=""/></p>
-
-<p>git show<br/>
-git show head~3<br/>
-git show head^^<br/>
-git show head^2</p>
-
-<p>git blame &lt;filename&gt; 某个文件的修改过程</p>
-
-<p>git commit --amend 修改commit</p>
-
-<p>帮助：<br/>
-git help blame</p>
+<p><strong>You should picture a pattern in your mind, then translate to ASCII.</strong><br/>
+<img src="media/15807816907881/%E6%88%AA%E5%B1%8F2020-02-05%E4%B8%8B%E5%8D%881.09.50.png" alt="截屏2020-02-05下午1.09.50"/><br/>
+Cypher is declarative, that means you specify what you want to retrieve, not how Neo4j should retrieve it.<br/>
+Easy on the brain, it&#39;s not as steep as a learning curve you would have if you started with SQL from scratch. Because use patterns to match the data in the database.</p>
 
                 </div>
                 <div class="bottom">
-                  <a href="15835098177103.html" class="continue float-right">
+                  <a href="neo4j-zhi-shi-dian1-if-we-have.html" class="continue float-right">
                     继续阅读
                   </a>
                 </div>
@@ -102,40 +83,12 @@ git help blame</p>
       </div>
       <div class="otherposts row">
     
-  
-    
-        <div class="col-md-6">
-          <a href="15815193362338.html" class="item">
-            <div class="article normal">
-              <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/TuningTheJVM.png')"></div>
-              <div class="articleinfo">
-                <div class="headline">Tuning the JVM</div>
-                
-              </div>
-            </div>
-          </a>
-        </div>
-    
-  
-    
-        <div class="col-md-6">
-          <a href="15813454180710.html" class="item">
-            <div class="article normal">
-              <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/MultithreadingAndConcurrency.png')"></div>
-              <div class="articleinfo">
-                <div class="headline">Multithreading and Concurrency</div>
-                
-              </div>
-            </div>
-          </a>
-        </div>
-    
    
   </div>
   <div class="pagenavi">
-    <div class="item"><a href="all_2.html">更新文章</a></div>
+    <div class="item"><a href="all_5.html">更新文章</a></div>
     <div class="item"> · </div>
-    <div class="item"><a href="all_4.html">旧有文章</a></div>
+    <div class="item">已是最旧一页</div>
   </div>
  </div>
  <script>
