@@ -54,42 +54,149 @@
           <div class="col-md-10 main">
             <div class="row">
               <div class="col-md-10 post">
-                <div class="headline"><a href="15865773197608.html">Hadoop Ecosystem</a></div>
+                <div class="headline"><a href="15914059244688.html">网格类</a></div>
                 
-                <div class="meta"><span class="time">$[timeformat('2020-04-11T11:55:19+08:00')]</span></div>
+                <div class="meta"><span class="time">$[timeformat('2020-06-06T09:12:04+08:00')]</span></div>
                 <div class="body">
-                    <p><img src="media/15865773197608/%E6%88%AA%E5%B1%8F2020-04-11%20%E4%B8%8B%E5%8D%8812.11.29.png" alt="截屏2020-04-11 下午12.11.29"/></p>
+                    <h2 id="toc_0">找梯子</h2>
 
-<p>Hive:Provides an SQL interface to Hadoop.（数据仓库）<br/>
-HBase:A database management system on top of Hadoop. Integrates with your application just like a traditional database<br/>
-Pig:A data manipulation language<br/>
-transforms unstructured data into a structured format.Query this structured data using interfaces like Hive.<br/>
-Spark:A distributed computing engine used along with Hadoop.Interactive shell to quickly process datasets.Has a bunch of built in libraries for machine learning, stream processing, graph processing etc.<br/>
-Flume/Sqoop:Tools to transfer data between other systems and Hadoop.</p>
+<p>给定一个训练场，训练场为一个n*m的矩阵，每个格子中有不同高度的箱子，训练人员需要从训练场左上方到达右下方。要从所在格子location到达附近格子locationNext需要一把梯子，梯子高度遵循以下规则：<br/>
+1、如果location中的箱子高度高于或等于locationNew中的箱子高度，需要高度为0的梯子；<br/>
+2、如果location中的箱子高度h低于locationNew中的箱子高度hNew，需要梯子高度为hNew-h。<br/>
+对于给定输入训练场信息，求所需高度最低的梯子。<br/>
+例：<br/>
+输入 [[1,2,2],[1,1,1]]<br/>
+输出 1</p>
 
-<h1 id="toc_0">Hadoop</h1>
+<p>方法一：使用队列进行BFS</p>
 
-<h3 id="toc_1">Store Data</h3>
+<pre><code class="language-text">public class Solution {
+    Queue&lt;Pair&lt;Integer, Integer&gt;&gt; queue = new LinkedList&lt;&gt;();
+    int[][] heighs = null;
+    int[][] input = null;
+    int len = 0;
+    int heigh = 0;
 
-<p>Break the data into blocks. Default blocks size is 128M.Name node store matedata to locate block.Data node physically stores the data in the files.</p>
+    public int minLengthLadder(int[][] grid) {
+        if (grid == null || grid.length == 0) {
+            return 0;
+        }
 
-<h3 id="toc_2">Default Hadoop replication strategy(three replications)</h3>
+        input = grid;
+        heigh = grid.length;
+        len = grid[0].length;
+        heighs = new int[heigh][len];
+        for (int i = 0; i &lt; heigh; i++) {
+            for (int j = 0; j &lt; len; j++) {
+                heighs[i][j] = Integer.MAX_VALUE;
+            }
+        }
+        heighs[0][0] = 0;
+        queue.add(new Pair&lt;&gt;(0, 0));
 
-<ol>
-<li>First location chosen at radnom</li>
-<li>Second location has to be on a different rack</li>
-<li>Third replica is on the same rack as the second but on different nodes<br/>
-The purpose of the strategy:inter rack traffic and improves write performance.</li>
-</ol>
+        Pair&lt;Integer, Integer&gt; location = null;
+        while (!queue.isEmpty()) {
+            location = queue.poll();
+            bfs(location.getKey(), location.getValue());
+        }
 
-<p>MapReduce is a programming paradigm.<br/>
-Partition:Choose reducers such that keys are evenly distributed across partitions.<br/>
-Shuffle:The process of moving data from the mappers to the reducers.<br/>
-Combiner:解决数据从Mapper到Reducers时的性能问题。</p>
+        return heighs[heigh - 1][len - 1];
+    }
+
+    private void bfs(Integer locationX, Integer locationY) {
+        int temp = 0;
+        if (locationX &gt; 0) {
+            temp = input[locationX - 1][locationY] - input[locationX][locationY];
+            temp = Math.max(temp, heighs[locationX][locationY]);
+            if (heighs[locationX - 1][locationY] &gt; temp) {
+                heighs[locationX - 1][locationY] = temp;
+                queue.add(new Pair&lt;&gt;(locationX - 1, locationY));
+            }
+        }
+        if (locationY &gt; 0) {
+            temp = input[locationX][locationY - 1] - input[locationX][locationY];
+            temp = Math.max(temp, heighs[locationX][locationY]);
+            if (heighs[locationX][locationY - 1] &gt; temp) {
+                heighs[locationX][locationY - 1] = temp;
+                queue.add(new Pair&lt;&gt;(locationX, locationY - 1));
+            }
+        }
+        if (locationX &lt; heigh - 1) {
+            temp = input[locationX + 1][locationY] - input[locationX][locationY];
+            temp = Math.max(temp, heighs[locationX][locationY]);
+            if (heighs[locationX + 1][locationY] &gt; temp) {
+                heighs[locationX + 1][locationY] = temp;
+                queue.add(new Pair&lt;&gt;(locationX + 1, locationY));
+            }
+        }
+        if (locationY &lt; len - 1) {
+            temp = input[locationX][locationY + 1] - input[locationX][locationY];
+            temp = Math.max(temp, heighs[locationX][locationY]);
+            if (heighs[locationX][locationY + 1] &gt; temp) {
+                heighs[locationX][locationY + 1] = temp;
+                queue.add(new Pair&lt;&gt;(locationX, locationY + 1));
+            }
+        }
+    }
+}
+</code></pre>
+
+<p>方法二 使用递归进行DFS</p>
+
+<pre><code class="language-text">public class Solution {
+    int[][] ladderLens = null;
+    int[][] input = null;
+    int len = 0;
+    int heigh = 0;
+
+    public int minLengthLadder(int[][] grid) {
+        if (grid == null || grid.length == 0) {
+            return 0;
+        }
+
+        input = grid;
+        heigh = grid.length;
+        len = grid[0].length;
+        ladderLens = new int[heigh][len];
+        for (int i = 0; i &lt; heigh; i++) {
+            for (int j = 0; j &lt; len; j++) {
+                ladderLens[i][j] = Integer.MAX_VALUE;
+            }
+        }
+
+        bfs(0, 0, 0, input[0][0]);
+
+        return ladderLens[heigh - 1][len - 1];
+    }
+
+    private void bfs(Integer locationX, Integer locationY, int ladderLen, int beforeHeigh) {
+        if (locationX &gt;= heigh || locationY &gt;= len || locationX &lt; 0 || locationY &lt; 0) {
+            return;
+        }
+        int temp = input[locationX][locationY] - beforeHeigh;
+        temp = Math.max(temp, ladderLen);
+        if (temp &lt; ladderLens[locationX][locationY]) {
+            ladderLens[locationX][locationY] = temp;
+
+            bfs(locationX + 1, locationY, ladderLens[locationX][locationY], input[locationX][locationY]);
+            bfs(locationX - 1, locationY, ladderLens[locationX][locationY], input[locationX][locationY]);
+            bfs(locationX, locationY + 1, ladderLens[locationX][locationY], input[locationX][locationY]);
+            bfs(locationX, locationY - 1, ladderLens[locationX][locationY], input[locationX][locationY]);
+        }
+    }
+}
+</code></pre>
+
+<p>对于网格总结为：<br/>
+1、使用递归进行DFS；此情况在非尾递归时会导致压栈，在输入数据很大时可能会导致堆栈溢出；如果是尾递归优先采用递归进行DFS，能大大减少代码量。<br/>
+2、使用队列进行BFS。</p>
+
+<p>reference：<br/>
+<a href="https://leetcode-cn.com/problems/max-area-of-island/">岛屿的最大面积</a></p>
 
                 </div>
                 <div class="bottom">
-                  <a href="15865773197608.html" class="continue float-right">
+                  <a href="15914059244688.html" class="continue float-right">
                     继续阅读
                   </a>
                 </div>
@@ -103,11 +210,11 @@ Combiner:解决数据从Mapper到Reducers时的性能问题。</p>
   
     
         <div class="col-md-6">
-          <a href="15857401206120.html" class="item">
+          <a href="15867880029166.html" class="item">
             <div class="article normal">
               <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
               <div class="articleinfo">
-                <div class="headline">Employing Ensemble Methods with scikit-learn</div>
+                <div class="headline">Spring AOP</div>
                 
               </div>
             </div>
@@ -117,11 +224,11 @@ Combiner:解决数据从Mapper到Reducers时的性能问题。</p>
   
     
         <div class="col-md-6">
-          <a href="15852382259972.html" class="item">
+          <a href="15865773197608.html" class="item">
             <div class="article normal">
               <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
               <div class="articleinfo">
-                <div class="headline">Java 8 Lambda Expression</div>
+                <div class="headline">Hadoop Ecosystem</div>
                 
               </div>
             </div>

@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="zh-cn">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,minimum-scale=1" />
+    <title>
+        
+      MySQL索引底层数据结构与算法 - Zjunwen
+      
+    </title>
+    <meta name="keywords" content="Zjunwen" />
+    
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:creator" content="@" />
+      <meta property="og:url" content="15965435589950.html" />
+      <meta property="og:title" content="MySQL索引底层数据结构与算法" />
+      
+        <meta property="og:description" content="MySQL索引底层数据结构与算法" />
+      
+      
+      <meta property="og:site_name" content="Zjunwen" />
+    
+    
+      <link rel="icon" href="media/15807816907881/截屏2020-02-04上午10.39.45.png">
+    
+    <link href="atom.xml" rel="alternate" title="Zjunwen" type="application/atom+xml">
+    <script src="https://cdn.bootcss.com/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="asset/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="head">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="blogname">Zjunwen</div>
+            <nav>
+              
+                <div class="item"><a target="_self" href="index.html">Home</a></div>
+              
+                <div class="item"><a target="_self" href="archives.html">Archives</a></div>
+              
+                <div class="item"><a target="_blank" href="Arcade-Game/index.html">Game</a></div>
+              
+            </nav>
+          </div>
+        </div>
+      </div>
+      <hr>
+    </div> <div class="container" id="post">
+  <div class="article huge">
+    <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
+    <img src="" style="display: none;" class="featureimgforexternal">
+    <div class="timeGTM" style="display:none;">2020-08-04T20:19:18+08:00</div>
+    <div class="row content">
+      <div class="col-md-2"></div>
+      <div class="col-md-10 main">
+        <div class="row">
+          <div class="col-md-10">
+            <div class="post">
+              <div class="headline"><a href="15965435589950.html">MySQL索引底层数据结构与算法</a></div>
+              
+              <div class="meta"><span class="time">$[timeformat('2020-08-04T20:19:18+08:00')]</span><br><span class="tags"></span></div>
+              <div class="body">
+                  <p>索引是帮助MySQL高效获取数据的排好序的数据结构。</p>
+
+<h2 id="toc_0">B-Tree</h2>
+
+<ul>
+<li>叶节点具有相同的深度，叶节点的指针为空</li>
+<li>所有索引元素不重复</li>
+<li>节点中的数据索引从左到右递增排列
+<img src="media/15965435589950/15965438365696.jpg" alt=""/></li>
+</ul>
+
+<h2 id="toc_1">B+Tree(B-Tree变种)</h2>
+
+<ul>
+<li>非叶子节点不存储data，只存储索引(冗余)，可以放更多的索引</li>
+<li>叶子节点包含所有索引字段</li>
+<li>叶子节点用指针连接，提高区间访问的性能
+<img src="media/15965435589950/15965439089956.jpg" alt=""/></li>
+</ul>
+
+<h2 id="toc_2">Hash</h2>
+
+<ul>
+<li>对索引的key进行一次hash计算就可以定位出数据存储的位置</li>
+<li>很多时候Hash索引要比B+ 树索引更高效<br/>
+仅能满足 “=”，“IN”，不支持范围查询</li>
+<li>hash冲突问题
+<img src="media/15965435589950/15965439640448.jpg" alt=""/></li>
+</ul>
+
+<h2 id="toc_3">MyISAM索引文件和数据文件是分离的(非聚集)</h2>
+
+<p><img src="media/15965435589950/15965439986053.jpg" alt=""/></p>
+
+<h2 id="toc_4">InnoDB索引实现(聚集)</h2>
+
+<ul>
+<li>表数据文件本身就是按B+Tree组织的一个索引结构文件</li>
+<li>聚集索引-叶节点包含了完整的数据记录<br/>
+为什么建议InnoDB表必须建主键，并且推荐使用整型的自增主键？<br/>
+为什么非主键索引结构叶子节点存储的是主键值？(一致性和节省存储空间)</li>
+</ul>
+
+<p><img src="media/15965435589950/15965440726552.jpg" alt=""/></p>
+
+<p><img src="media/15965435589950/15965440855453.jpg" alt=""/></p>
+
+<p>查看mysql文件页大小（16K）：SHOW GLOBAL STATUS like &#39;Innodb_page_size’;<br/>
+假设我们一行数据大小为1K，那么一页就能存16条数据，也就是一个叶子节点能存16条数据；再看非叶子节点，假设主键ID为bigint类型，那么长度为8B，指针大小在Innodb源码中为6B，一共就是14B，那么一页里就可以存储16K/14=1170个(主键+指针)<br/>
+那么一颗高度为2的B+树能存储的数据为：1170<em>16=18720条，一颗高度为3的B+树能存储的数据为：1170</em>1170*16=21902400（千万级条）</p>
+
+              </div>
+            </div>
+            
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+    let post = new Vue({
+     el: '#post',
+     data: {
+       hidelikecoin: ''
+     },
+     methods: {
+       timeformat(raw) {
+         return moment(raw).format("YYYY 年 MM 月 DD 日");
+       }
+     },
+     delimiters: ['$[', ']']
+   })
+  </script>      <div class="container">
+      <hr>
+      <div class="footer" id="footer">
+        <div class="slogan">提问🙋🏼、思考🤔、专注🙇🏻、解决问题💁🏻‍♂️</div>
+        <div class="meta">
+          <p><p>👨🏻‍💻<a href="https://github.com/zengjunwen" target="_blank">Github</a>  📧<a href="mailto:junwenzeng@foxmail.com?subject=【从你的博客联系到你】&body=你好！">eMail</a></p><p>除特殊注明外，博客所有文章使用CC-BY-NC-SA授权协议</p></p>
+          <p>「Zjunwen」</p>
+        </div>
+      </div>
+      <script>
+        let footer = new Vue({
+          el: '#footer',
+          data: {
+            message: 'hello'
+          },
+          delimiters: ['$[', ']']
+        })
+      </script>
+    </div>
+  </div>
+</body>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<style></style>
+</html>
