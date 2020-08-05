@@ -48,23 +48,44 @@
   
     
       <div class="article huge">
-        <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/设计模式.png')"></div>
+        <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/SpringFundamentals.png')"></div>
         <div class="row content">
           <div class="col-md-2"></div>
           <div class="col-md-10 main">
             <div class="row">
               <div class="col-md-10 post">
-                <div class="headline"><a href="15809755312648.html">设计模式</a></div>
-                <div class="subtitle">「简单介绍下」</div>
-                <div class="meta"><span class="time">$[timeformat('2020-02-06T15:52:11+08:00')]</span></div>
+                <div class="headline"><a href="15811346971820.html">Spring Framework：Spring Fundamentals</a></div>
+                
+                <div class="meta"><span class="time">$[timeformat('2020-02-08T12:04:57+08:00')]</span></div>
                 <div class="body">
-                    <p>很多时候，我们总听到设计模式这个词，我们都说他重要，为啥重要？我觉得学习设计模式是方便自己和别的开发人员进行有效沟通的重要工具。有可能你已经知道了解决某个问题的方法，并且该方法符合某种设计模式，此时，能够给别人描述解决问题的方法是拥有共同的语言，设计模式就是这种语言。</p>
+                    <h2 id="toc_0">What is Spring Framework?</h2>
 
-<p>设计模式（Design pattern）代表了最佳的实践，通常被有经验的面向对象的软件开发人员所采用。设计模式参考书《设计模式 - 可复用的面向对象软件元素》中所提到的设计模式，总共有 23 种。这些模式可以分为三大类：创建型模式（Creational Patterns）、结构型模式（Structural Patterns）、行为型模式（Behavioral Patterns）。我们将通过结合JAVA代码对这些设计模式进行讲解。</p>
+<p><img src="media/15811346971820/%E6%88%AA%E5%B1%8F2020-02-08%E4%B8%8B%E5%8D%8812.18.27.png" alt="截屏2020-02-08下午12.18.27"/><br/>
+Spring Framework started out as just an inversion of control container. This technique is often referred to as dependency injection. It was conceived to reduce or replace some of the complex configuration of the earlier Java Enterprise Edition. Spring was later built around using Java without EJBs, so its original concept was how to work better with EJBs, and then they realized they just didn&#39;t need those for a lot of situations. Dependency injection is very simply removing hard-coded wiring in your app and using a framework to inject dependency resources where they are needed.The solution we&#39;re looking to get from Spring or from using the <strong>Spring Framework is that we can remove configuration code or lookup code, and developers can focus on the business needs and increase code Testability Maintainability and Scalability.</strong><br/>
+<img src="media/15811346971820/%E6%88%AA%E5%B1%8F2020-02-08%E4%B8%8B%E5%8D%8812.17.19.png" alt="截屏2020-02-08下午12.17.19"/><br/>
+The Spring Framework utilizes a modular architecture, meaning that it&#39;s broken up into separate individual components that can be connected together. And each of those components is then responsible for providing a specific set of functionality, and together as a whole, they make up the Spring Framework. <strong>The Spring Framework can be broken up into six different key areas, core, web, AOP, or aspect-oriented programming, data access, integration, and testing.</strong> For the remainder of the module, we&#39;ll take a look at each of these key areas and understand what they are, what they provide, and how they simplify Java development.<br/>
+<img src="media/15811346971820/%E6%88%AA%E5%B1%8F2020-02-09%E4%B8%8B%E5%8D%883.03.36.png" alt="截屏2020-02-09下午3.03.36"/></p>
+
+<h2 id="toc_1">Spring Framework Foundation</h2>
+
+<p>The Spring Framework&#39;s Core module, or Spring Core as it&#39;s often called, is one of the most important of the Spring Framework. It serves as the foundational module upon which every other module is built. Spring Core is responsible for providing a number of different functionalities, such as internationalization support, validation support, data binding support, type conversion support, and a whole lot more; <strong>however, at the center of Spring Core is something called dependency injection</strong>. <br/>
+<img src="media/15811346971820/%E6%88%AA%E5%B1%8F2020-02-09%E4%B8%8B%E5%8D%883.08.40.png" alt="截屏2020-02-09下午3.08.40"/></p>
+
+<h2 id="toc_2">Spring Download</h2>
+
+<p>Spring wants you to download their tools using Maven.The main reason Spring wants you to use Maven is because of their transitive dependencies that are required to run the projects. Spring Boot could be used to set up your application as well, but it&#39;s much too complex and a black box for trying to show you just the basic fundamentals of what Spring needs to run in order how to set it up. </p>
+
+<h2 id="toc_3">Java Configuration Approach</h2>
+
+<ul>
+<li>Java configuration</li>
+<li>Annotation Configuration</li>
+<li>XML configuration</li>
+</ul>
 
                 </div>
                 <div class="bottom">
-                  <a href="15809755312648.html" class="continue float-right">
+                  <a href="15811346971820.html" class="continue float-right">
                     继续阅读
                   </a>
                 </div>
@@ -78,12 +99,12 @@
   
     
         <div class="col-md-6">
-          <a href="15809754787359.html" class="item">
+          <a href="15809755312648.html" class="item">
             <div class="article normal">
-              <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/创建型模式.png')"></div>
+              <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/设计模式.png')"></div>
               <div class="articleinfo">
-                <div class="headline">创建型模式</div>
-                <div class="subtitle">「五种创建型模式」UML及Java代码实现</div>
+                <div class="headline">设计模式</div>
+                <div class="subtitle">「简单介绍下」</div>
               </div>
             </div>
           </a>
@@ -92,12 +113,12 @@
   
     
         <div class="col-md-6">
-          <a href="kafka-zhi-shi-dianmedia1580799.html" class="item">
+          <a href="15809754787359.html" class="item">
             <div class="article normal">
-              <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/Kafka.png')"></div>
+              <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/创建型模式.png')"></div>
               <div class="articleinfo">
-                <div class="headline">Kafka</div>
-                <div class="subtitle">「Kafka基础知识」</div>
+                <div class="headline">创建型模式</div>
+                <div class="subtitle">「五种创建型模式」UML及Java代码实现</div>
               </div>
             </div>
           </a>

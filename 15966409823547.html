@@ -6,11 +6,20 @@
     <meta name="viewport" content="width=device-width,minimum-scale=1" />
     <title>
         
-      Zjunwen
+      并发编程之JMM、synchronized、volatile - Zjunwen
       
     </title>
     <meta name="keywords" content="Zjunwen" />
     
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:creator" content="@" />
+      <meta property="og:url" content="15966409823547.html" />
+      <meta property="og:title" content="并发编程之JMM、synchronized、volatile" />
+      
+        <meta property="og:description" content="并发编程之JMM、synchronized、volatile" />
+      
+      
+      <meta property="og:site_name" content="Zjunwen" />
     
     
       <link rel="icon" href="media/15807816907881/截屏2020-02-04上午10.39.45.png">
@@ -44,21 +53,22 @@
         </div>
       </div>
       <hr>
-    </div> <div class="container" id="category">
-  
-    
-      <div class="article huge">
-        <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
-        <div class="row content">
-          <div class="col-md-2"></div>
-          <div class="col-md-10 main">
-            <div class="row">
-              <div class="col-md-10 post">
-                <div class="headline"><a href="15966409823547.html">并发编程之JMM、synchronized、volatile</a></div>
-                
-                <div class="meta"><span class="time">$[timeformat('2020-08-05T23:23:02+08:00')]</span></div>
-                <div class="body">
-                    <h2 id="toc_0">JMM模型</h2>
+    </div> <div class="container" id="post">
+  <div class="article huge">
+    <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
+    <img src="" style="display: none;" class="featureimgforexternal">
+    <div class="timeGTM" style="display:none;">2020-08-05T23:23:02+08:00</div>
+    <div class="row content">
+      <div class="col-md-2"></div>
+      <div class="col-md-10 main">
+        <div class="row">
+          <div class="col-md-10">
+            <div class="post">
+              <div class="headline"><a href="15966409823547.html">并发编程之JMM、synchronized、volatile</a></div>
+              
+              <div class="meta"><span class="time">$[timeformat('2020-08-05T23:23:02+08:00')]</span><br><span class="tags"></span></div>
+              <div class="body">
+                  <h2 id="toc_0">JMM模型</h2>
 
 <p>Java内存模型(Java Memory Model简称JMM)是一种抽象的概念，并不真实存在，它描述的是一组规则或规范，通过这组规范定义了程序中各个变量（包括实例字段，静态字段和构成数组对象的元素）的访问方式。JVM运行程序的实体是线程，而每个线程创建时JVM都会为其创建一个工作内存(有些地方称为栈空间)，用于存储线程私有的数据，而Java内存模型中规定所有变量都存储在主内存，主内存是共享内存区域，所有线程都可以访问，但线程对变量的操作(读取赋值等)必须在工作内存中进行，首先要将变量从主内存拷贝的自己的工作内存空间，然后对变量进行操作，操作完成后再将变量写回主内存，不能直接操作主内存中的变量，工作内存中存储着主内存中的变量副本拷贝，前面说过，工作内存是每个线程的私有数据区域，因此不同的线程间无法访问对方的工作内存，线程间的通信(传值)必须通过主内存来完成。</p>
 
@@ -87,71 +97,30 @@
 
 <p>在Java里面，可以通过volatile关键字来保证一定的“有序性”（具体原理在下一节讲述volatile关键字）。另外可以通过synchronized和Lock来保证有序性，很显然，synchronized和Lock保证每个时刻是有一个线程执行同步代码，相当于是让线程顺序执行同步代码，自然就保证了有序性。</p>
 
-                </div>
-                <div class="bottom">
-                  <a href="15966409823547.html" class="continue float-right">
-                    继续阅读
-                  </a>
-                </div>
               </div>
             </div>
+            
+            
           </div>
         </div>
       </div>
-      <div class="otherposts row">
-    
-  
-    
-        <div class="col-md-6">
-          <a href="15965453905732.html" class="item">
-            <div class="article normal">
-              <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
-              <div class="articleinfo">
-                <div class="headline">Explain详解与索引最佳实战</div>
-                
-              </div>
-            </div>
-          </a>
-        </div>
-    
-  
-    
-        <div class="col-md-6">
-          <a href="15965435589950.html" class="item">
-            <div class="article normal">
-              <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
-              <div class="articleinfo">
-                <div class="headline">MySQL索引底层数据结构与算法</div>
-                
-              </div>
-            </div>
-          </a>
-        </div>
-    
-   
+    </div>
   </div>
-  <div class="pagenavi">
-    <div class="item">已是最新一页</div>
-    <div class="item"> · </div>
-    <div class="item"><a href="all_1.html">旧有文章</a></div>
-  </div>
- </div>
- <script>
-   let category = new Vue({
-    el: '#category',
-    data: {},
-    methods: {
-      indexOddandEven(index) {
-        return index%2 ? 'odd' : 'even';
-      },
-      timeformat(raw) {
-        return moment(raw).format("YYYY 年 MM 月 DD 日");
-      }
-    },
-    delimiters: ['$[', ']']
-  })
- </script>
-      <div class="container">
+</div>
+<script>
+    let post = new Vue({
+     el: '#post',
+     data: {
+       hidelikecoin: ''
+     },
+     methods: {
+       timeformat(raw) {
+         return moment(raw).format("YYYY 年 MM 月 DD 日");
+       }
+     },
+     delimiters: ['$[', ']']
+   })
+  </script>      <div class="container">
       <hr>
       <div class="footer" id="footer">
         <div class="slogan">提问🙋🏼、思考🤔、专注🙇🏻、解决问题💁🏻‍♂️</div>
