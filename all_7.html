@@ -48,406 +48,460 @@
   
     
       <div class="article huge">
-        <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/Kafka.png')"></div>
+        <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/创建型模式.png')"></div>
         <div class="row content">
           <div class="col-md-2"></div>
           <div class="col-md-10 main">
             <div class="row">
               <div class="col-md-10 post">
-                <div class="headline"><a href="kafka-zhi-shi-dianmedia1580799.html">Kafka</a></div>
-                <div class="subtitle">「Kafka基础知识」</div>
-                <div class="meta"><span class="time">$[timeformat('2020-02-04T14:53:44+08:00')]</span></div>
+                <div class="headline"><a href="15809754787359.html">创建型模式</a></div>
+                <div class="subtitle">「五种创建型模式」UML及Java代码实现</div>
+                <div class="meta"><span class="time">$[timeformat('2020-02-06T15:51:18+08:00')]</span></div>
                 <div class="body">
-                    <p><img src="media/15807992240443/15808019298485.jpg" alt=""/></p>
+                    <p>讨论的创建型模式有以下几种：单例模式（Singleton pattern）、建造者模式（Builder pattern）、原型模式（Prototype pattern）、工厂模式（Factory pattern）、抽象工厂模式（Abstract factory pattern）。通过JAVA代码实现各个模式并进行对比、讨论合适使用何种模式最好。</p>
 
-<p>Kafka: A high-throughput distributed messaging system。客户端和服务器之间的通信通过简单、高性能、语言无关的TCP协议完成。</p>
+<h2 id="toc_0">一、单例模式</h2>
 
-<h3 id="toc_0">1. What was the primary problem Apache Kafka was designed to address?</h3>
+<h5 id="toc_1">contrast to 工厂模式</h5>
 
-<p>Reliable and scalable data distribution.<br/>
-特点：</p>
+<p>单例模式：单例模式总是返回同一个实例；只有一个无参的私有构造函数；典型的特征是没有接口（interface）。<br/>
+工厂模式：可以返回多种类型的实例。拥有多个构造函数。通常是基于接口驱动。通过对外暴露接口使得单元测试变得简单。</p>
 
-<ul>
-<li>High throughput</li>
-<li>Horizontally scalable</li>
-<li>Reliable and durable</li>
-<li>Loosely coupled Producers and Consumers</li>
-<li>Flexible publish-subscirbe semantics<br/>
-应用场景：</li>
-<li>Database replication</li>
-<li>Log shipping</li>
-<li>Extract, Transform, and Load (ETL)</li>
-<li>Messaging</li>
-<li>Custom middleware magic</li>
-</ul>
+<h5 id="toc_2">单例模式缺陷（pitfalls）</h5>
 
-<h3 id="toc_1">2. Kafka三个关键功能</h3>
+<p>由于单例模式不对外暴露任何借口（interface）、拥有私有构造函数和私有成员变量，所以比较难进行单元测试。在使用单例模式时，要考虑线程安全问题。</p>
 
-<ul>
-<li>发布和订阅记录流</li>
-<li>以容错的持久方式存储记录流</li>
-<li>记录发生时处理流</li>
-</ul>
+<h5 id="toc_3">饿汉单例模式</h5>
 
-<h3 id="toc_2">3. Kafka四大核心API</h3>
+<pre><code class="language-text">public class MySingleton {
+    public String description = &quot;This is a singleton example.&quot;;
+    private static MySingleton instance = new MySingleton();
+    private MySingleton(){
 
-<ul>
-<li>Producer API：允许应用程序发布的记录流至一个或多个Kafka的Topic。</li>
-<li>Comsumer API：允许应用程序订阅一个或多个Topic，并处理他们记录的数据流。</li>
-<li>Stream API：允许应用程序充当流处理器，从一个或多个主题消费的输入流，并产生一个输出流至一个或多输出的主题，有效的变换输入流和输出流。</li>
-<li>Connector API：允许构建和运行Kafka Topic链接到现有的应用程序或数据系统中重用生产者或消费者。例如，关系数据库的连接器可能捕捉每个对表的更改。</li>
-</ul>
+    }
 
-<h3 id="toc_3">4. Kafka&#39;s Architecture</h3>
-
-<p><strong>Worker node roles: Controllers, Leaders, and Followers.</strong><br/>
-<strong>Characteristics of distributed systems:</strong></p>
-
-<ul>
-<li>Worker node roles: Controllers, Leaders, and Followers</li>
-<li>Reliability through replication</li>
-<li>Consensus-based communication</li>
-</ul>
-
-<p>In Kafka, these worker nodes are the Kafka brokers where Kafka keeps and maintains topics. The Kafka Broker is a software process, also referred to as an executable or demon service that runs on a machine, a physical machine or a virtual machine. A synonym for a Broker is also a server, but I like to avoid using the term server, since it has a tendency to be overloaded. The Broker has access to resources on the machine, such as the file system, which it uses to store messages which it categorizes as topics.</p>
-
-<p><strong>Controller has some critical responsibilities:</strong></p>
-
-<ul>
-<li>Maintain an inventory of what workers are available to take on work.</li>
-<li>Maintain a list of work items that has been committed to and assigned to workers.</li>
-<li>Maintain active status of the staff and their progress on assigned tasks.</li>
-</ul>
-
-<p><img src="media/15807992240443/%E6%88%AA%E5%B1%8F2020-02-04%E4%B8%8B%E5%8D%884.41.55.png" alt="截屏2020-02-04下午4.41.55"/></p>
-
-<p><strong>Reliable work distribution:</strong><br/>
-If the controller determines redundancy is required, it will promote a worker into a leader, which will take direct ownership of the task assigned. It will be the leader&#39;s job to recruit two of its peers to take part in the replication. In Kafka, the risk policy to protect against loss is known as its replication factor. Once peers have committed to the leader, a quorum is formed, and these committed peers now take on a new role in relation to a leader, a follower.<br/>
-<img src="media/15807992240443/%E6%88%AA%E5%B1%8F2020-02-04%E4%B8%8B%E5%8D%884.43.12.png" alt="截屏2020-02-04下午4.43.12"/></p>
-
-<h3 id="toc_4">5. Kafka Topic</h3>
-
-<p>Central Kafka abstraction;<br/>
-Named feed or category of messages:</p>
-
-<ul>
-<li>Producers produce to a topic</li>
-<li>Consumers consume from a topic</li>
-</ul>
-
-<p>Logical entity;<br/>
-Physically represented as a log;</p>
-
-<p>Kafka topic stores a time-ordered sequence and immutable facts as events of messages that share the same category.<br/>
-<img src="media/15807992240443/%E6%88%AA%E5%B1%8F2020-02-04%E4%B8%8B%E5%8D%885.29.49.png" alt="截屏2020-02-04下午5.29.49"/><br/>
-Topics can span an entire cluster of Brokers for the benefit of scalability and fault-tolerance. With the abstraction of a topic, a producer simply needs to publish messages to that topic. How it&#39;s maintained and managed over the multiple Brokers is not its concern.<br/>
-<img src="media/15807992240443/%E6%88%AA%E5%B1%8F2020-02-04%E4%B8%8B%E5%8D%885.33.38.png" alt="截屏2020-02-04下午5.33.38"/></p>
-
-<h3 id="toc_5">6. Consumer offset</h3>
-
-<p>It&#39;s a placeholder(类似于书签):</p>
-
-<ul>
-<li>Last read message position</li>
-<li>Maintained by the Kafka Consumer</li>
-<li>Corresponds to the message identifier</li>
-</ul>
-
-<h3 id="toc_6">7. Message Retention Policy</h3>
-
-<p>Apache Kafka retains all published messages regardless of consumption<br/>
-Retention period is configurable</p>
-
-<ul>
-<li>Default is 168 hours or seven days Retention period is defined on a per-topic<br/>
-basis</li>
-</ul>
-
-<p>Physical storage resources can constrain message retention</p>
-
-<h3 id="toc_7">8. Kafka partition</h3>
-
-<p><img src="media/15807992240443/%E6%88%AA%E5%B1%8F2020-02-04%E4%B8%8B%E5%8D%8810.45.59.png" alt="截屏2020-02-04下午10.45.59"/><br/>
-The topic as a logical concept is represented by one or more physical log files called partitions. The number of partitions in a topic depends on the circumstances in which Apache Kafka is intended to be used. </p>
-
-<p>As you know, a physical node upon which the broker and the partition log resides is limited by a finite amount of computational resources, such as CPU, Memory, Disk Space, and Network.</p>
-
-<p>For topic with more partitions, the default, a specific partitioning scheme is not used, so the producer is just doing it round-robin. </p>
-
-<h3 id="toc_8">9. Distributed partition management</h3>
-
-<p>When a command to create a topic with three partitions is issued, it is handled by Zookeeper, who is maintaining metadata regarding the cluster. At this stage, Zookeeper is specifically going to look at the available brokers and decide which brokers will be made the responsible leaders for managing a single partition within a topic. When that assignment is made, each unique Kafka broker will create a log for the newly assigned partition.<br/>
-<img src="media/15807992240443/%E6%88%AA%E5%B1%8F2020-02-05%E4%B8%8A%E5%8D%888.59.20.png" alt="截屏2020-02-05上午8.59.20"/></p>
-
-<p>When a producer is ready to publish messages to a topic, it must have knowledge of at least one broker in the cluster, so it can find the leaders of the topic&#39;s partitions. Each broker knows which partitions are owned by which leader. The metadata related to the topic is sent back to the producer so it can begin to send messages to the individual brokers participating in managing the topic, or I should say, the partitions in that topic. <br/>
-<img src="media/15807992240443/%E6%88%AA%E5%B1%8F2020-02-05%E4%B8%8A%E5%8D%889.00.38.png" alt="截屏2020-02-05上午9.00.38"/></p>
-
-<p>When consuming messages from the cluster, the consumer inquires of Zookeeper which brokers own which partitions, and gets additional metadata that affects the consumer&#39;s consumption behavior, particularly in scenarios where there are large groups of consumers sharing the consumption workload. Once the consumer knows the brokers, with the partitions that make up the topic, it will pull the messages from the brokers based on the message offset per partition. Because messages are produced to multiple partitions and at potentially different times, consumers working with multiple partitions are likely going to consume messages in different orders, and will therefore be responsible for handling the order if it is required.<br/>
-<img src="media/15807992240443/%E6%88%AA%E5%B1%8F2020-02-05%E4%B8%8A%E5%8D%889.06.00.png" alt="截屏2020-02-05上午9.06.00"/></p>
-
-<h3 id="toc_9">10. Achieving reliability with Apache Kafka Replication</h3>
-
-<p>With a replication factor of three set, it is the leader&#39;s job to get peer brokers to participate in a quorum for the purposes of replicating the log to achieve the intended redundancy level. When the leader of a partition has a quorum, it will engage its peers and start copying the partition log. When all members of the replication quorum are caught up, and a full synchronized replica set is in place, it is reported throughout the cluster that the number of in-sync replicas, or ISRs is equal to the replication factor for that topic in each partition within it. Obviously, this is an important metric.<br/>
-<img src="media/15807992240443/%E6%88%AA%E5%B1%8F2020-02-05%E4%B8%8A%E5%8D%8810.50.21.png" alt="截屏2020-02-05上午10.50.21"/></p>
-
-<h3 id="toc_10">11. Producing Messages with Kafka Producers</h3>
-
-<p><img src="media/15807992240443/%E6%88%AA%E5%B1%8F2020-02-05%E4%B8%8B%E5%8D%885.02.35.png" alt="截屏2020-02-05下午5.02.35"/><br/>
-Properties(props)-&gt;ProducerConfig Class<br/>
-Message-&gt;ProducerRecord(myRecord)<br/>
-Processing Pipeline-&gt;Serializer and Partitioner<br/>
-Micro-batching-&gt;RecordAccunulator and RecordBuffer</p>
-
-<p>Configuration properties needed to start up a producer. As indicated here, there are three required properties needed: <strong>bootstrap. servers, and both key and value serializers.</strong> </p>
-
-<h4 id="toc_11">KafkaProducer</h4>
-
-<p>When we use the Kafka producer shell program, we simply needed to supply a list of brokers for the producer to connect to. This corresponds to the bootstrap. servers configuration setting needed for the producer to start up. The producer doesn&#39;t connect to every broker referenced in this list, just the first available one. It uses the broker it connects to for discovering the full membership of the cluster, which of course can change at any time. It uses this list to determine the partition owners or leaders so that when it&#39;s ready to send messages, it can do so immediately. It is a best practice to provide more than one broker in the broker list, in the unlikely event that the first broker specified is unavailable. </p>
-
-<p>About key and value serializers. This is to optimize the size of the messages, not only for network transmission, but for storage and even compression. In this example, you&#39;ll notice that for both the key and value serializer, we&#39;re using the string serializer class, which is the most common serializer scheme used in Kafka. </p>
-
-<p>We instantiated an object of type Kafka producers, and called it myProducer, and passed it a properties object named props. If you look inside the implementation of the Kafka producer, you will notice a type called ProducerConfig. When the Kafka producer object is created, the properties are used to instantiate an instance of the ProducerConfig class, and from there, all producer configuration is defined and referenced internally. </p>
-
-<pre><code class="language-java">    // Create the Properties class to instantiate the Consumer with the desired settings:
-    Properties props = new Properties();
-    props.put(&quot;bootstrap.servers&quot;, &quot;localhost:9092, localhost:9093&quot;);
-    props.put(&quot;key.serializer&quot;, &quot;org.apache.kafka.common.serialization.StringSerializer&quot;);
-    props.put(&quot;value.serializer&quot;, &quot;org.apache.kafka.common.serialization.StringSerializer&quot;);
-        
-    KafkaProducer&lt;String, String&gt; myProducer = new KafkaProducer&lt;String, String&gt;(props);
-</code></pre>
-
-<h4 id="toc_12">ProduceRecord</h4>
-
-<p>ProducerRecord, it represents what will be published by the Kafka producer. A ProducerRecord is also fairly basic and straightforward. It only requires two values to be set in order for it to be considered a valid record that can be sent by the Kafka producer. <strong>These two required values are the topic and the value</strong>. </p>
-
-<pre><code class="language-java">ProducerRecord&lt;String, String&gt;(&quot;my_topic&quot;, &quot;My Message 1&quot;)
-</code></pre>
-
-<p><strong>KafkaProducer instances can only send ProducerRecords that match the key and value serializers types it is configured with.</strong></p>
-
-<pre><code class="language-java">ProducerRecord&lt;String, String&gt;(&quot;my_topic&quot;, &quot;My Message 1&quot;)`
-SerializationException: Can&#39;t convert value of class ...
-</code></pre>
-
-<h4 id="toc_13">ProduceRecord&#39;s Optional Properties</h4>
-
-<p><strong>partition</strong>: specific partition within the topic to send ProduceRecord.<br/>
-<strong>timestamp</strong>: the Unix timestamp applied to the record.<br/>
-<strong>key</strong>: a value to be used as the basis of determining the partitioning strategy to be employed by the Kafka Producer.Defined a key has two useful purposes:</p>
-
-<ul>
-<li>Additional information in the message.</li>
-<li>Can determine what partitions the message will be written to.</li>
-</ul>
-
-<p>Downside:</p>
-
-<ul>
-<li>Additional overhead.</li>
-<li>Depends on the serializer type used.</li>
-</ul>
-
-<h4 id="toc_14">The Process of Sending Message</h4>
-
-<p>Now that we have a ProducerRecord for the producer to send, the message sending process in two parts. </p>
-
-<p><strong>Part 1</strong><br/>
-When calling the send method, the producer will reach out to the cluster using the bootstrap servers list to discover the cluster membership. The response comes back as metadata, containing detailed information related to the topics, their partitions, and their managing brokers on the cluster. This metadata is used to instantiate a metadata object in the producer, and throughout the producer&#39;s life cycle, it will keep this object fresh with the latest information about the cluster. Additionally, a pseudo processing pipeline within the Kafka producer is engaged. With the producer now having an actual producer record to work with, the first step in this pipeline will be to pass the message through the serializer using the configured serializer. The next step in the pipeline is the partitioner, whose job it is to determine what partition to send the record to. Here the producer can employ different partitioning strategies depending on the values being passed to it in the producer record, and the information it has regarding the cluster membership.<br/>
-<img src="media/15807992240443/%E6%88%AA%E5%B1%8F2020-02-05%E4%B8%8B%E5%8D%8810.30.42.png" alt="截屏2020-02-05下午10.30.42"/></p>
-
-<p><strong>Part 2</strong><br/>
-The RecordAccumulator gives the producer its ability to micro-batch records intended to be sent at high volumes and high frequencies. When a ProducerRecord has been assigned to a partition through the partitioner, it will get handed over to a RecordAccumulator, where it will be added to a collection of RecordBatch objects for each topic partition combination needed by the producer instance. Each of these RecordBatch objects, as the name suggests, is a small batch of records that is going to be sent to the broker that owns the assigned partition. There are a lot of factors that determine how many ProducerRecords are to be accumulated and buffered into a RecordBatch before it is sent off to the brokers. Most of these factors are based on advanced configuration settings defined at the producer level, that are set using a properties object, similar to the way the other properties were set.<br/>
-<img src="media/15807992240443/%E6%88%AA%E5%B1%8F2020-02-05%E4%B8%8B%E5%8D%884.58.04.png" alt="截屏2020-02-05下午4.58.04"/></p>
-
-<p><strong>About Delivery Guarantees:</strong></p>
-
-<p>Broker acknowledgement (“acks”)</p>
-
-<ul>
-<li>0: fire and forget</li>
-<li>1: leader acknowledged</li>
-<li>2: replication quorum acknowledged</li>
-</ul>
-
-<p>Broker responds with error</p>
-
-<ul>
-<li>“retries”</li>
-<li>“retry.backoff.ms”</li>
-</ul>
-
-<p><strong>In future, advanced topics we will dive into:</strong></p>
-
-<ul>
-<li>Custom Serializers</li>
-<li>Custom Partitioners</li>
-<li>Asynchronous Send</li>
-<li>Compression</li>
-</ul>
-
-<h3 id="toc_15">12. Consuming Messages with Kafka Consumers and Consumer Groups</h3>
-
-<p><img src="media/15807992240443/%E6%88%AA%E5%B1%8F2020-02-06%E4%B8%8B%E5%8D%883.31.53.png" alt="截屏2020-02-06下午3.31.53"/><br/>
-Configuration properties needed to start up a consumer. As indicated here, there are three required properties needed: <strong>bootstrap. servers, and both key and value deserialization.</strong></p>
-
-<h4 id="toc_16">Creating a Kafka Consumer</h4>
-
-<pre><code class="language-java">Properties props = new Properties();
-props.put(“bootstrap.servers”, “BROKER-1:9092, BROKER-2:9093”);
-props.put(“key.deserializer”, “org.apache.kafka.common.serialization.StringDeserializer”); 
-props.put(“value.deserializer”, “org.apache.kafka.common.serialization.StringDeserializer”);
-
-KafkaConsumer myConsumer = new KafkaConsumer(props);
-</code></pre>
-
-<h4 id="toc_17">Subscribing to Topics</h4>
-
-<p>There are two methods: subscribe and assign. It&#39;s as simple as calling the subscribe method, and passing it a list. By calling this method, you are asking for automatic or dynamic partition assignment. That is to say that you&#39;re enlisting the single consumer instance to eventually pull from every partition within that topic, which can be at least one, but likely many. When adding multiple topics to the list, you&#39;re enlisting the consumer instance to pull from every partition within every topic, which is guaranteed to be many. Besides subscribing to topics, there&#39;s another option: subscribing to individual partitions. This is done through the assign method. The assign method is only valid for subscribing to a list containing the class topic partition.</p>
-
-<ul>
-<li><strong>subscribe method</strong></li>
-</ul>
-
-<pre><code class="language-java">// Properties code ommitted...
-KafkaConsumer myConsumer = new KafkaConsumer(props); 
-myConsumer.subscribe(Arrays.asList(“my-topic”));// Remember this is NOT incremental!
-
-// Alternatively, use regular expressions: 
-myConsumer.subscribe(“my-*”);// Remember this is NOT incremental!
-
-</code></pre>
-
-<ul>
-<li><strong>assign method</strong></li>
-</ul>
-
-<pre><code class="language-java">// Similar pattern as subscribe():
-TopicPartition partition0 = new TopicPartition(“myTopic”, 0); 
-ArrayList&lt;TopicPartition&gt; partitions = new ArrayList&lt;TopicPartition&gt;(); 
-partitions.add(partition0);
-myConsumer.assign(partitions); // Remember this is NOT incremental!
-</code></pre>
-
-<h3 id="toc_18">Unsubscribing to Topics</h3>
-
-<pre><code class="language-java">ArrayList&lt;String&gt; topics = new ArrayList&lt;String&gt;(); 
-topics.add(“myTopic”);
-topics.add(“myOtherTopic”);
-myConsumer.subscribe(topics);
-myConsumer.unsubscribe();
-
-// Less-than-intuitive unsubscribe alternative:
-topics.clear(); // Emptying out the list
-myConsumer.subscribe(topics); // passing the subscribe() method a list of empty strings
-</code></pre>
-
-<pre><code class="language-text">// Similar pattern as subscribe():
-TopicPartition partition0 = new TopicPartition(“myTopic”, 0); 
-ArrayList&lt;TopicPartition&gt; partitions = new ArrayList&lt;TopicPartition&gt;(); 
-partitions.add(partition0);
-myConsumer.assign(partitions); // Remember this is NOT incremental!
-partitions.clear();
-myConsumer.assign(partitions); // Remember this is NOT incremental!
-</code></pre>
-
-<h4 id="toc_19">Poll Loop</h4>
-
-<p>poll() is the primary function of the Kafka Consumer, it Continuously poll the brokers for data.</p>
-
-<pre><code class="language-java">// Set the topic subscription or partition assignments:
-myConsumer.subscribe(topics); 
-myConsumer.assign(partitions); 
-try {
-    while (true) {
-        ConsumerRecords&lt;String, String&gt; records =
-        myConsumer.poll(100); 
-        // Your processing logic goes here...
-    } finally {
-        myConsumer.close();
-    } 
+    public static MySingleton getInstance () {
+        return instance;
+    }
 }
 </code></pre>
 
-<h4 id="toc_20">Processing Messages</h4>
+<h5 id="toc_4">带线程安全的懒汉单例模式</h5>
 
-<p><img src="media/15807992240443/%E6%88%AA%E5%B1%8F2020-02-06%E4%B8%8B%E5%8D%884.45.09.png" alt="截屏2020-02-06下午4.45.09"/><br/>
-When the subscriber assign method is invoked, the content of the collections they were passed to are used to set fields within the <strong>subscription state object</strong>. This object serves as the source of truth for any and all details related to the topics and partitions this consumer instance is subscribed or assigned to. This object also plays a very important role with the consumer coordinator in managing the offsets. When poll is invoked, consumer settings, particularly those referring to the bootstrap servers, is used to request the metadata about the cluster. The <strong>Fetcher</strong> servers as the responsible object for most of the communication between the consumer and the cluster. Within it, there are several fetch-related operations that are executed to initiate communication with the cluster, but the Fetcher itself doesn&#39;t actually communicate with the cluster, that is the job of the <strong>Consumer Network Client</strong>. With the client open and sending TCP packets, the consumer starts sending heartbeats, which enable the cluster to know what consumers are still connected. Additionally, the initial request for metadata is sent and received. The response is used to instantiate its internal metadata object, which will keep up to date while the poll method runs, getting periodic updates from the cluster, when cluster details change. With metadata available, other major elements become more involved. With information about the cluster, the consumer <strong>coordinator</strong> can now take responsibility to coordinate between the consumer. This object has two main duties:</p>
+<pre><code class="language-text">public class MySingleton {
+    public String description = &quot;This is a singleton example.&quot;;
+    private static volatile MySingleton instance = null;
+    private MySingleton(){
+
+    }
+
+    public static MySingleton getInstance () {
+        if(instance == null){
+            synchronized(MySingleton.class){
+                if(instance == null){
+                    instance = new MySingleton();
+                }
+            }
+        }
+
+        return instance;
+    }
+}
+</code></pre>
+
+<p>volatile的目的是禁止JVM的指令重排，保证在多线程环境下也能正常进行。<br/>
+synchronized()括号中地址一样的将实现同步。</p>
+
+<h2 id="toc_5">二、建造者模式</h2>
+
+<p>对于建造者模式，通常考虑的是对象的构建是否复杂，包括多造函数和多setters。<br/>
+Java 中用到建造者模式的API有StringBuilder、DocumentBuilder。</p>
+
+<p>建造者模式的实现有两种方式：</p>
 
 <ul>
-<li>First, being aware of automatic or dynamic partition reassignment, and notification of assignment changes to the subscription state object. </li>
-<li>second, for committing offsets to the cluster, the confirmation of which will cause the update of the subscription state, so it can always be aware of the status of topics and partitions. </li>
+<li>通过抽象类（Builder）、具体实现类（ConcreteBuilder）和产品类（Product）形成的建造者模式；</li>
+<li><p>通过静态内部类实现。</p></li>
 </ul>
 
-<p>To actually start retrieving messages, the Fetcher needs to know what topics or individual partitions it should be asking for. It gets this information from the subscription state object, and with it, starts requesting messages. </p>
-
-<p>An important thing to understand about Kafka consumers is that they are essentially single-threaded. There is one poll loop per Kafka consumer, and you can only have a single thread per Kafka consumer. </p>
-
-<p><img src="media/15807992240443/%E6%88%AA%E5%B1%8F2020-02-06%E4%B8%8B%E5%8D%8811.02.28.png" alt="截屏2020-02-06下午11.02.28"/></p>
-
-<p>If a consumer is continous running, last committed offset is useless for it. But when consumer is shutdown and adding a new customer, will tigger rebalance. New consumer will according to, or not the last committed offset to consume topic record. The a gap between last committed offset and current position of old consumer. Witch is determined by the commit behavior configuration:</p>
-
-<ul>
-<li>enable.auto.commit = true (default)</li>
-<li>auto.commit.interval.ms = 5000 (default) </li>
-<li>auto.offset.reset = “latest” (default) , “earliest”, “none”</li>
-</ul>
-
-<p>Kafka stores the committed offsets in a special topic called __consumer_offsets. It has 50 partitions. Consumer coordinator is the responsible object for communicating to the cluster and ensuring the committed offsets are produced into the topic. This means that a consumer is also a producer of sorts.</p>
-
-<p>You would not use the auto-commit log method when you want precise control over when to consider a record truly processed. There are two methods to control:</p>
-
-<ul>
-<li><p><strong>commitSync</strong> </p>
-<p>Synchronous</p>
-<ul>
-<li>blocks until receives response from cluster Retries until succeeds or unrecoverable error</li>
-<li>retry.backoff.ms (default: 100)</li>
-</ul>
-<pre><code class="language-java">try {
-for (...) { <br/>
-    // Processing batches of records... <br/>
+<ol>
+<li><p>方式一<br/>
+main.java</p>
+<pre><code class="language-text">public class Main {
+public static void main(String[] args) {<br/>
+ConcreteBuilder concreteBuilder = new ConcreteBuilder();<br/>
+concreteBuilder.buildBread(&quot;bread&quot;).buildCondiments(&quot;condimets&quot;);<br/>
+Product product = concreteBuilder.getProduct();<br/>
+System.out.println(product.getBread());<br/>
+}
+</code></pre>
+<p>Product.java</p>
+<pre><code class="language-text">public class Product {
+private String bread;<br/>
+private String condiments;<br/>
+private String dressing;<br/>
+private String meat;<br/>
+public String getBread() {<br/>
+    return bread;<br/>
 }<br/>
-    // Commit when you know you’re done, after the batch is processed:<br/>
-    myConsumer.commitSync();<br/>
-} catch (CommitFailedException) {<br/>
-    log.error(“there’s not much else we can do at this point...”); <br/>
+public void setBread(String bread) {<br/>
+    this.bread = bread;<br/>
+}<br/>
+public String getCondiments() {<br/>
+    return condiments;<br/>
+}<br/>
+public void setCondiments(String condiments) {<br/>
+    this.condiments = condiments;<br/>
+}<br/>
+public String getDressing() {<br/>
+    return dressing;<br/>
+}<br/>
+public void setDressing(String dressing) {<br/>
+    this.dressing = dressing;<br/>
+}<br/>
+public String getMeat() {<br/>
+    return meat;<br/>
+}<br/>
+public void setMeat(String meat) {<br/>
+    this.meat = meat;<br/>
+}<br/>
+}
+</code></pre>
+<p>Builder.java</p>
+<pre><code class="language-text">abstract class Bulider {
+abstract Bulider buildBread(String mes);<br/>
+abstract Bulider buildCondiments(String mes);<br/>
+abstract Bulider buildDressing(String mes);<br/>
+abstract Bulider buildMeat(String mes);<br/>
+abstract Product getProduct();<br/>
+}
+</code></pre>
+<p>ConcreteBuilder.java</p>
+<pre><code class="language-text">public class ConcreteBuilder extends Bulider {
+private Product product = new Product();<br/>
+@Override<br/>
+public Bulider buildBread(String mes){<br/>
+    product.setBread(mes);<br/>
+    return this;<br/>
+}<br/>
+@Override<br/>
+public Bulider buildCondiments(String mes){<br/>
+    product.setCondiments(mes);<br/>
+    return this;<br/>
+}<br/>
+@Override<br/>
+public Bulider buildDressing(String mes){<br/>
+    product.setDressing(mes);<br/>
+    return this;<br/>
+}<br/>
+@Override<br/>
+public Bulider buildMeat(String mes){<br/>
+    product.setMeat(mes);<br/>
+    return this;<br/>
+}<br/>
+@Override<br/>
+public Product getProduct(){<br/>
+    return product;<br/>
+}<br/>
+}
+</code></pre>
+<p>上述方法有助于对建造模式的理解，除此之外还有一个更简单的方法，只需要写一个类即可：<br/>
+Product.java</p>
+<pre><code class="language-text">public class Product {
+private String bread;<br/>
+private String condiments;<br/>
+private String dressing;<br/>
+private String meat;<br/>
+public String getBread() {<br/>
+    return bread;<br/>
+}<br/>
+public Product setBread(String bread) {<br/>
+    this.bread = bread;<br/>
+    return this;<br/>
+}<br/>
+public String getCondiments() {<br/>
+    return condiments;<br/>
+}<br/>
+public Product setCondiments(String condiments) {<br/>
+    this.condiments = condiments;<br/>
+    return this;<br/>
+}<br/>
+public String getDressing() {<br/>
+    return dressing;<br/>
+}<br/>
+public Product setDressing(String dressing) {<br/>
+    this.dressing = dressing;<br/>
+    return this;<br/>
+}<br/>
+public String getMeat() {<br/>
+    return meat;<br/>
+}<br/>
+public Product setMeat(String meat) {<br/>
+    this.meat = meat;<br/>
+    return this;<br/>
+}<br/>
+}
+</code></pre>
+<p>Main.java</p>
+<pre><code class="language-text">public class Main {
+public static void main(String[] args) {<br/>
+    Product product = new Product().setBread(&quot;bread&quot;).setCondiments(&quot;condiments&quot;);<br/>
+    System.out.println(product.getBread());<br/>
+}<br/>
 }
 </code></pre></li>
-<li><p><strong>commitAsync</strong><br/>
-Asynchronous</p>
-<ul>
-<li>non-blocking but non-deterministic </li>
-</ul>
-<p>No retries<br/>
-Callback option</p>
-<pre><code class="language-java">try {
-    for (...) { // Processing batches of records... }<br/>
-    // Not recommended:<br/>
-    myConsumer.commitAsync();<br/>
-    // Recommended:<br/>
-    myConsumer.commitAsync(new OffsetCommitCallback() {<br/>
-            public void onComplete(..., ..., ...) { <br/>
-            // do something...<br/>
-            } <br/>
-        }<br/>
-    );
-</code></pre></li>
-</ul>
+<li><p>方式二 静态内部类实现</p>
+<pre><code class="language-text">public class Product {
+private String bread;<br/>
+private String condiments;<br/>
+private String dressing;<br/>
+private String meat;<br/>
+public String getBread() {<br/>
+    return bread;<br/>
+}<br/>
+public String getCondiments() {<br/>
+    return condiments;<br/>
+}<br/>
+public String getDressing() {<br/>
+    return dressing;<br/>
+}<br/>
+public String getMeat() {<br/>
+    return meat;<br/>
+}<br/>
+public static class Builder{<br/>
+    String bread;<br/>
+    String condiments;<br/>
+    String dressing;<br/>
+    String meat;<br/>
+    Builder setBread(String bread){<br/>
+        this.bread = bread;<br/>
+        return this;<br/>
+    }<br/>
+    Builder setCondiments(String condiments){<br/>
+        this.condiments = condiments;<br/>
+        return this;<br/>
+    }<br/>
+    Builder setDressing(String dressing){<br/>
+        this.dressing = dressing;<br/>
+        return this;<br/>
+    }<br/>
+    Builder setMeat(String meat){<br/>
+        this.meat = meat;<br/>
+        return this;<br/>
+    }<br/>
+    Product build(){<br/>
+        return new Product(this);<br/>
+    }<br/>
+}<br/>
+Product(Builder builder){<br/>
+    this.bread = builder.bread;<br/>
+    this.condiments = builder.condiments;<br/>
+    this.dressing = builder.dressing;<br/>
+    this.meat = builder.meat;<br/>
+}<br/>
+}
+</code></pre>
+<h2 id="toc_6">三、原型模式</h2>
+<p>通过实现借口Cloneable可以定义一个原型类，在原型中重写接口中的clone方法，从而快速实现对已有对象的快速拷贝。原型模式带来的优势是提高性能，不用new对象，消耗的资源少。缺点是拷贝时需要考虑引用的情况，避免浅拷贝。原型的使用通常会和注册机一起使用，在组册机中我们将最初的原型定义好，需要使用时从注册机中获取。以下是一个例子。</p></li>
+</ol>
 
-<h4 id="toc_21">When to Manager Your Own Offsets Altogether？</h4>
+<p>Item.java</p>
 
-<p>The place where offset management occurs is after the poll method has timed out and presented records for processing. Whether this is an auto commit operation happening behind the scenes, or an explicit call to one of the commit APIs, the commit process will take a batch of records, determine their offsets, and ask the consumer coordinator to commit them to the Kafka cluster via the consumer network client, which it does immediately. When the offsets have been confirmed to be committed, the consumer coordinator updates the subscription state object accordingly, so the Fetcher can always know what offsets have bene committed and what next records it should be retrieving. </p>
+<pre><code class="language-text">public abstract class Item implements Cloneable {
+    private String title;
+    private double price;
+    private String url;
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 
-<h4 id="toc_22">Consumer Group Rebalancing</h4>
+    public String getTitle() {
+        return title;
+    }
+    public void setTitle(String title) {
+        this.title = title;
+    }
+    public double getPrice() {
+        return price;
+    }
+    public void setPrice(double price) {
+        this.price = price;
+    }
+    public String getUrl() {
+        return url;
+    }
+    public void setUrl(String url) {
+        this.url = url;
+    }
+}
+</code></pre>
 
-<p><img src="media/15807992240443/%E6%88%AA%E5%B1%8F2020-02-07%E4%B8%8B%E5%8D%8812.06.53.png" alt="截屏2020-02-07下午12.06.53"/></p>
+<p>Movie.java</p>
 
-<p><center><a href="https://github.com/zengjunwen/kafka">reference code</a></center></p>
+<pre><code class="language-text">public class Movie extends Item {
+    private String runtime;
+
+    public String getRuntime() {
+        return runtime;
+    }
+
+    public void setRuntime(String runtime) {
+        this.runtime = runtime;
+    }
+}
+</code></pre>
+
+<p>Book.java</p>
+
+<pre><code class="language-text">public class Book extends Item {
+    private int numberOfPages;
+
+    public int getNumberOfPages() {
+        return numberOfPages;
+    }
+
+    public void setNumberOfPages(int numberOfPages) {
+        this.numberOfPages = numberOfPages;
+    }
+}
+</code></pre>
+
+<p>Registry.java</p>
+
+<pre><code class="language-text">public class Registry {
+    private Map&lt;String,Item&gt; items= new HashMap&lt;&gt;();
+    public Registry(){
+        loadItems();
+    }
+
+    private void loadItems(){
+        Movie movie = new Movie();
+        movie.setTitle(&quot;Basic Movie&quot;);
+        movie.setPrice(24.99);
+        movie.setRuntime(&quot;2 hours&quot;);
+        items.put(&quot;Movie&quot;, movie);
+
+        Book book = new Book();
+        book.setNumberOfPages(335);
+        book.setPrice(19.99);
+        book.setTitle(&quot;Basic Book&quot;);
+        items.put(&quot;Book&quot;, book);
+    }
+
+    public Item createItem(String type){
+        Item item = null;
+
+        try {
+            item = (Item)items.get(type).clone();
+        }
+        catch (CloneNotSupportedException e){
+            e.printStackTrace();
+        }
+
+        return item;
+    }
+}
+</code></pre>
+
+<p>Main.java</p>
+
+<pre><code class="language-text">public class Main {
+public static void main(String[] args) {
+    Registry registry = new Registry();
+    Book book = (Book) registry.createItem(&quot;Book&quot;);
+    System.out.print(book.getNumberOfPages());
+}
+}
+</code></pre>
+
+<h2 id="toc_7">四、工厂模式</h2>
+
+<p>工厂模式不会对外暴露类的内部逻辑，对客户端而言，工厂类的具体实现逻辑通过其子类实现，客户端知道的是工厂类暴露出来的公共接口。JAVA API中，工厂模式的有：Calendar、ResourceBundles、NumberFormat。由于Caldendar的构造实例的方法和单例模式一样（方法为getInsatance，且无参），容易被开发人员以为是单例模式，其实它是工厂模式实现的类。<br/>
+一个网站工厂类：<br/>
+Main.java</p>
+
+<pre><code class="language-text">public class Main {
+
+    public static void main(String[] args) {
+        Website blog = WebsiteFactory.getWebsite(WebsiteType.BLOG);
+        System.out.println(blog.getPages());
+    }
+}
+</code></pre>
+
+<p>WebsiteFactory.java</p>
+
+<pre><code class="language-text">public class WebsiteFactory {
+    public static Website getWebsite(WebsiteType siteType) {
+        switch (siteType) {
+            case BLOG: {
+                return new Blog();
+            }
+            case SHOP: {
+                return new Shop();
+            }
+            default: {
+                return null;
+            }
+        }
+    }
+}
+</code></pre>
+
+<p>WebsiteType.java</p>
+
+<pre><code class="language-text">public enum WebsiteType {
+    BLOG,SHOP;
+}
+</code></pre>
+
+<p>Website.java</p>
+
+<pre><code class="language-text">public abstract class Website {
+    protected List&lt;Integer&gt; pages = new ArrayList&lt;&gt;();
+
+    public List&lt;Integer&gt; getPages() {
+        return pages;
+    }
+
+    public Website(){
+        this.createWebsite();
+    }
+
+    public abstract void createWebsite();
+}
+</code></pre>
+
+<p>Blog.java</p>
+
+<pre><code class="language-text">public class Blog extends Website {
+    @Override
+    public void createWebsite(){
+        pages.add(1);
+        pages.add(2);
+    }
+}
+</code></pre>
+
+<p>Shop.java</p>
+
+<pre><code class="language-text">public class Shop extends Website {
+    @Override
+    public void createWebsite(){
+        pages.add(1);
+        pages.add(2);
+    }
+}
+</code></pre>
+
+<h2 id="toc_8">五、抽象工厂模式</h2>
+
+<p>这个比较好理解，抽象工厂模式是工厂的工厂模式。</p>
 
                 </div>
                 <div class="bottom">
-                  <a href="kafka-zhi-shi-dianmedia1580799.html" class="continue float-right">
+                  <a href="15809754787359.html" class="continue float-right">
                     继续阅读
                   </a>
                 </div>
@@ -457,6 +511,20 @@ Callback option</p>
         </div>
       </div>
       <div class="otherposts row">
+    
+  
+    
+        <div class="col-md-6">
+          <a href="kafka-zhi-shi-dianmedia1580799.html" class="item">
+            <div class="article normal">
+              <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/Kafka.png')"></div>
+              <div class="articleinfo">
+                <div class="headline">Kafka</div>
+                <div class="subtitle">「Kafka基础知识」</div>
+              </div>
+            </div>
+          </a>
+        </div>
     
   
     

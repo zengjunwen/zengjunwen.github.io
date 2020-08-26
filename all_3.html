@@ -54,42 +54,31 @@
           <div class="col-md-10 main">
             <div class="row">
               <div class="col-md-10 post">
-                <div class="headline"><a href="15865773197608.html">Hadoop Ecosystem</a></div>
+                <div class="headline"><a href="15867880029166.html">Spring AOP</a></div>
                 
-                <div class="meta"><span class="time">$[timeformat('2020-04-11T11:55:19+08:00')]</span></div>
+                <div class="meta"><span class="time">$[timeformat('2020-04-13T22:26:42+08:00')]</span></div>
                 <div class="body">
-                    <p><img src="media/15865773197608/%E6%88%AA%E5%B1%8F2020-04-11%20%E4%B8%8B%E5%8D%8812.11.29.png" alt="截屏2020-04-11 下午12.11.29"/></p>
+                    <p>Aspect-Oriented Programming (AOP) complements Object-Oriented Programming (OOP) by providing another way of thinking about program structure. AOP实现了业务逻辑与日志（Tracing）、异常处理（Exception）、事物（Transactions）、安全（Security）解耦，更加的聚焦于业务逻辑的编写。</p>
 
-<p>Hive:Provides an SQL interface to Hadoop.（数据仓库）<br/>
-HBase:A database management system on top of Hadoop. Integrates with your application just like a traditional database<br/>
-Pig:A data manipulation language<br/>
-transforms unstructured data into a structured format.Query this structured data using interfaces like Hive.<br/>
-Spark:A distributed computing engine used along with Hadoop.Interactive shell to quickly process datasets.Has a bunch of built in libraries for machine learning, stream processing, graph processing etc.<br/>
-Flume/Sqoop:Tools to transfer data between other systems and Hadoop.</p>
+<p><img src="media/15867880029166/%E6%88%AA%E5%B1%8F2020-04-13%20%E4%B8%8B%E5%8D%8810.42.55.png" alt="截屏2020-04-13 下午10.42.55"/></p>
 
-<h1 id="toc_0">Hadoop</h1>
+<p>Spring AOP的设计模式采用了代理模式，代理模式分为静态代理、JDK动态代理接口、CGlib代理类。静态代理比较简单，不进行描述。JDK动态代理只能对接口进行代理，如果要对类进行代理只能使用CGlib进行代理。</p>
 
-<h3 id="toc_1">Store Data</h3>
+<p>JDK动态代理基于反射实现；CGLIB包的底层是通过使用一个小而快的字节码处理框架ASM，来转换字节码并生成新的类。</p>
 
-<p>Break the data into blocks. Default blocks size is 128M.Name node store matedata to locate block.Data node physically stores the data in the files.</p>
+<h3 id="toc_0">Aspect</h3>
 
-<h3 id="toc_2">Default Hadoop replication strategy(three replications)</h3>
+<p>Aspect = Pointcut + Advice<br/>
+Pointcut决定Aspect使用在什么地方，Advice决定执行的动作。</p>
 
-<ol>
-<li>First location chosen at radnom</li>
-<li>Second location has to be on a different rack</li>
-<li>Third replica is on the same rack as the second but on different nodes<br/>
-The purpose of the strategy:inter rack traffic and improves write performance.</li>
-</ol>
+<p>Advice 总共有五种类型，如下图所示，通过图片很容易的理解各个类型与需要执行的Method的关系。<br/>
+<img src="media/15867880029166/%E6%88%AA%E5%B1%8F2020-04-13%20%E4%B8%8B%E5%8D%8811.04.02.png" alt="截屏2020-04-13 下午11.04.02"/></p>
 
-<p>MapReduce is a programming paradigm.<br/>
-Partition:Choose reducers such that keys are evenly distributed across partitions.<br/>
-Shuffle:The process of moving data from the mappers to the reducers.<br/>
-Combiner:解决数据从Mapper到Reducers时的性能问题。</p>
+<p>代码<a href="https://github.com/zengjunwen/SpringAOP">Link</a></p>
 
                 </div>
                 <div class="bottom">
-                  <a href="15865773197608.html" class="continue float-right">
+                  <a href="15867880029166.html" class="continue float-right">
                     继续阅读
                   </a>
                 </div>
@@ -103,11 +92,11 @@ Combiner:解决数据从Mapper到Reducers时的性能问题。</p>
   
     
         <div class="col-md-6">
-          <a href="15857401206120.html" class="item">
+          <a href="15865773197608.html" class="item">
             <div class="article normal">
               <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
               <div class="articleinfo">
-                <div class="headline">Employing Ensemble Methods with scikit-learn</div>
+                <div class="headline">Hadoop Ecosystem</div>
                 
               </div>
             </div>
@@ -117,11 +106,11 @@ Combiner:解决数据从Mapper到Reducers时的性能问题。</p>
   
     
         <div class="col-md-6">
-          <a href="15852382259972.html" class="item">
+          <a href="15857401206120.html" class="item">
             <div class="article normal">
               <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
               <div class="articleinfo">
-                <div class="headline">Java 8 Lambda Expression</div>
+                <div class="headline">Employing Ensemble Methods with scikit-learn</div>
                 
               </div>
             </div>
