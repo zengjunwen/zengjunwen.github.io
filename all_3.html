@@ -54,31 +54,149 @@
           <div class="col-md-10 main">
             <div class="row">
               <div class="col-md-10 post">
-                <div class="headline"><a href="15867880029166.html">Spring AOP</a></div>
+                <div class="headline"><a href="15914059244688.html">网格类</a></div>
                 
-                <div class="meta"><span class="time">$[timeformat('2020-04-13T22:26:42+08:00')]</span></div>
+                <div class="meta"><span class="time">$[timeformat('2020-06-06T09:12:04+08:00')]</span></div>
                 <div class="body">
-                    <p>Aspect-Oriented Programming (AOP) complements Object-Oriented Programming (OOP) by providing another way of thinking about program structure. AOP实现了业务逻辑与日志（Tracing）、异常处理（Exception）、事物（Transactions）、安全（Security）解耦，更加的聚焦于业务逻辑的编写。</p>
+                    <h2 id="toc_0">找梯子</h2>
 
-<p><img src="media/15867880029166/%E6%88%AA%E5%B1%8F2020-04-13%20%E4%B8%8B%E5%8D%8810.42.55.png" alt="截屏2020-04-13 下午10.42.55"/></p>
+<p>给定一个训练场，训练场为一个n*m的矩阵，每个格子中有不同高度的箱子，训练人员需要从训练场左上方到达右下方。要从所在格子location到达附近格子locationNext需要一把梯子，梯子高度遵循以下规则：<br/>
+1、如果location中的箱子高度高于或等于locationNew中的箱子高度，需要高度为0的梯子；<br/>
+2、如果location中的箱子高度h低于locationNew中的箱子高度hNew，需要梯子高度为hNew-h。<br/>
+对于给定输入训练场信息，求所需高度最低的梯子。<br/>
+例：<br/>
+输入 [[1,2,2],[1,1,1]]<br/>
+输出 1</p>
 
-<p>Spring AOP的设计模式采用了代理模式，代理模式分为静态代理、JDK动态代理接口、CGlib代理类。静态代理比较简单，不进行描述。JDK动态代理只能对接口进行代理，如果要对类进行代理只能使用CGlib进行代理。</p>
+<p>方法一：使用队列进行BFS</p>
 
-<p>JDK动态代理基于反射实现；CGLIB包的底层是通过使用一个小而快的字节码处理框架ASM，来转换字节码并生成新的类。</p>
+<pre><code class="language-text">public class Solution {
+    Queue&lt;Pair&lt;Integer, Integer&gt;&gt; queue = new LinkedList&lt;&gt;();
+    int[][] heighs = null;
+    int[][] input = null;
+    int len = 0;
+    int heigh = 0;
 
-<h3 id="toc_0">Aspect</h3>
+    public int minLengthLadder(int[][] grid) {
+        if (grid == null || grid.length == 0) {
+            return 0;
+        }
 
-<p>Aspect = Pointcut + Advice<br/>
-Pointcut决定Aspect使用在什么地方，Advice决定执行的动作。</p>
+        input = grid;
+        heigh = grid.length;
+        len = grid[0].length;
+        heighs = new int[heigh][len];
+        for (int i = 0; i &lt; heigh; i++) {
+            for (int j = 0; j &lt; len; j++) {
+                heighs[i][j] = Integer.MAX_VALUE;
+            }
+        }
+        heighs[0][0] = 0;
+        queue.add(new Pair&lt;&gt;(0, 0));
 
-<p>Advice 总共有五种类型，如下图所示，通过图片很容易的理解各个类型与需要执行的Method的关系。<br/>
-<img src="media/15867880029166/%E6%88%AA%E5%B1%8F2020-04-13%20%E4%B8%8B%E5%8D%8811.04.02.png" alt="截屏2020-04-13 下午11.04.02"/></p>
+        Pair&lt;Integer, Integer&gt; location = null;
+        while (!queue.isEmpty()) {
+            location = queue.poll();
+            bfs(location.getKey(), location.getValue());
+        }
 
-<p>代码<a href="https://github.com/zengjunwen/SpringAOP">Link</a></p>
+        return heighs[heigh - 1][len - 1];
+    }
+
+    private void bfs(Integer locationX, Integer locationY) {
+        int temp = 0;
+        if (locationX &gt; 0) {
+            temp = input[locationX - 1][locationY] - input[locationX][locationY];
+            temp = Math.max(temp, heighs[locationX][locationY]);
+            if (heighs[locationX - 1][locationY] &gt; temp) {
+                heighs[locationX - 1][locationY] = temp;
+                queue.add(new Pair&lt;&gt;(locationX - 1, locationY));
+            }
+        }
+        if (locationY &gt; 0) {
+            temp = input[locationX][locationY - 1] - input[locationX][locationY];
+            temp = Math.max(temp, heighs[locationX][locationY]);
+            if (heighs[locationX][locationY - 1] &gt; temp) {
+                heighs[locationX][locationY - 1] = temp;
+                queue.add(new Pair&lt;&gt;(locationX, locationY - 1));
+            }
+        }
+        if (locationX &lt; heigh - 1) {
+            temp = input[locationX + 1][locationY] - input[locationX][locationY];
+            temp = Math.max(temp, heighs[locationX][locationY]);
+            if (heighs[locationX + 1][locationY] &gt; temp) {
+                heighs[locationX + 1][locationY] = temp;
+                queue.add(new Pair&lt;&gt;(locationX + 1, locationY));
+            }
+        }
+        if (locationY &lt; len - 1) {
+            temp = input[locationX][locationY + 1] - input[locationX][locationY];
+            temp = Math.max(temp, heighs[locationX][locationY]);
+            if (heighs[locationX][locationY + 1] &gt; temp) {
+                heighs[locationX][locationY + 1] = temp;
+                queue.add(new Pair&lt;&gt;(locationX, locationY + 1));
+            }
+        }
+    }
+}
+</code></pre>
+
+<p>方法二 使用递归进行DFS</p>
+
+<pre><code class="language-text">public class Solution {
+    int[][] ladderLens = null;
+    int[][] input = null;
+    int len = 0;
+    int heigh = 0;
+
+    public int minLengthLadder(int[][] grid) {
+        if (grid == null || grid.length == 0) {
+            return 0;
+        }
+
+        input = grid;
+        heigh = grid.length;
+        len = grid[0].length;
+        ladderLens = new int[heigh][len];
+        for (int i = 0; i &lt; heigh; i++) {
+            for (int j = 0; j &lt; len; j++) {
+                ladderLens[i][j] = Integer.MAX_VALUE;
+            }
+        }
+
+        bfs(0, 0, 0, input[0][0]);
+
+        return ladderLens[heigh - 1][len - 1];
+    }
+
+    private void bfs(Integer locationX, Integer locationY, int ladderLen, int beforeHeigh) {
+        if (locationX &gt;= heigh || locationY &gt;= len || locationX &lt; 0 || locationY &lt; 0) {
+            return;
+        }
+        int temp = input[locationX][locationY] - beforeHeigh;
+        temp = Math.max(temp, ladderLen);
+        if (temp &lt; ladderLens[locationX][locationY]) {
+            ladderLens[locationX][locationY] = temp;
+
+            bfs(locationX + 1, locationY, ladderLens[locationX][locationY], input[locationX][locationY]);
+            bfs(locationX - 1, locationY, ladderLens[locationX][locationY], input[locationX][locationY]);
+            bfs(locationX, locationY + 1, ladderLens[locationX][locationY], input[locationX][locationY]);
+            bfs(locationX, locationY - 1, ladderLens[locationX][locationY], input[locationX][locationY]);
+        }
+    }
+}
+</code></pre>
+
+<p>对于网格总结为：<br/>
+1、使用递归进行DFS；此情况在非尾递归时会导致压栈，在输入数据很大时可能会导致堆栈溢出；如果是尾递归优先采用递归进行DFS，能大大减少代码量。<br/>
+2、使用队列进行BFS。</p>
+
+<p>reference：<br/>
+<a href="https://leetcode-cn.com/problems/max-area-of-island/">岛屿的最大面积</a></p>
 
                 </div>
                 <div class="bottom">
-                  <a href="15867880029166.html" class="continue float-right">
+                  <a href="15914059244688.html" class="continue float-right">
                     继续阅读
                   </a>
                 </div>
@@ -92,11 +210,11 @@ Pointcut决定Aspect使用在什么地方，Advice决定执行的动作。</p>
   
     
         <div class="col-md-6">
-          <a href="15865773197608.html" class="item">
+          <a href="15867880029166.html" class="item">
             <div class="article normal">
               <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
               <div class="articleinfo">
-                <div class="headline">Hadoop Ecosystem</div>
+                <div class="headline">Spring AOP</div>
                 
               </div>
             </div>
@@ -106,11 +224,11 @@ Pointcut决定Aspect使用在什么地方，Advice决定执行的动作。</p>
   
     
         <div class="col-md-6">
-          <a href="15857401206120.html" class="item">
+          <a href="15865773197608.html" class="item">
             <div class="article normal">
               <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
               <div class="articleinfo">
-                <div class="headline">Employing Ensemble Methods with scikit-learn</div>
+                <div class="headline">Hadoop Ecosystem</div>
                 
               </div>
             </div>
