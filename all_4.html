@@ -54,37 +54,47 @@
           <div class="col-md-10 main">
             <div class="row">
               <div class="col-md-10 post">
-                <div class="headline"><a href="15857401206120.html">Employing Ensemble Methods with scikit-learn</a></div>
+                <div class="headline"><a href="15918899724025.html">手撕JVM类加载机制源码</a></div>
                 
-                <div class="meta"><span class="time">$[timeformat('2020-04-01T19:22:00+08:00')]</span></div>
+                <div class="meta"><span class="time">$[timeformat('2020-06-11T23:39:32+08:00')]</span></div>
                 <div class="body">
-                    <p><img src="media/15857401206120/%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0-Ensemble%20Learning-.png" alt="集成学习-Ensemble Learning-"/></p>
+                    <p>先来看下通过Java命令执行代码的大体流程<br/>
+<img src="media/15918899724025/%E6%88%AA%E5%B1%8F2020-06-12%20%E4%B8%8A%E5%8D%8810.13.54.png" alt="截屏2020-06-12 上午10.13.54"/><br/>
+C++引导类调用Launche类中的静态方法getLauncher创建Lanuncher实例。创建实例时，1、在构造函数中创建扩展类加载器和应用程序类加载器；2、指定Launcher中的ClassLoader为应用程序加载器；3、应用类加载器和扩展类加载器通过应用加载器中的parent参数关联；4、ClassLoader中的loadClass方法实现双亲委派机制；5、调用类加载器中的findClass方法实现类加载，该方在AppClassLoader和ExtClassLoader的父类URLClassLoader中实现；6、findClass调用defineClass实现<strong>加载 &gt;&gt; 验证 &gt;&gt; 准备 &gt;&gt; 解析 &gt;&gt; 初始化</strong>。<br/>
+<img src="media/15918899724025/15919292512787.jpg" alt=""/></p>
 
-<h2 id="toc_0">Bagging</h2>
+<h3 id="toc_0">加载到内存中的流程</h3>
 
-<p>个体学习器间不存在依赖关系，模型并行学习。关注方差。</p>
+<p><img src="media/15918899724025/%E6%88%AA%E5%B1%8F2020-06-12%20%E4%B8%8A%E5%8D%8810.11.56.png" alt="截屏2020-06-12 上午10.11.56"/></p>
 
-<h3 id="toc_1">结合策略(combine)</h3>
+<h3 id="toc_1">触发类加载的条件</h3>
 
-<ol>
-<li>Averageing<br/>
-Hard Voting：平均投票。<br/>
-Soft Voting：加权平均投票。 </li>
-<li>Stacking</li>
-<li>所谓Stacking 即，Model stacking: Train additional model to combine individual learners。</li>
-</ol>
+<p>new<br/>
+访问静态方法、静态变量<br/>
+反射<br/>
+初始化子类</p>
 
-<h2 id="toc_2">Boosting</h2>
+<h3 id="toc_2">为什么设计双亲委派机制？</h3>
 
-<p>串行成序列化方法，关注损失函数，关注偏差。</p>
+<ul>
+<li>沙箱安全机制：自己写的java.lang.String.class类不会被加载，这样便可以防止核心API库被随意篡改；</li>
+<li>避免类的重复加载：当父亲已经加载了该类时，就没有必要子ClassLoader再加载一次，保证被加载类的唯一性。</li>
+</ul>
 
-<p>AdaBoost（adaptive boosting）实质上是基于加性(additive)模型以类似牛顿迭代法来优化指数损失函数，该模型使得对先前基学习器做错的训练样本在后续受到更多的关注，然后基于调整后的样本分布来训练下一个基学习器。</p>
+<h3 id="toc_3">如何写自己定义的类加载器？</h3>
 
-<p>Gradient Boosting对残差(负梯度)进行拟合。</p>
-<--基于scikit的模版待整理添加到github-->
+<p>自定义类加载器只需要继承 java.lang.ClassLoader 类，该类有两个核心方法，一个是loadClass(String, boolean)，实现了双亲委派机制，还有一个方法是findClass，默认实现是空方法，所以我们自定义类加载器主要是重写findClass方法。findClass方法重写可参考URLClassLoader中的方法实现。</p>
+
+<h3 id="toc_4">如何打破已有的双亲委派机制？</h3>
+
+<p>双亲委派机制的实现已在ClassLoader的loadClass方法中实现，要打破，只需重写该方法即可。</p>
+
+<p><strong>总结：</strong><br/>
+核心方法调用流程为getLanucher(Lanuncher中的静态方法)-&gt;getClassLoader(Launcher)-&gt;loadClass(ClassLoder，实现双亲委派或重写打破双亲委派)-&gt;findClass(ClasserLoer子类实现)-&gt;defineClass(ClassLoder，装载、验证、准备、解析、初始化)。</p>
+
                 </div>
                 <div class="bottom">
-                  <a href="15857401206120.html" class="continue float-right">
+                  <a href="15918899724025.html" class="continue float-right">
                     继续阅读
                   </a>
                 </div>
@@ -98,11 +108,11 @@ Soft Voting：加权平均投票。 </li>
   
     
         <div class="col-md-6">
-          <a href="15852382259972.html" class="item">
+          <a href="15914059244688.html" class="item">
             <div class="article normal">
               <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
               <div class="articleinfo">
-                <div class="headline">Java 8 Lambda Expression</div>
+                <div class="headline">网格类</div>
                 
               </div>
             </div>
@@ -112,11 +122,11 @@ Soft Voting：加权平均投票。 </li>
   
     
         <div class="col-md-6">
-          <a href="15844566053629.html" class="item">
+          <a href="15867880029166.html" class="item">
             <div class="article normal">
               <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
               <div class="articleinfo">
-                <div class="headline">Python常用方法</div>
+                <div class="headline">Spring AOP</div>
                 
               </div>
             </div>
