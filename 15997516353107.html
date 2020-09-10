@@ -6,17 +6,17 @@
     <meta name="viewport" content="width=device-width,minimum-scale=1" />
     <title>
         
-      Java可信专业级上级考试常用知识总结 - Zjunwen
+      JDK8中关键字“::”的使用 - Zjunwen
       
     </title>
     <meta name="keywords" content="Zjunwen" />
     
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:creator" content="@" />
-      <meta property="og:url" content="15988747477446.html" />
-      <meta property="og:title" content="Java可信专业级上级考试常用知识总结" />
+      <meta property="og:url" content="15997516353107.html" />
+      <meta property="og:title" content="JDK8中关键字“::”的使用" />
       
-        <meta property="og:description" content="Java可信专业级上级考试常用知识总结" />
+        <meta property="og:description" content="JDK8中关键字“::”的使用" />
       
       
       <meta property="og:site_name" content="Zjunwen" />
@@ -57,100 +57,75 @@
   <div class="article huge">
     <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
     <img src="" style="display: none;" class="featureimgforexternal">
-    <div class="timeGTM" style="display:none;">2020-08-31T19:52:27+08:00</div>
+    <div class="timeGTM" style="display:none;">2020-09-10T23:27:15+08:00</div>
     <div class="row content">
       <div class="col-md-2"></div>
       <div class="col-md-10 main">
         <div class="row">
           <div class="col-md-10">
             <div class="post">
-              <div class="headline"><a href="15988747477446.html">Java可信专业级上级考试常用知识总结</a></div>
+              <div class="headline"><a href="15997516353107.html">JDK8中关键字“::”的使用</a></div>
               
-              <div class="meta"><span class="time">$[timeformat('2020-08-31T19:52:27+08:00')]</span><br><span class="tags"></span></div>
+              <div class="meta"><span class="time">$[timeformat('2020-09-10T23:27:15+08:00')]</span><br><span class="tags"></span></div>
               <div class="body">
-                  <h3 id="toc_0">Collection</h3>
+                  <p>Java 8 中我们可以通过 <code>::</code> 关键字来访问类的构造方法，对象方法，静态方法。</p>
 
-<pre><code class="language-text">collection
-｜
-｜-List
-｜｜-ArrayList
-｜｜-LinkedList
-｜｜-Vector
-｜  ｜-Stack
-｜
-｜-Set
-｜｜—HashSet
-｜｜-TreeSet（可排序）
-｜
-｜-Queue
-  ｜-ArrayDeque（默认16的数组）
-  ｜-LinkedList
-  ｜-PriorityQueue(堆实现，可进行排序)
-//更改排序逻辑时，在new对象的时候传入
-new Comparator&lt;T&gt;() {
-    @Overide
-    ...
+<p>对于给定的一个类：</p>
+
+<pre><code class="language-text">class Something {
+ 
+    // constructor methods
+    Something() {}
+ 
+    Something(String something) {
+    System.out.println(something);
+    }
+ 
+    // static methods
+    static String startsWith(String s) {
+        return String.valueOf(s.charAt(0));
+    }
+    
+    // object methods
+    String endWith(String s) {
+        return String.valueOf(s.charAt(s.length()-1));
+    }
+    
+    void endWith() {}
 }
 </code></pre>
 
-<h3 id="toc_1">数组的排序和复制</h3>
+<p>如何通过“::”来访问其中的方法？<br/>
+可以通过功能接口functional interface来接收并访问。<br/>
+定义一个功能接口</p>
 
-<pre><code class="language-text">public static void main(String[] args) {
-        Integer[] array = {1,3,2};
-        Integer[] array2 = Arrays.copyOf(array,array.length);
-        Integer[] array3 = Arrays.copyOfRange(array,0,1);
-        Arrays.sort(array,(a,b)-&gt;b-a);
-        List&lt;Integer&gt; list = Arrays.asList(array);
-        List&lt;Integer&gt; list2 = Arrays.asList(array2);
-        List&lt;Integer&gt; list3= Arrays.asList(array3);
-        System.out.println(list);
-        System.out.println(list2);
-        System.out.println(list3);
-    }
-/** result
-* [3, 2, 1]
-* [1, 3, 2]
-* [3]
-*/
-</code></pre>
-
-<h3 id="toc_2">List转数组</h3>
-
-<pre><code class="language-text">public static void main(String[] args) {
-        List&lt;Integer&gt; testList = Arrays.asList(1,2,3);
-        Integer[] array;
-        array = testList.toArray(new Integer[0]);
-
-        List&lt;Integer&gt; list = Arrays.asList(array);
-        System.out.println(list);
-    }
-</code></pre>
-
-<p>对于List&lt;T[]&gt; list</p>
-
-<pre><code class="language-text">T[][] array= list.toArray(new T[0][]);
-</code></pre>
-
-<h3 id="toc_3">int数组转list与list转int数组</h3>
-
-<pre><code class="language-text">int[] array = {1,2,2,4};
-Arrays.stream(array).collect(Collectors.toList());
-</code></pre>
-
-<pre><code class="language-text">List&lt;Integer&gt; list = new ArrayList&lt;&gt;();
-int[] array= Arrays.stream(list).mapToInt(Integer::valueOf).toArray()
-</code></pre>
-
-<h3 id="toc_4">正则表达式的使用</h3>
-
-<pre><code class="language-text">public void regular() {
-    String s = &quot;TestApplePart;&quot;;
-    Pattern compile = Pattern.compile(&quot;[A-Z][a-z]+&quot;);
-    Matcher matcher = compile.matcher(s);
-    while(matcher.find()) {
-        System.out.print(matcher.group()+&quot;\n&quot;);
-    }
+<pre><code class="language-text">@FunctionalInterface
+interface IConvert&lt;F, T&gt; {
+    T convert(F form);
 }
+
+</code></pre>
+
+<p>访问静态方法：</p>
+
+<pre><code class="language-text">// static methods
+IConvert&lt;String, String&gt; convert = Something::startsWith;
+String converted = convert.convert(&quot;123&quot;);
+</code></pre>
+
+<p>访问对像方法：</p>
+
+<pre><code class="language-text">// object methods
+Something something = new Something();
+IConvert&lt;String, String&gt; converter = something::endWith;
+String converted = converter.convert(&quot;Java&quot;);
+</code></pre>
+
+<p>访问构造方法：</p>
+
+<pre><code class="language-text">// constructor methods
+IConvert&lt;String, Something&gt; convert = Something::new;
+Something something = convert.convert(&quot;constructors&quot;);
 </code></pre>
 
               </div>
