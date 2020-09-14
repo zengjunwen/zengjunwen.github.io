@@ -54,64 +54,39 @@
           <div class="col-md-10 main">
             <div class="row">
               <div class="col-md-10 post">
-                <div class="headline"><a href="15965435589950.html">MySQL索引底层数据结构与算法</a></div>
+                <div class="headline"><a href="15965453905732.html">Explain详解与索引最佳实战</a></div>
                 
-                <div class="meta"><span class="time">$[timeformat('2020-08-04T20:19:18+08:00')]</span></div>
+                <div class="meta"><span class="time">$[timeformat('2020-08-04T20:49:50+08:00')]</span></div>
                 <div class="body">
-                    <p>索引是帮助MySQL高效获取数据的排好序的数据结构。</p>
+                    <h2 id="toc_0">explain中的列</h2>
 
-<h2 id="toc_0">B-Tree</h2>
+<p>展示 explain 中每个列的信息。</p>
 
-<ul>
-<li>叶节点具有相同的深度，叶节点的指针为空</li>
-<li>所有索引元素不重复</li>
-<li>节点中的数据索引从左到右递增排列
-<img src="media/15965435589950/15965438365696.jpg" alt=""/></li>
-</ul>
+<h3 id="toc_1">1. id列</h3>
 
-<h2 id="toc_1">B+Tree(B-Tree变种)</h2>
+<p>id列的编号是 select 的序列号，有几个 select 就有几个id，并且id的顺序是按 select 出现的顺序增长的。 id列越大执行优先级越高，id相同则从上往下执行，id为NULL最后执行。</p>
 
-<ul>
-<li>非叶子节点不存储data，只存储索引(冗余)，可以放更多的索引</li>
-<li>叶子节点包含所有索引字段</li>
-<li>叶子节点用指针连接，提高区间访问的性能
-<img src="media/15965435589950/15965439089956.jpg" alt=""/></li>
-</ul>
+<h3 id="toc_2">2. select_type列</h3>
 
-<h2 id="toc_2">Hash</h2>
+<p>select_type 表示对应行是简单还是复杂的查询。</p>
 
-<ul>
-<li>对索引的key进行一次hash计算就可以定位出数据存储的位置</li>
-<li>很多时候Hash索引要比B+ 树索引更高效<br/>
-仅能满足 “=”，“IN”，不支持范围查询</li>
-<li>hash冲突问题
-<img src="media/15965435589950/15965439640448.jpg" alt=""/></li>
-</ul>
+<ol>
+<li>simple:简单查询。查询不包含子查询和union</li>
+<li>primary:复杂查询中最外层的 select</li>
+<li>subquery:包含在 select 中的子查询(不在 from 子句中)</li>
+<li>derived:包含在 from 子句中的子查询。MySQL会将结果存放在一个临时表中，也称为派生表(derived的英文含义)</li>
+<li>union:在 union 中的第二个和随后的select</li>
+</ol>
 
-<h2 id="toc_3">MyISAM索引文件和数据文件是分离的(非聚集)</h2>
+<h3 id="toc_3">3. table列</h3>
 
-<p><img src="media/15965435589950/15965439986053.jpg" alt=""/></p>
-
-<h2 id="toc_4">InnoDB索引实现(聚集)</h2>
-
-<ul>
-<li>表数据文件本身就是按B+Tree组织的一个索引结构文件</li>
-<li>聚集索引-叶节点包含了完整的数据记录<br/>
-为什么建议InnoDB表必须建主键，并且推荐使用整型的自增主键？<br/>
-为什么非主键索引结构叶子节点存储的是主键值？(一致性和节省存储空间)</li>
-</ul>
-
-<p><img src="media/15965435589950/15965440726552.jpg" alt=""/></p>
-
-<p><img src="media/15965435589950/15965440855453.jpg" alt=""/></p>
-
-<p>查看mysql文件页大小（16K）：SHOW GLOBAL STATUS like &#39;Innodb_page_size’;<br/>
-假设我们一行数据大小为1K，那么一页就能存16条数据，也就是一个叶子节点能存16条数据；再看非叶子节点，假设主键ID为bigint类型，那么长度为8B，指针大小在Innodb源码中为6B，一共就是14B，那么一页里就可以存储16K/14=1170个(主键+指针)<br/>
-那么一颗高度为2的B+树能存储的数据为：1170<em>16=18720条，一颗高度为3的B+树能存储的数据为：1170</em>1170*16=21902400（千万级条）</p>
+<p>这一列表示 explain 的一行正在访问哪个表。<br/>
+当 from 子句中有子查询时，table列是 <derivenN> 格式，表示当前查询依赖 id=N 的查询，于是先执行 id=N 的查 询。<br/>
+当有 union 时，UNION RESULT 的 table 列的值为<union1,2>，1和2表示参与 union 的 select 行id。</p>
 
                 </div>
                 <div class="bottom">
-                  <a href="15965435589950.html" class="continue float-right">
+                  <a href="15965453905732.html" class="continue float-right">
                     继续阅读
                   </a>
                 </div>
@@ -125,11 +100,11 @@
   
     
         <div class="col-md-6">
-          <a href="15964652262395.html" class="item">
+          <a href="15965435589950.html" class="item">
             <div class="article normal">
               <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
               <div class="articleinfo">
-                <div class="headline">操作系统底层工作原理</div>
+                <div class="headline">MySQL索引底层数据结构与算法</div>
                 
               </div>
             </div>
@@ -139,11 +114,11 @@
   
     
         <div class="col-md-6">
-          <a href="15936159578717.html" class="item">
+          <a href="15964652262395.html" class="item">
             <div class="article normal">
               <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
               <div class="articleinfo">
-                <div class="headline">二分查找</div>
+                <div class="headline">操作系统底层工作原理</div>
                 
               </div>
             </div>

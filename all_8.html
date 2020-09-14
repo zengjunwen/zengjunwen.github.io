@@ -48,44 +48,45 @@
   
     
       <div class="article huge">
-        <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/SpringFundamentals.png')"></div>
+        <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/Java BDDWithCucumberAndGherkin.png')"></div>
         <div class="row content">
           <div class="col-md-2"></div>
           <div class="col-md-10 main">
             <div class="row">
               <div class="col-md-10 post">
-                <div class="headline"><a href="15811346971820.html">Spring Framework：Spring Fundamentals</a></div>
-                
-                <div class="meta"><span class="time">$[timeformat('2020-02-08T12:04:57+08:00')]</span></div>
+                <div class="headline"><a href="15812327320844.html">Java BDD with Cucumber and Gherkin</a></div>
+                <div class="subtitle">The article covers the essence of behavior-driven development (BDD)</div>
+                <div class="meta"><span class="time">$[timeformat('2020-02-09T15:18:52+08:00')]</span></div>
                 <div class="body">
-                    <h2 id="toc_0">What is Spring Framework?</h2>
+                    <p>In this article, I want to teach you about the best way I know to build great software: behavior-driven development. Behavior-driven development, or BDD, is one of the most effective and satisfying ways of delivering software. As one person once put it, BDD is the thing that makes you be agile, not just do agile. Automation plays a key role in BDD, and Cucumber is the world&#39;s most popular automation tool. But Cucumber is not just about automation, it&#39;s also a brilliant collaboration tool. It helps teams unite their efforts around a single source of truth in the form of clear, business-readable executable specifications. This course is a quick introduction to BDD with Cucumber and Java. Some of the major topics we&#39;ll be covering include the BDD requirements discovery process, writing requirements in Gherkin, the language of Cucumber, turning Gherkin requirements into automated tests, and how these tests can act as documentation for your features. By the end of this article, you&#39;ll understand what BDD is about and how you can use Cucumber to help your team deliver better features that will really delight your customers.</p>
 
-<p><img src="media/15811346971820/%E6%88%AA%E5%B1%8F2020-02-08%E4%B8%8B%E5%8D%8812.18.27.png" alt="截屏2020-02-08下午12.18.27"/><br/>
-Spring Framework started out as just an inversion of control container. This technique is often referred to as dependency injection. It was conceived to reduce or replace some of the complex configuration of the earlier Java Enterprise Edition. Spring was later built around using Java without EJBs, so its original concept was how to work better with EJBs, and then they realized they just didn&#39;t need those for a lot of situations. Dependency injection is very simply removing hard-coded wiring in your app and using a framework to inject dependency resources where they are needed.The solution we&#39;re looking to get from Spring or from using the <strong>Spring Framework is that we can remove configuration code or lookup code, and developers can focus on the business needs and increase code Testability Maintainability and Scalability.</strong><br/>
-<img src="media/15811346971820/%E6%88%AA%E5%B1%8F2020-02-08%E4%B8%8B%E5%8D%8812.17.19.png" alt="截屏2020-02-08下午12.17.19"/><br/>
-The Spring Framework utilizes a modular architecture, meaning that it&#39;s broken up into separate individual components that can be connected together. And each of those components is then responsible for providing a specific set of functionality, and together as a whole, they make up the Spring Framework. <strong>The Spring Framework can be broken up into six different key areas, core, web, AOP, or aspect-oriented programming, data access, integration, and testing.</strong> For the remainder of the module, we&#39;ll take a look at each of these key areas and understand what they are, what they provide, and how they simplify Java development.<br/>
-<img src="media/15811346971820/%E6%88%AA%E5%B1%8F2020-02-09%E4%B8%8B%E5%8D%883.03.36.png" alt="截屏2020-02-09下午3.03.36"/></p>
+<h2 id="toc_0">What Is BDD Want Solve?</h2>
 
-<h2 id="toc_1">Spring Framework Foundation</h2>
+<p><img src="media/15812327320844/%E6%88%AA%E5%B1%8F2020-02-09%E4%B8%8B%E5%8D%883.43.17.png" alt="截屏2020-02-09下午3.43.17"/><br/>
+In many large organizations we have functional analysts or architects who come up with the requirements on behalf of the business, or for teams doing some form of Scrum, it might be a product owner who writes up the new requirement in the form of a user story. Next, the BA(Business analyst) writes up this requirement in a more detailed form, maybe a more detailed user story, or a Word document, or it might go into an agile project management tool, like Jira. The development team picks up the story and uses it to start developing their code, and once the code is written, the testers pick up the feature to test. In many teams, these testers will have their own test plans that they derive from the requirements document. And once the feature is tested of course, it can be delivered. Can you see the flaws in this approach? It&#39;s the telephone game all over again. <strong>At each stage, the information passes from one person to another and it can be misinterpreted, or transformed, or forgotten.</strong> The features that we get aren&#39;t what the customer asked for, and they aren&#39;t what the customer really needs either. And at the end of the day, our users are unhappy. <strong>It&#39;s this communication gap that BDD tries to solve.</strong></p>
 
-<p>The Spring Framework&#39;s Core module, or Spring Core as it&#39;s often called, is one of the most important of the Spring Framework. It serves as the foundational module upon which every other module is built. Spring Core is responsible for providing a number of different functionalities, such as internationalization support, validation support, data binding support, type conversion support, and a whole lot more; <strong>however, at the center of Spring Core is something called dependency injection</strong>. <br/>
-<img src="media/15811346971820/%E6%88%AA%E5%B1%8F2020-02-09%E4%B8%8B%E5%8D%883.08.40.png" alt="截屏2020-02-09下午3.08.40"/></p>
+<h2 id="toc_1">BDD Process</h2>
 
-<h2 id="toc_2">Spring Download</h2>
+<p>BDD always starts with a conversation. Instead of passing requirements from one person to another and hoping everyone gets it right, the teams that practice BDD get together early enough to have conversations about what the customer really needs, and what BDD does is it gives us techniques to structure and facilitate these conversations.<br/>
+<img src="media/15812327320844/%E6%88%AA%E5%B1%8F2020-02-09%E4%B8%8B%E5%8D%884.15.26.png" alt="截屏2020-02-09下午4.15.26"/><br/>
+The process contain four steps：</p>
 
-<p>Spring wants you to download their tools using Maven.The main reason Spring wants you to use Maven is because of their transitive dependencies that are required to run the projects. Spring Boot could be used to set up your application as well, but it&#39;s much too complex and a black box for trying to show you just the basic fundamentals of what Spring needs to run in order how to set it up. </p>
+<ol>
+<li><strong>Collaboration and conversation(Discovery Phase, or Illustrate Phase)</strong>
+The team talks through concrete examples and counter examples of how a user would interact with the application and what outcomes they&#39;d like to achieve. And by the end of the conversation, the whole team has a really clear picture of what they need to build, and just as importantly, why it would be useful, and it&#39;s not a one-way street. The team members get to ask questions to clarify doubts, even to propose new ideas or suggestions that all go to making the features better.In the illustrate phase, the main tools we use are whiteboards and Post-its.</li>
+<li><strong>Concrete examples and business rules use common language(Formulate Phase)</strong>
+According illustration to produce a list of business rules and acceptance criteria that we can use for this feature. We pass these rules and examples to the next stage of the process, and this is where the team members, often a BA and a tester, turn these rules and examples into a format that can act both as specifications that a business person can read, and also as automated acceptance tests that we can execute as part of our test suite, and this is where Cucumber comes into play. We write these executable specifications in a special language called Gherkin, which uses the Given-When-Then notation.</li>
+<li><strong>Faster feedback through early and effective automation(Test Phase)</strong>
+We uses the Given-When-Then notation that you may have already seen. Next, we write test automation code to turn these Given-When-Then statements, or these executable specifications, into automated acceptance tests. This usually happens before development starts or during the same sprint. And once these tests pass, we can show the business concrete evidence that the feature does what it was expected to do. </li>
+</ol>
 
-<h2 id="toc_3">Java Configuration Approach</h2>
+<h2 id="toc_2">Landscape of Code</h2>
 
-<ul>
-<li>Java configuration</li>
-<li>Annotation Configuration</li>
-<li>XML configuration</li>
-</ul>
+<p><img src="media/15812327320844/%E6%88%AA%E5%B1%8F2020-02-09%E4%B8%8B%E5%8D%885.37.47.png" alt="截屏2020-02-09下午5.37.47"/></p>
 
                 </div>
                 <div class="bottom">
-                  <a href="15811346971820.html" class="continue float-right">
+                  <a href="15812327320844.html" class="continue float-right">
                     继续阅读
                   </a>
                 </div>
@@ -99,12 +100,12 @@ The Spring Framework utilizes a modular architecture, meaning that it&#39;s brok
   
     
         <div class="col-md-6">
-          <a href="15812210243672.html" class="item">
+          <a href="15811346971820.html" class="item">
             <div class="article normal">
-              <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/SpringPicture.png')"></div>
+              <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/SpringFundamentals.png')"></div>
               <div class="articleinfo">
-                <div class="headline">Spring Picture</div>
-                <div class="subtitle">Spring Ecosystem的简单概述</div>
+                <div class="headline">Spring Framework：Spring Fundamentals</div>
+                
               </div>
             </div>
           </a>
@@ -113,12 +114,12 @@ The Spring Framework utilizes a modular architecture, meaning that it&#39;s brok
   
     
         <div class="col-md-6">
-          <a href="kafka-zhi-shi-dianmedia1580799.html" class="item">
+          <a href="15812210243672.html" class="item">
             <div class="article normal">
-              <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/Kafka.png')"></div>
+              <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/SpringPicture.png')"></div>
               <div class="articleinfo">
-                <div class="headline">Kafka</div>
-                <div class="subtitle">「Kafka基础知识」</div>
+                <div class="headline">Spring Picture</div>
+                <div class="subtitle">Spring Ecosystem的简单概述</div>
               </div>
             </div>
           </a>

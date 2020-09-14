@@ -54,75 +54,14 @@
           <div class="col-md-10 main">
             <div class="row">
               <div class="col-md-10 post">
-                <div class="headline"><a href="15984401250115.html">HashMap底层原理精炼</a></div>
+                <div class="headline"><a href="15990576506293.html">抽象队列同步器AQS</a></div>
                 
-                <div class="meta"><span class="time">$[timeformat('2020-08-26T19:08:45+08:00')]</span></div>
+                <div class="meta"><span class="time">$[timeformat('2020-08-02T22:40:50+08:00')]</span></div>
                 <div class="body">
-                    <h2 id="toc_0">1.7版本</h2>
-
-<h3 id="toc_1">数据结构</h3>
-
-<p>数组、链表</p>
-
-<h3 id="toc_2">重要成员变量</h3>
-
-<ul>
-<li>DEFAULT_INITIAL_CAPACITY = 1 &lt;&lt; 4; Hash表默认初始容量16</li>
-<li>MAXIMUM_CAPACITY = 1 &lt;&lt; 30; 最大Hash表容量 </li>
-<li>DEFAULT_LOAD_FACTOR = 0.75f;默认加载因子</li>
-</ul>
-
-<h3 id="toc_3">扩容</h3>
-
-<p>在扩容时，重新计算哈希值（多余的动作），扩容前的链表和扩容后的链表结点的顺序是相反的。多线程扩容，在未做并发控制的情况下，会导致链表环的产生。</p>
-
-<h2 id="toc_4">1.8版本</h2>
-
-<h3 id="toc_5">数据结构</h3>
-
-<p>数组、链表、红黑树</p>
-
-<h3 id="toc_6">重要成员变量</h3>
-
-<ul>
-<li>DEFAULT_INITIAL_CAPACITY = 1 &lt;&lt; 4; Hash表默认初始容量16</li>
-<li>MAXIMUM_CAPACITY = 1 &lt;&lt; 30; 最大Hash表容量 </li>
-<li>DEFAULT_LOAD_FACTOR = 0.75f;默认加载因子</li>
-<li>TREEIFY_THRESHOLD = 8;链表转红黑树阈值，链表长度大于8，则满足转红黑树的一个条件</li>
-<li>UNTREEIFY_THRESHOLD = 6;红黑树转链表阈值 </li>
-<li>MIN_TREEIFY_CAPACITY = 64;链表转红黑树时hash表数组长度最小容量阈值，达不到优先扩容。<br/>
-###初始化<br/>
-初始化的数组长度必定为2的整数次幂，如果不为2的整数次幂，程序在初始化时会将向上取2的整数次幂，目的是在根据hash值计算索引时，能够采用&amp;运算符与数组长度进行运算。</li>
-</ul>
-
-<h3 id="toc_7">扩容</h3>
-
-<ul>
-<li>涉及链表和红黑树的转换，数据结构涉及Node与TreeNode的转换。<br/>
-Node和TreeNode的关系
-<img src="media/15984401250115/%E6%88%AA%E5%B1%8F2020-08-26%20%E4%B8%8B%E5%8D%887.59.33.png" alt="截屏2020-08-26 下午7.59.33"/></li>
-<li>扩容只能成倍扩容，与初始化时数组长度只能为2的整数次幂的原因一样。</li>
-<li>扩容后的结点顺序不变。</li>
-<li>扩容后会对每个链表/树的结点重新进行索引计算，最终一个链表/树形成两个链表/树。</li>
-</ul>
-
-<h2 id="toc_8">并行Map的使用</h2>
-
-<p>为解决HashMap的并发问题，先后引入了HashTable、1.7版本的ConcurrentHashMap和1.8版本的ConcurrentHashMap。</p>
-
-<p>HashTable由于使用全表锁，性能底下，所以目前基本抛弃。</p>
-
-<p>1.7版本的ConcurrentHashMap引入了分段锁segment，一个segment对应多个bucket；而1.8版本直接去掉了segment，直接对bucket加锁，提高了并发效率。</p>
-
-<p>Java7 ConcurrentHashMap基于ReentrantLock实现分段锁。<br/>
-<img src="media/15984401250115/%E6%88%AA%E5%B1%8F2020-08-28%20%E4%B8%8B%E5%8D%8810.32.31.png" alt="截屏2020-08-28 下午10.32.31"/></p>
-
-<p>Java8中 ConcurrentHashMap基于分段锁+CAS保证线程安全，分段锁基于synchronized 关键字实现。<br/>
-<img src="media/15984401250115/%E6%88%AA%E5%B1%8F2020-08-28%20%E4%B8%8B%E5%8D%8810.32.49.png" alt="截屏2020-08-28 下午10.32.49"/></p>
-
+                    
                 </div>
                 <div class="bottom">
-                  <a href="15984401250115.html" class="continue float-right">
+                  <a href="15990576506293.html" class="continue float-right">
                     继续阅读
                   </a>
                 </div>
@@ -136,11 +75,11 @@ Node和TreeNode的关系
   
     
         <div class="col-md-6">
-          <a href="15966409823547.html" class="item">
+          <a href="15984401250115.html" class="item">
             <div class="article normal">
               <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
               <div class="articleinfo">
-                <div class="headline">并发编程之JMM、synchronized、volatile</div>
+                <div class="headline">HashMap底层原理精炼</div>
                 
               </div>
             </div>
@@ -150,11 +89,11 @@ Node和TreeNode的关系
   
     
         <div class="col-md-6">
-          <a href="15965453905732.html" class="item">
+          <a href="15966409823547.html" class="item">
             <div class="article normal">
               <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
               <div class="articleinfo">
-                <div class="headline">Explain详解与索引最佳实战</div>
+                <div class="headline">并发编程之JMM、synchronized、volatile</div>
                 
               </div>
             </div>
