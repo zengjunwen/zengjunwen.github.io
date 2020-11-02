@@ -6,11 +6,20 @@
     <meta name="viewport" content="width=device-width,minimum-scale=1" />
     <title>
         
-      Zjunwen
+      Redis数据结构和使用场景 - Zjunwen
       
     </title>
     <meta name="keywords" content="Zjunwen" />
     
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:creator" content="@" />
+      <meta property="og:url" content="16042002914320.html" />
+      <meta property="og:title" content="Redis数据结构和使用场景" />
+      
+        <meta property="og:description" content="Redis数据结构和使用场景" />
+      
+      
+      <meta property="og:site_name" content="Zjunwen" />
     
     
       <link rel="icon" href="media/15807816907881/截屏2020-02-04上午10.39.45.png">
@@ -44,87 +53,97 @@
         </div>
       </div>
       <hr>
-    </div> <div class="container" id="category">
-  
-    
-      <div class="article huge">
-        <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
-        <div class="row content">
-          <div class="col-md-2"></div>
-          <div class="col-md-10 main">
-            <div class="row">
-              <div class="col-md-10 post">
-                <div class="headline"><a href="15844566053629.html">Python常用方法</a></div>
-                
-                <div class="meta"><span class="time">$[timeformat('2020-03-17T22:50:05+08:00')]</span></div>
-                <div class="body">
-                    <p>collections.counter</p>
+    </div> <div class="container" id="post">
+  <div class="article huge">
+    <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
+    <img src="" style="display: none;" class="featureimgforexternal">
+    <div class="timeGTM" style="display:none;">2020-11-01T11:11:31+08:00</div>
+    <div class="row content">
+      <div class="col-md-2"></div>
+      <div class="col-md-10 main">
+        <div class="row">
+          <div class="col-md-10">
+            <div class="post">
+              <div class="headline"><a href="16042002914320.html">Redis数据结构和使用场景</a></div>
+              
+              <div class="meta"><span class="time">$[timeformat('2020-11-01T11:11:31+08:00')]</span><br><span class="tags"></span></div>
+              <div class="body">
+                  <h3 id="toc_0">help</h3>
 
-                </div>
-                <div class="bottom">
-                  <a href="15844566053629.html" class="continue float-right">
-                    继续阅读
-                  </a>
-                </div>
+<p>help @&lt;name&gt;</p>
+
+<h3 id="toc_1">String</h3>
+
+<ul>
+<li>单值缓存</li>
+<li>对象缓存</li>
+<li>分布式锁</li>
+<li>计数器</li>
+<li>Web集群session共享</li>
+<li>生成分布式系统全局序列号</li>
+</ul>
+
+<h3 id="toc_2">hash</h3>
+
+<ul>
+<li>对象缓存
+<strong>与string对比</strong>
+优点：<br/>
+1）同类数据归类整合储存，方便数据管理<br/>
+2）相比string操作消耗内存与cpu更小<br/>
+3）相比string储存更节省空间<br/>
+缺点：<br/>
+过期功能不能使用在field上，只能用在key上<br/>
+Redis集群架构下不适合大规模使用</li>
+</ul>
+
+<h3 id="toc_3">list</h3>
+
+<p>是一个双端链表，可以用作stack、Queue和Blocking MQ（与Queue相比，在没元素时会阻塞，直到队列有消息，可设置超时时间）。</p>
+
+<ul>
+<li>微博和微信公众号消息流</li>
+</ul>
+
+<h3 id="toc_4">set</h3>
+
+<ul>
+<li>微信抽奖小程序</li>
+<li>点赞、收藏、标签</li>
+</ul>
+
+<h3 id="toc_5">zset</h3>
+
+<p>有序的集合，跳表实现</p>
+
+<ul>
+<li>排行榜</li>
+</ul>
+
               </div>
             </div>
+            
+            
           </div>
         </div>
       </div>
-      <div class="otherposts row">
-    
-  
-    
-        <div class="col-md-6">
-          <a href="15815193362338.html" class="item">
-            <div class="article normal">
-              <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/TuningTheJVM.png')"></div>
-              <div class="articleinfo">
-                <div class="headline">Tuning the JVM</div>
-                
-              </div>
-            </div>
-          </a>
-        </div>
-    
-  
-    
-        <div class="col-md-6">
-          <a href="15813454180710.html" class="item">
-            <div class="article normal">
-              <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/MultithreadingAndConcurrency.png')"></div>
-              <div class="articleinfo">
-                <div class="headline">Multithreading and Concurrency</div>
-                
-              </div>
-            </div>
-          </a>
-        </div>
-    
-   
+    </div>
   </div>
-  <div class="pagenavi">
-    <div class="item"><a href="all_7.html">更新文章</a></div>
-    <div class="item"> · </div>
-    <div class="item"><a href="all_9.html">旧有文章</a></div>
-  </div>
- </div>
- <script>
-   let category = new Vue({
-    el: '#category',
-    data: {},
-    methods: {
-      indexOddandEven(index) {
-        return index%2 ? 'odd' : 'even';
-      },
-      timeformat(raw) {
-        return moment(raw).format("YYYY 年 MM 月 DD 日");
-      }
-    },
-    delimiters: ['$[', ']']
-  })
- </script>
-      <div class="container">
+</div>
+<script>
+    let post = new Vue({
+     el: '#post',
+     data: {
+       hidelikecoin: ''
+     },
+     methods: {
+       timeformat(raw) {
+         return moment(raw).format("YYYY 年 MM 月 DD 日");
+       }
+     },
+     delimiters: ['$[', ']']
+   })
+  </script>      <div class="container">
       <hr>
       <div class="footer" id="footer">
         <div class="slogan">提问🙋🏼、思考🤔、专注🙇🏻、解决问题💁🏻‍♂️</div>

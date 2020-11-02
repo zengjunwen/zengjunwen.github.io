@@ -54,14 +54,125 @@
           <div class="col-md-10 main">
             <div class="row">
               <div class="col-md-10 post">
-                <div class="headline"><a href="15990576506293.html">抽象队列同步器AQS</a></div>
+                <div class="headline"><a href="15990578006802.html">并发编程之Executor线程池原理</a></div>
                 
-                <div class="meta"><span class="time">$[timeformat('2020-08-02T22:40:50+08:00')]</span></div>
+                <div class="meta"><span class="time">$[timeformat('2020-09-02T22:43:20+08:00')]</span></div>
                 <div class="body">
-                    
+                    <h3 id="toc_0">Java线程</h3>
+
+<p>线程是调度CPU资源的最小单位，线程模型分为KLT模型与ULT模型，JVM使用的KLT模型，Java线程与OS线程保持1:1的映射关系，也就是说有一个java线程也会在操作系统里有一个对应的线程。Java线程有多种生命状态：</p>
+
+<pre><code class="language-text">NEW,新建
+RUNNABLE,运行 
+BLOCKED,阻塞 
+WAITING,等待 
+TIMED_WAITING,超时等待 
+TERMINATED，终结
+</code></pre>
+
+<p>各个状态的转换图如下<br/>
+<img src="media/15990578006802/%E6%88%AA%E5%B1%8F2020-09-02%20%E4%B8%8B%E5%8D%8810.54.18.png" alt="截屏2020-09-02 下午10.54.18"/></p>
+
+<h3 id="toc_1">协程</h3>
+
+<p>协程 (纤程，用户级线程)，目的是为了追求最大力度的发挥硬件性能和提升软件的速度，协程基本原理是:在某个点挂起当前的任务，并且保存栈信息，去执行另一个任务;等完成或达到某个条件时，再还原原来的栈信息并继续执行(整个过程线程不需要上下文切换)。 <strong>Java原生不支持协程，在纯java代码里需要使用协程的话需要引入第三方包,如:quasar</strong>。</p>
+
+<h3 id="toc_2">线程池</h3>
+
+<p>“线程池”，顾名思义就是一个线程缓存，线程是稀缺资源，如果被无限制的创建，不 仅会消耗系统资源，还会降低系统的稳定性，因此Java中提供线程池对线程进行统一分配、 调优和监控。</p>
+
+<h3 id="toc_3">线程池优势</h3>
+
+<ul>
+<li>重用存在的线程，减少线程创建，消亡的开销，提高性能。</li>
+<li>提高响应速度。当任务到达时，任务可以不需要的等到线程创建就能立即执行。 </li>
+<li>提高线程的可管理性。线程是稀缺资源，如果无限制的创建，不仅会消耗系统资源，还会降低系统的稳定性，使用线程池可以进行统一的分配，调优和监控。</li>
+</ul>
+
+<h3 id="toc_4">Runnable,Callable</h3>
+
+<pre><code class="language-text">// 实现Runnable接口的类将被Thread执行，表示一个基本的任务 
+public interface Runnable {
+    // run方法就是它所有的内容，就是实际执行的任务
+    public abstract void run();
+}
+//Callable同样是任务，与Runnable接口的区别在于它接收泛型，同时它执行
+任务后带有返回内容
+public interface Callable&lt;V&gt; {
+    // 相对于run方法的带有返回值的call方法
+    V call() throws Exception;
+}
+</code></pre>
+
+<h3 id="toc_5">Executor框架</h3>
+
+<p>Executor接口是线程池框架中最基础的部分，定义了一个用于执行Runnable的execute方法。继承及实现关系图：<br/>
+<img src="media/15990578006802/%E6%88%AA%E5%B1%8F2020-09-02%20%E4%B8%8B%E5%8D%8811.31.14.png" alt="截屏2020-09-02 下午11.31.14"/><br/>
+Executor下有一个重要子接口ExecutorService，其中定义了线程池的具体行为:</p>
+
+<ol>
+<li>execute(Runnable command):履行Ruannable类型的任务;</li>
+<li>submit(task):可用来提交Callable或Runnable任务，并返回代表此任务的Future对象;</li>
+<li>shutdown():在完成已提交的任务后封闭办事，不再接管新任务;</li>
+<li>shutdownNow():停止所有正在履行的任务并封闭办事;</li>
+<li>isTerminated():测试是否所有任务都履行完毕了;</li>
+<li>isShutdown():测试是否该ExecutorService已被关闭。</li>
+</ol>
+
+<h3 id="toc_6">线程池的具体实现</h3>
+
+<p>ThreadPoolExecutor 默认线程池 <br/>
+ScheduledThreadPoolExecutor 定时线程池</p>
+
+<h3 id="toc_7">ThreadPoolExecutor</h3>
+
+<p>创建线程池的方法：</p>
+
+<pre><code class="language-text">public ThreadPoolExecutor(int corePoolSize,
+    int maximumPoolSize,
+    long keepAliveTime,
+    TimeUnit unit,
+    BlockingQueue&lt;Runnable&gt; workQueue,
+    ThreadFactory threadFactory,
+    RejectedExecutionHandler handler
+)
+</code></pre>
+
+<p>各个参数的含义：</p>
+
+<ul>
+<li>corePoolSize <br/>
+线程池中的核心线程数，当提交一个任务时，线程池创建一个新线程执行任务，直到当前线程数等于corePoolSize;如果当前线程数为corePoolSize，继续提交的任务被保存到阻塞队列中，等待被执行;如果执行了线程池的prestartAllCoreThreads()方法，线程池会提前创建并启动所有核心线程。</li>
+<li>maximumPoolSize <br/>
+线程池中允许的最大线程数。如果当前阻塞队列满了，且继续提交任务，则创建新的线程执行任务，前提是当前线程数小于maximumPoolSize;。</li>
+<li>keepAliveTime<br/>
+线程池维护线程所允许的空闲时间。当线程池中的线程数量大于corePoolSize的时候，如果这时没有新的任务提交，核心线程外的线程不会立即销毁，而是会等待，直到等待的时间超过了keepAliveTime;</li>
+<li>unit<br/>
+keepAliveTime的单位;</li>
+<li>workQueue <br/>
+用来保存等待被执行的任务的阻塞队列，且任务必须实现Runable接口，在JDK中提供了如下阻塞队列: <br/>
+ArrayBlockingQueue:基于数组结构的有界阻塞队列，按FIFO排序任务; LinkedBlockingQuene:基于链表结构的阻塞队列，按FIFO排序任务，吞吐量通常要高于ArrayBlockingQuene;<br/>
+SynchronousQuene:一个不存储元素的阻塞队列，每个插入操作必须等到另一个线程调用移除操作，否则插入操作一直处于阻塞状态，吞吐量通常要高于 LinkedBlockingQuene;<br/>
+priorityBlockingQuene:具有优先级的无界阻塞队列; </li>
+<li>threadFactory<br/>
+它是ThreadFactory类型的变量，用来创建新线程。默认使用Executors.defaultThreadFactory() 来创建线程。使用默认的ThreadFactory来创建线程时，会使新创建的线程具有相同的NORM_PRIORITY优先级并且是非守护线程，同时也设置了线程的名称。</li>
+<li>handler<br/>
+线程池的饱和策略，当阻塞队列满了，且没有空闲的工作线程，如果继续提交任务，必 须采取一种策略处理该任务，线程池提供了4种策略:<br/>
+AbortPolicy:直接抛出异常，默认策略;<br/>
+CallerRunsPolicy:用调用者所在的线程来执行任务;<br/>
+DiscardOldestPolicy:丢弃阻塞队列中靠最前的任务，并执行当前任务;<br/>
+DiscardPolicy:直接丢弃任务;<br/>
+上面的4种策略都是ThreadPoolExecutor的内部类。<br/>
+当然也可以根据应用场景实现RejectedExecutionHandler接口，自定义饱和策略，如 记录日志或持久化存储不能处理的任务。</li>
+</ul>
+
+<p>原理图：<br/>
+<img src="media/15990578006802/%E6%88%AA%E5%B1%8F2020-09-02%20%E4%B8%8B%E5%8D%8811.51.37.png" alt="截屏2020-09-02 下午11.51.37"/><br/>
+<img src="media/15990578006802/%E6%88%AA%E5%B1%8F2020-09-02%20%E4%B8%8B%E5%8D%8811.52.07.png" alt="截屏2020-09-02 下午11.52.07"/></p>
+
                 </div>
                 <div class="bottom">
-                  <a href="15990576506293.html" class="continue float-right">
+                  <a href="15990578006802.html" class="continue float-right">
                     继续阅读
                   </a>
                 </div>
@@ -75,11 +186,11 @@
   
     
         <div class="col-md-6">
-          <a href="15984401250115.html" class="item">
+          <a href="15990578759595.html" class="item">
             <div class="article normal">
               <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
               <div class="articleinfo">
-                <div class="headline">HashMap底层原理精炼</div>
+                <div class="headline">并发编程之定时任务&定时线程池</div>
                 
               </div>
             </div>
@@ -89,11 +200,11 @@
   
     
         <div class="col-md-6">
-          <a href="15966409823547.html" class="item">
+          <a href="15990576836450.html" class="item">
             <div class="article normal">
               <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
               <div class="articleinfo">
-                <div class="headline">并发编程之JMM、synchronized、volatile</div>
+                <div class="headline">并发编程Atomic&Unsafe</div>
                 
               </div>
             </div>

@@ -54,37 +54,149 @@
           <div class="col-md-10 main">
             <div class="row">
               <div class="col-md-10 post">
-                <div class="headline"><a href="15857401206120.html">Employing Ensemble Methods with scikit-learn</a></div>
+                <div class="headline"><a href="15914059244688.html">网格类</a></div>
                 
-                <div class="meta"><span class="time">$[timeformat('2020-04-01T19:22:00+08:00')]</span></div>
+                <div class="meta"><span class="time">$[timeformat('2020-06-06T09:12:04+08:00')]</span></div>
                 <div class="body">
-                    <p><img src="media/15857401206120/%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0-Ensemble%20Learning-.png" alt="集成学习-Ensemble Learning-"/></p>
+                    <h2 id="toc_0">找梯子</h2>
 
-<h2 id="toc_0">Bagging</h2>
+<p>给定一个训练场，训练场为一个n*m的矩阵，每个格子中有不同高度的箱子，训练人员需要从训练场左上方到达右下方。要从所在格子location到达附近格子locationNext需要一把梯子，梯子高度遵循以下规则：<br/>
+1、如果location中的箱子高度高于或等于locationNew中的箱子高度，需要高度为0的梯子；<br/>
+2、如果location中的箱子高度h低于locationNew中的箱子高度hNew，需要梯子高度为hNew-h。<br/>
+对于给定输入训练场信息，求所需高度最低的梯子。<br/>
+例：<br/>
+输入 [[1,2,2],[1,1,1]]<br/>
+输出 1</p>
 
-<p>个体学习器间不存在依赖关系，模型并行学习。关注方差。</p>
+<p>方法一：使用队列进行BFS</p>
 
-<h3 id="toc_1">结合策略(combine)</h3>
+<pre><code class="language-text">public class Solution {
+    Queue&lt;Pair&lt;Integer, Integer&gt;&gt; queue = new LinkedList&lt;&gt;();
+    int[][] heighs = null;
+    int[][] input = null;
+    int len = 0;
+    int heigh = 0;
 
-<ol>
-<li>Averageing<br/>
-Hard Voting：平均投票。<br/>
-Soft Voting：加权平均投票。 </li>
-<li>Stacking</li>
-<li>所谓Stacking 即，Model stacking: Train additional model to combine individual learners。</li>
-</ol>
+    public int minLengthLadder(int[][] grid) {
+        if (grid == null || grid.length == 0) {
+            return 0;
+        }
 
-<h2 id="toc_2">Boosting</h2>
+        input = grid;
+        heigh = grid.length;
+        len = grid[0].length;
+        heighs = new int[heigh][len];
+        for (int i = 0; i &lt; heigh; i++) {
+            for (int j = 0; j &lt; len; j++) {
+                heighs[i][j] = Integer.MAX_VALUE;
+            }
+        }
+        heighs[0][0] = 0;
+        queue.add(new Pair&lt;&gt;(0, 0));
 
-<p>串行成序列化方法，关注损失函数，关注偏差。</p>
+        Pair&lt;Integer, Integer&gt; location = null;
+        while (!queue.isEmpty()) {
+            location = queue.poll();
+            bfs(location.getKey(), location.getValue());
+        }
 
-<p>AdaBoost（adaptive boosting）实质上是基于加性(additive)模型以类似牛顿迭代法来优化指数损失函数，该模型使得对先前基学习器做错的训练样本在后续受到更多的关注，然后基于调整后的样本分布来训练下一个基学习器。</p>
+        return heighs[heigh - 1][len - 1];
+    }
 
-<p>Gradient Boosting对残差(负梯度)进行拟合。</p>
-<--基于scikit的模版待整理添加到github-->
+    private void bfs(Integer locationX, Integer locationY) {
+        int temp = 0;
+        if (locationX &gt; 0) {
+            temp = input[locationX - 1][locationY] - input[locationX][locationY];
+            temp = Math.max(temp, heighs[locationX][locationY]);
+            if (heighs[locationX - 1][locationY] &gt; temp) {
+                heighs[locationX - 1][locationY] = temp;
+                queue.add(new Pair&lt;&gt;(locationX - 1, locationY));
+            }
+        }
+        if (locationY &gt; 0) {
+            temp = input[locationX][locationY - 1] - input[locationX][locationY];
+            temp = Math.max(temp, heighs[locationX][locationY]);
+            if (heighs[locationX][locationY - 1] &gt; temp) {
+                heighs[locationX][locationY - 1] = temp;
+                queue.add(new Pair&lt;&gt;(locationX, locationY - 1));
+            }
+        }
+        if (locationX &lt; heigh - 1) {
+            temp = input[locationX + 1][locationY] - input[locationX][locationY];
+            temp = Math.max(temp, heighs[locationX][locationY]);
+            if (heighs[locationX + 1][locationY] &gt; temp) {
+                heighs[locationX + 1][locationY] = temp;
+                queue.add(new Pair&lt;&gt;(locationX + 1, locationY));
+            }
+        }
+        if (locationY &lt; len - 1) {
+            temp = input[locationX][locationY + 1] - input[locationX][locationY];
+            temp = Math.max(temp, heighs[locationX][locationY]);
+            if (heighs[locationX][locationY + 1] &gt; temp) {
+                heighs[locationX][locationY + 1] = temp;
+                queue.add(new Pair&lt;&gt;(locationX, locationY + 1));
+            }
+        }
+    }
+}
+</code></pre>
+
+<p>方法二 使用递归进行DFS</p>
+
+<pre><code class="language-text">public class Solution {
+    int[][] ladderLens = null;
+    int[][] input = null;
+    int len = 0;
+    int heigh = 0;
+
+    public int minLengthLadder(int[][] grid) {
+        if (grid == null || grid.length == 0) {
+            return 0;
+        }
+
+        input = grid;
+        heigh = grid.length;
+        len = grid[0].length;
+        ladderLens = new int[heigh][len];
+        for (int i = 0; i &lt; heigh; i++) {
+            for (int j = 0; j &lt; len; j++) {
+                ladderLens[i][j] = Integer.MAX_VALUE;
+            }
+        }
+
+        bfs(0, 0, 0, input[0][0]);
+
+        return ladderLens[heigh - 1][len - 1];
+    }
+
+    private void bfs(Integer locationX, Integer locationY, int ladderLen, int beforeHeigh) {
+        if (locationX &gt;= heigh || locationY &gt;= len || locationX &lt; 0 || locationY &lt; 0) {
+            return;
+        }
+        int temp = input[locationX][locationY] - beforeHeigh;
+        temp = Math.max(temp, ladderLen);
+        if (temp &lt; ladderLens[locationX][locationY]) {
+            ladderLens[locationX][locationY] = temp;
+
+            bfs(locationX + 1, locationY, ladderLens[locationX][locationY], input[locationX][locationY]);
+            bfs(locationX - 1, locationY, ladderLens[locationX][locationY], input[locationX][locationY]);
+            bfs(locationX, locationY + 1, ladderLens[locationX][locationY], input[locationX][locationY]);
+            bfs(locationX, locationY - 1, ladderLens[locationX][locationY], input[locationX][locationY]);
+        }
+    }
+}
+</code></pre>
+
+<p>对于网格总结为：<br/>
+1、使用递归进行DFS；此情况在非尾递归时会导致压栈，在输入数据很大时可能会导致堆栈溢出；如果是尾递归优先采用递归进行DFS，能大大减少代码量。<br/>
+2、使用队列进行BFS。</p>
+
+<p>reference：<br/>
+<a href="https://leetcode-cn.com/problems/max-area-of-island/">岛屿的最大面积</a></p>
+
                 </div>
                 <div class="bottom">
-                  <a href="15857401206120.html" class="continue float-right">
+                  <a href="15914059244688.html" class="continue float-right">
                     继续阅读
                   </a>
                 </div>
@@ -98,11 +210,11 @@ Soft Voting：加权平均投票。 </li>
   
     
         <div class="col-md-6">
-          <a href="15852382259972.html" class="item">
+          <a href="15867880029166.html" class="item">
             <div class="article normal">
               <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
               <div class="articleinfo">
-                <div class="headline">Java 8 Lambda Expression</div>
+                <div class="headline">Spring AOP</div>
                 
               </div>
             </div>
@@ -112,11 +224,11 @@ Soft Voting：加权平均投票。 </li>
   
     
         <div class="col-md-6">
-          <a href="15835098177103.html" class="item">
+          <a href="15865773197608.html" class="item">
             <div class="article normal">
-              <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/MasterGit.png')"></div>
+              <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
               <div class="articleinfo">
-                <div class="headline">Master Git</div>
+                <div class="headline">Hadoop Ecosystem</div>
                 
               </div>
             </div>

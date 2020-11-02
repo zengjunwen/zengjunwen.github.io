@@ -54,39 +54,14 @@
           <div class="col-md-10 main">
             <div class="row">
               <div class="col-md-10 post">
-                <div class="headline"><a href="15965453905732.html">Explain详解与索引最佳实战</a></div>
+                <div class="headline"><a href="15990576506293.html">抽象队列同步器AQS</a></div>
                 
-                <div class="meta"><span class="time">$[timeformat('2020-08-04T20:49:50+08:00')]</span></div>
+                <div class="meta"><span class="time">$[timeformat('2020-08-02T22:40:50+08:00')]</span></div>
                 <div class="body">
-                    <h2 id="toc_0">explain中的列</h2>
-
-<p>展示 explain 中每个列的信息。</p>
-
-<h3 id="toc_1">1. id列</h3>
-
-<p>id列的编号是 select 的序列号，有几个 select 就有几个id，并且id的顺序是按 select 出现的顺序增长的。 id列越大执行优先级越高，id相同则从上往下执行，id为NULL最后执行。</p>
-
-<h3 id="toc_2">2. select_type列</h3>
-
-<p>select_type 表示对应行是简单还是复杂的查询。</p>
-
-<ol>
-<li>simple:简单查询。查询不包含子查询和union</li>
-<li>primary:复杂查询中最外层的 select</li>
-<li>subquery:包含在 select 中的子查询(不在 from 子句中)</li>
-<li>derived:包含在 from 子句中的子查询。MySQL会将结果存放在一个临时表中，也称为派生表(derived的英文含义)</li>
-<li>union:在 union 中的第二个和随后的select</li>
-</ol>
-
-<h3 id="toc_3">3. table列</h3>
-
-<p>这一列表示 explain 的一行正在访问哪个表。<br/>
-当 from 子句中有子查询时，table列是 <derivenN> 格式，表示当前查询依赖 id=N 的查询，于是先执行 id=N 的查 询。<br/>
-当有 union 时，UNION RESULT 的 table 列的值为<union1,2>，1和2表示参与 union 的 select 行id。</p>
-
+                    
                 </div>
                 <div class="bottom">
-                  <a href="15965453905732.html" class="continue float-right">
+                  <a href="15990576506293.html" class="continue float-right">
                     继续阅读
                   </a>
                 </div>
@@ -100,11 +75,11 @@
   
     
         <div class="col-md-6">
-          <a href="15965435589950.html" class="item">
+          <a href="15984401250115.html" class="item">
             <div class="article normal">
               <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
               <div class="articleinfo">
-                <div class="headline">MySQL索引底层数据结构与算法</div>
+                <div class="headline">HashMap底层原理精炼</div>
                 
               </div>
             </div>
@@ -114,11 +89,11 @@
   
     
         <div class="col-md-6">
-          <a href="15964652262395.html" class="item">
+          <a href="15966409823547.html" class="item">
             <div class="article normal">
               <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
               <div class="articleinfo">
-                <div class="headline">操作系统底层工作原理</div>
+                <div class="headline">并发编程之JMM、synchronized、volatile</div>
                 
               </div>
             </div>

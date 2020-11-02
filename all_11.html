@@ -48,21 +48,31 @@
   
     
       <div class="article huge">
-        <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
+        <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/Noe4j.png')"></div>
         <div class="row content">
           <div class="col-md-2"></div>
           <div class="col-md-10 main">
             <div class="row">
               <div class="col-md-10 post">
-                <div class="headline"><a href="15844566053629.html">Python常用方法</a></div>
-                
-                <div class="meta"><span class="time">$[timeformat('2020-03-17T22:50:05+08:00')]</span></div>
+                <div class="headline"><a href="neo4j-zhi-shi-dian1-if-we-have.html">Neo4j知识点</a></div>
+                <div class="subtitle">「Neo4j学习小记」</div>
+                <div class="meta"><span class="time">$[timeformat('2020-02-04T10:01:30+08:00')]</span></div>
                 <div class="body">
-                    <p>collections.counter</p>
+                    <h3 id="toc_0">1. If we have a database with TV episodes, what a good way to model the data if we want to query episodes by year?</h3>
+
+<p><strong>Ceate nodes for years and setup relationships between the episode and the year nodes.</strong><br/>
+We could choose to create a property in the episodes with date. When you want make a query that shows all episodes that were aired in December 2014. If the date was in a property, getting the desired result would <strong>involve inspecting and parsing the property, and create some logic to determine the right episodes.</strong></p>
+
+<h3 id="toc_1">2. What is a good way to come up with a Cypher pattern?</h3>
+
+<p><strong>You should picture a pattern in your mind, then translate to ASCII.</strong><br/>
+<img src="media/15807816907881/%E6%88%AA%E5%B1%8F2020-02-05%E4%B8%8B%E5%8D%881.09.50.png" alt="截屏2020-02-05下午1.09.50"/><br/>
+Cypher is declarative, that means you specify what you want to retrieve, not how Neo4j should retrieve it.<br/>
+Easy on the brain, it&#39;s not as steep as a learning curve you would have if you started with SQL from scratch. Because use patterns to match the data in the database.</p>
 
                 </div>
                 <div class="bottom">
-                  <a href="15844566053629.html" class="continue float-right">
+                  <a href="neo4j-zhi-shi-dian1-if-we-have.html" class="continue float-right">
                     继续阅读
                   </a>
                 </div>
@@ -73,40 +83,12 @@
       </div>
       <div class="otherposts row">
     
-  
-    
-        <div class="col-md-6">
-          <a href="15815193362338.html" class="item">
-            <div class="article normal">
-              <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/TuningTheJVM.png')"></div>
-              <div class="articleinfo">
-                <div class="headline">Tuning the JVM</div>
-                
-              </div>
-            </div>
-          </a>
-        </div>
-    
-  
-    
-        <div class="col-md-6">
-          <a href="15813454180710.html" class="item">
-            <div class="article normal">
-              <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/MultithreadingAndConcurrency.png')"></div>
-              <div class="articleinfo">
-                <div class="headline">Multithreading and Concurrency</div>
-                
-              </div>
-            </div>
-          </a>
-        </div>
-    
    
   </div>
   <div class="pagenavi">
-    <div class="item"><a href="all_7.html">更新文章</a></div>
+    <div class="item"><a href="all_10.html">更新文章</a></div>
     <div class="item"> · </div>
-    <div class="item"><a href="all_9.html">旧有文章</a></div>
+    <div class="item">已是最旧一页</div>
   </div>
  </div>
  <script>
