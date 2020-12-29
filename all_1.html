@@ -54,45 +54,65 @@
           <div class="col-md-10 main">
             <div class="row">
               <div class="col-md-10 post">
-                <div class="headline"><a href="16000890176454.html">回溯算法通用思路模板</a></div>
+                <div class="headline"><a href="16042002914320.html">Redis数据结构和使用场景</a></div>
                 
-                <div class="meta"><span class="time">$[timeformat('2020-09-14T21:10:17+08:00')]</span></div>
+                <div class="meta"><span class="time">$[timeformat('2020-11-01T11:11:31+08:00')]</span></div>
                 <div class="body">
-                    <pre><code class="language-text">class Solution {
-    List&lt;T&gt;/boolean/int result;//结果集/计数
-    public List/boolean/int alg(Object... input) {
-        T res = new T();//满足的结果集
-        //TODO 初始化
-        backTrack(各种状态);
-        return result;
-    }
-    
-    private void backTrack(各种状态) {
-        if() {//终止条件
-            更新result
-            1、List
-            2、boolean
-            3、自加int
-            return;
-        }
-        
-        for(){//当前层需要搜索的集合
-            if() {//剪枝，不满足条件
-                return;
-            }
-            if(){//满足条件
-                //TODO 更新中间状态
-                backTrack(新状态);
-                //TODO 恢复状态
-            }
-        }
-    }
-}
-</code></pre>
+                    <h3 id="toc_0">help</h3>
+
+<p>help @&lt;name&gt;</p>
+
+<h3 id="toc_1">String</h3>
+
+<ul>
+<li>单值缓存</li>
+<li>对象缓存</li>
+<li>分布式锁</li>
+<li>计数器</li>
+<li>Web集群session共享</li>
+<li>生成分布式系统全局序列号</li>
+</ul>
+
+<h3 id="toc_2">hash</h3>
+
+<ul>
+<li>对象缓存
+<strong>与string对比</strong>
+优点：<br/>
+1）同类数据归类整合储存，方便数据管理<br/>
+2）相比string操作消耗内存与cpu更小<br/>
+3）相比string储存更节省空间<br/>
+缺点：<br/>
+过期功能不能使用在field上，只能用在key上<br/>
+Redis集群架构下不适合大规模使用</li>
+</ul>
+
+<h3 id="toc_3">list</h3>
+
+<p>是一个双端链表，可以用作stack、Queue和Blocking MQ（与Queue相比，在没元素时会阻塞，直到队列有消息，可设置超时时间）。</p>
+
+<ul>
+<li>微博和微信公众号消息流</li>
+</ul>
+
+<h3 id="toc_4">set</h3>
+
+<ul>
+<li>微信抽奖小程序</li>
+<li>点赞、收藏、标签</li>
+</ul>
+
+<h3 id="toc_5">zset</h3>
+
+<p>有序的集合，跳表实现</p>
+
+<ul>
+<li>排行榜</li>
+</ul>
 
                 </div>
                 <div class="bottom">
-                  <a href="16000890176454.html" class="continue float-right">
+                  <a href="16042002914320.html" class="continue float-right">
                     继续阅读
                   </a>
                 </div>

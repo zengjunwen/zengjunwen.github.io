@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,minimum-scale=1" />
     <title>
         
-      回溯算法通用思路模板 - Zjunwen
+      递归、回溯、动态规划 - Zjunwen
       
     </title>
     <meta name="keywords" content="Zjunwen" />
@@ -14,9 +14,9 @@
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:creator" content="@" />
       <meta property="og:url" content="16000890176454.html" />
-      <meta property="og:title" content="回溯算法通用思路模板" />
+      <meta property="og:title" content="递归、回溯、动态规划" />
       
-        <meta property="og:description" content="回溯算法通用思路模板" />
+        <meta property="og:description" content="递归、回溯、动态规划" />
       
       
       <meta property="og:site_name" content="Zjunwen" />
@@ -64,11 +64,81 @@
         <div class="row">
           <div class="col-md-10">
             <div class="post">
-              <div class="headline"><a href="16000890176454.html">回溯算法通用思路模板</a></div>
+              <div class="headline"><a href="16000890176454.html">递归、回溯、动态规划</a></div>
               
               <div class="meta"><span class="time">$[timeformat('2020-09-14T21:10:17+08:00')]</span><br><span class="tags"></span></div>
               <div class="body">
-                  <pre><code class="language-text">class Solution {
+                  <p>本文将递归、回溯、动态规划放在一起，通过一个例题探索三者之间的关系，从而达到融汇贯通的地步。回溯是递归的特殊情况，在递归调用后，有一个状态恢复的动作。动态规划是递归的升华，通过字问题分解、推导状态转移方程、使用DP table实现表的自底向上的更新。对于能有动态规划的问题，在采用递归方法并进行合理的剪枝，应该是能得倒和动规一样的时间复杂度。下面直接看题：</p>
+
+<p><a href="https://leetcode-cn.com/problems/fibonacci-number/">斐波那契数</a><br/>
+递归实现</p>
+
+<pre><code class="language-text">// 最朴素的递归方法
+class Solution {
+    public int fib(int N) {
+        if (N == 0||N==1) {
+            return N;
+        }
+
+        return fib(N -1) + fib(N - 2);
+    }
+}
+</code></pre>
+
+<p>通过备忘录剪枝实现</p>
+
+<pre><code class="language-text">// 备忘录方法
+class Solution {
+    int[] memo;
+    public int fib(int N) {
+        if (N == 0||N==1) {
+            return N;
+        }
+        memo = new int[N + 1];
+        Arrays.fill(memo, Integer.MAX_VALUE);
+        memo[0] = 0;
+        memo[1] = 1;
+        return traversal(N);
+    }
+
+    private int traversal(int N) {
+        if (N == 0||N==1) {
+            return N;
+        }
+        int a,b;
+        a = memo[N-1] == Integer.MAX_VALUE?traversal(N-1):memo[N-1];
+        b = memo[N-2] == Integer.MAX_VALUE?traversal(N-2):memo[N-2];
+        memo[N] = a + b;
+        return memo[N];
+    }
+}
+</code></pre>
+
+<p>动态规划实现</p>
+
+<pre><code class="language-text">// DP table方法
+class Solution {
+    public int fib(int N) {
+        if(N &lt; 2) {
+            return N;
+        }
+
+        int[] dp = new int[N + 1];
+        dp[0] = 0;
+        dp[1] = 1;
+        for(int i = 2; i &lt;= N; i++) {
+            dp[i] = dp[i-1] + dp[i-2];
+        }
+        
+        return dp[N];
+    }
+}
+
+</code></pre>
+
+<h3 id="toc_0">回溯算法通用思路模板</h3>
+
+<pre><code class="language-text">class Solution {
     List&lt;T&gt;/boolean/int result;//结果集/计数
     public List/boolean/int alg(Object... input) {
         T res = new T();//满足的结果集
