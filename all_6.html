@@ -54,149 +54,47 @@
           <div class="col-md-10 main">
             <div class="row">
               <div class="col-md-10 post">
-                <div class="headline"><a href="15914059244688.html">网格类</a></div>
+                <div class="headline"><a href="15918899724025.html">手撕JVM类加载机制源码</a></div>
                 
-                <div class="meta"><span class="time">$[timeformat('2020-06-06T09:12:04+08:00')]</span></div>
+                <div class="meta"><span class="time">$[timeformat('2020-06-11T23:39:32+08:00')]</span></div>
                 <div class="body">
-                    <h2 id="toc_0">找梯子</h2>
+                    <p>先来看下通过Java命令执行代码的大体流程<br/>
+<img src="media/15918899724025/%E6%88%AA%E5%B1%8F2020-06-12%20%E4%B8%8A%E5%8D%8810.13.54.png" alt="截屏2020-06-12 上午10.13.54"/><br/>
+C++引导类调用Launche类中的静态方法getLauncher创建Lanuncher实例。创建实例时，1、在构造函数中创建扩展类加载器和应用程序类加载器；2、指定Launcher中的ClassLoader为应用程序加载器；3、应用类加载器和扩展类加载器通过应用加载器中的parent参数关联；4、ClassLoader中的loadClass方法实现双亲委派机制；5、调用类加载器中的findClass方法实现类加载，该方在AppClassLoader和ExtClassLoader的父类URLClassLoader中实现；6、findClass调用defineClass实现<strong>加载 &gt;&gt; 验证 &gt;&gt; 准备 &gt;&gt; 解析 &gt;&gt; 初始化</strong>。<br/>
+<img src="media/15918899724025/15919292512787.jpg" alt=""/></p>
 
-<p>给定一个训练场，训练场为一个n*m的矩阵，每个格子中有不同高度的箱子，训练人员需要从训练场左上方到达右下方。要从所在格子location到达附近格子locationNext需要一把梯子，梯子高度遵循以下规则：<br/>
-1、如果location中的箱子高度高于或等于locationNew中的箱子高度，需要高度为0的梯子；<br/>
-2、如果location中的箱子高度h低于locationNew中的箱子高度hNew，需要梯子高度为hNew-h。<br/>
-对于给定输入训练场信息，求所需高度最低的梯子。<br/>
-例：<br/>
-输入 [[1,2,2],[1,1,1]]<br/>
-输出 1</p>
+<h3 id="toc_0">加载到内存中的流程</h3>
 
-<p>方法一：使用队列进行BFS</p>
+<p><img src="media/15918899724025/%E6%88%AA%E5%B1%8F2020-06-12%20%E4%B8%8A%E5%8D%8810.11.56.png" alt="截屏2020-06-12 上午10.11.56"/></p>
 
-<pre><code class="language-text">public class Solution {
-    Queue&lt;Pair&lt;Integer, Integer&gt;&gt; queue = new LinkedList&lt;&gt;();
-    int[][] heighs = null;
-    int[][] input = null;
-    int len = 0;
-    int heigh = 0;
+<h3 id="toc_1">触发类加载的条件</h3>
 
-    public int minLengthLadder(int[][] grid) {
-        if (grid == null || grid.length == 0) {
-            return 0;
-        }
+<p>new<br/>
+访问静态方法、静态变量<br/>
+反射<br/>
+初始化子类</p>
 
-        input = grid;
-        heigh = grid.length;
-        len = grid[0].length;
-        heighs = new int[heigh][len];
-        for (int i = 0; i &lt; heigh; i++) {
-            for (int j = 0; j &lt; len; j++) {
-                heighs[i][j] = Integer.MAX_VALUE;
-            }
-        }
-        heighs[0][0] = 0;
-        queue.add(new Pair&lt;&gt;(0, 0));
+<h3 id="toc_2">为什么设计双亲委派机制？</h3>
 
-        Pair&lt;Integer, Integer&gt; location = null;
-        while (!queue.isEmpty()) {
-            location = queue.poll();
-            bfs(location.getKey(), location.getValue());
-        }
+<ul>
+<li>沙箱安全机制：自己写的java.lang.String.class类不会被加载，这样便可以防止核心API库被随意篡改；</li>
+<li>避免类的重复加载：当父亲已经加载了该类时，就没有必要子ClassLoader再加载一次，保证被加载类的唯一性。</li>
+</ul>
 
-        return heighs[heigh - 1][len - 1];
-    }
+<h3 id="toc_3">如何写自己定义的类加载器？</h3>
 
-    private void bfs(Integer locationX, Integer locationY) {
-        int temp = 0;
-        if (locationX &gt; 0) {
-            temp = input[locationX - 1][locationY] - input[locationX][locationY];
-            temp = Math.max(temp, heighs[locationX][locationY]);
-            if (heighs[locationX - 1][locationY] &gt; temp) {
-                heighs[locationX - 1][locationY] = temp;
-                queue.add(new Pair&lt;&gt;(locationX - 1, locationY));
-            }
-        }
-        if (locationY &gt; 0) {
-            temp = input[locationX][locationY - 1] - input[locationX][locationY];
-            temp = Math.max(temp, heighs[locationX][locationY]);
-            if (heighs[locationX][locationY - 1] &gt; temp) {
-                heighs[locationX][locationY - 1] = temp;
-                queue.add(new Pair&lt;&gt;(locationX, locationY - 1));
-            }
-        }
-        if (locationX &lt; heigh - 1) {
-            temp = input[locationX + 1][locationY] - input[locationX][locationY];
-            temp = Math.max(temp, heighs[locationX][locationY]);
-            if (heighs[locationX + 1][locationY] &gt; temp) {
-                heighs[locationX + 1][locationY] = temp;
-                queue.add(new Pair&lt;&gt;(locationX + 1, locationY));
-            }
-        }
-        if (locationY &lt; len - 1) {
-            temp = input[locationX][locationY + 1] - input[locationX][locationY];
-            temp = Math.max(temp, heighs[locationX][locationY]);
-            if (heighs[locationX][locationY + 1] &gt; temp) {
-                heighs[locationX][locationY + 1] = temp;
-                queue.add(new Pair&lt;&gt;(locationX, locationY + 1));
-            }
-        }
-    }
-}
-</code></pre>
+<p>自定义类加载器只需要继承 java.lang.ClassLoader 类，该类有两个核心方法，一个是loadClass(String, boolean)，实现了双亲委派机制，还有一个方法是findClass，默认实现是空方法，所以我们自定义类加载器主要是重写findClass方法。findClass方法重写可参考URLClassLoader中的方法实现。</p>
 
-<p>方法二 使用递归进行DFS</p>
+<h3 id="toc_4">如何打破已有的双亲委派机制？</h3>
 
-<pre><code class="language-text">public class Solution {
-    int[][] ladderLens = null;
-    int[][] input = null;
-    int len = 0;
-    int heigh = 0;
+<p>双亲委派机制的实现已在ClassLoader的loadClass方法中实现，要打破，只需重写该方法即可。</p>
 
-    public int minLengthLadder(int[][] grid) {
-        if (grid == null || grid.length == 0) {
-            return 0;
-        }
-
-        input = grid;
-        heigh = grid.length;
-        len = grid[0].length;
-        ladderLens = new int[heigh][len];
-        for (int i = 0; i &lt; heigh; i++) {
-            for (int j = 0; j &lt; len; j++) {
-                ladderLens[i][j] = Integer.MAX_VALUE;
-            }
-        }
-
-        bfs(0, 0, 0, input[0][0]);
-
-        return ladderLens[heigh - 1][len - 1];
-    }
-
-    private void bfs(Integer locationX, Integer locationY, int ladderLen, int beforeHeigh) {
-        if (locationX &gt;= heigh || locationY &gt;= len || locationX &lt; 0 || locationY &lt; 0) {
-            return;
-        }
-        int temp = input[locationX][locationY] - beforeHeigh;
-        temp = Math.max(temp, ladderLen);
-        if (temp &lt; ladderLens[locationX][locationY]) {
-            ladderLens[locationX][locationY] = temp;
-
-            bfs(locationX + 1, locationY, ladderLens[locationX][locationY], input[locationX][locationY]);
-            bfs(locationX - 1, locationY, ladderLens[locationX][locationY], input[locationX][locationY]);
-            bfs(locationX, locationY + 1, ladderLens[locationX][locationY], input[locationX][locationY]);
-            bfs(locationX, locationY - 1, ladderLens[locationX][locationY], input[locationX][locationY]);
-        }
-    }
-}
-</code></pre>
-
-<p>对于网格总结为：<br/>
-1、使用递归进行DFS；此情况在非尾递归时会导致压栈，在输入数据很大时可能会导致堆栈溢出；如果是尾递归优先采用递归进行DFS，能大大减少代码量。<br/>
-2、使用队列进行BFS。</p>
-
-<p>reference：<br/>
-<a href="https://leetcode-cn.com/problems/max-area-of-island/">岛屿的最大面积</a></p>
+<p><strong>总结：</strong><br/>
+核心方法调用流程为getLanucher(Lanuncher中的静态方法)-&gt;getClassLoader(Launcher)-&gt;loadClass(ClassLoder，实现双亲委派或重写打破双亲委派)-&gt;findClass(ClasserLoer子类实现)-&gt;defineClass(ClassLoder，装载、验证、准备、解析、初始化)。</p>
 
                 </div>
                 <div class="bottom">
-                  <a href="15914059244688.html" class="continue float-right">
+                  <a href="15918899724025.html" class="continue float-right">
                     继续阅读
                   </a>
                 </div>
@@ -210,11 +108,11 @@
   
     
         <div class="col-md-6">
-          <a href="15867880029166.html" class="item">
+          <a href="15914059244688.html" class="item">
             <div class="article normal">
               <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
               <div class="articleinfo">
-                <div class="headline">Spring AOP</div>
+                <div class="headline">网格类</div>
                 
               </div>
             </div>
@@ -224,11 +122,11 @@
   
     
         <div class="col-md-6">
-          <a href="15865773197608.html" class="item">
+          <a href="15867880029166.html" class="item">
             <div class="article normal">
               <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
               <div class="articleinfo">
-                <div class="headline">Hadoop Ecosystem</div>
+                <div class="headline">Spring AOP</div>
                 
               </div>
             </div>

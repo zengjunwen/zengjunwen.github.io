@@ -6,11 +6,20 @@
     <meta name="viewport" content="width=device-width,minimum-scale=1" />
     <title>
         
-      Zjunwen
+      鉴权和授权 - Zjunwen
       
     </title>
     <meta name="keywords" content="Zjunwen" />
     
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:creator" content="@" />
+      <meta property="og:url" content="16101646039208.html" />
+      <meta property="og:title" content="鉴权和授权" />
+      
+        <meta property="og:description" content="鉴权和授权" />
+      
+      
+      <meta property="og:site_name" content="Zjunwen" />
     
     
       <link rel="icon" href="media/15807816907881/截屏2020-02-04上午10.39.45.png">
@@ -44,21 +53,22 @@
         </div>
       </div>
       <hr>
-    </div> <div class="container" id="category">
-  
-    
-      <div class="article huge">
-        <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
-        <div class="row content">
-          <div class="col-md-2"></div>
-          <div class="col-md-10 main">
-            <div class="row">
-              <div class="col-md-10 post">
-                <div class="headline"><a href="16101646039208.html">鉴权和授权</a></div>
-                
-                <div class="meta"><span class="time">$[timeformat('2021-01-09T22:39:25+08:00')]</span></div>
-                <div class="body">
-                    <p>最近在做安卓的scope存储拆分，涉及到比较多的与服务端的权限数据交互，觉得有必要结合之前搞过的奖金系统中权限处理进行一个总结，文中，我们不讲具体业务，只讲客户端到服务的的认证流程和常用处理方式。</p>
+    </div> <div class="container" id="post">
+  <div class="article huge">
+    <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
+    <img src="" style="display: none;" class="featureimgforexternal">
+    <div class="timeGTM" style="display:none;">2021-01-09T22:39:25+08:00</div>
+    <div class="row content">
+      <div class="col-md-2"></div>
+      <div class="col-md-10 main">
+        <div class="row">
+          <div class="col-md-10">
+            <div class="post">
+              <div class="headline"><a href="16101646039208.html">鉴权和授权</a></div>
+              
+              <div class="meta"><span class="time">$[timeformat('2021-01-09T22:39:25+08:00')]</span><br><span class="tags"></span></div>
+              <div class="body">
+                  <p>最近在做安卓的scope存储拆分，涉及到比较多的与服务端的权限数据交互，觉得有必要结合之前搞过的奖金系统中权限处理进行一个总结，文中，我们不讲具体业务，只讲客户端到服务的的认证流程和常用处理方式。</p>
 
 <p>当我们在浏览器中输入网址后，浏览器将与服务器进行三次握手🤝建立tcp链接。如果需要登录，登陆后发生了些什么呢？</p>
 
@@ -68,71 +78,30 @@
 
 <p>对于复杂场景，通常采用token的方式，将用户信息保存在客户端，从而减小服务端的压力。在这种方案下独立出统一认证服务UAA和网关服务来完成统一的认证授权服务。</p>
 
-                </div>
-                <div class="bottom">
-                  <a href="16101646039208.html" class="continue float-right">
-                    继续阅读
-                  </a>
-                </div>
               </div>
             </div>
+            
+            
           </div>
         </div>
       </div>
-      <div class="otherposts row">
-    
-  
-    
-        <div class="col-md-6">
-          <a href="16000890176454.html" class="item">
-            <div class="article normal">
-              <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
-              <div class="articleinfo">
-                <div class="headline">递归、回溯、动态规划</div>
-                
-              </div>
-            </div>
-          </a>
-        </div>
-    
-  
-    
-        <div class="col-md-6">
-          <a href="16042429564926.html" class="item">
-            <div class="article normal">
-              <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
-              <div class="articleinfo">
-                <div class="headline">二叉树的遍历及应用</div>
-                
-              </div>
-            </div>
-          </a>
-        </div>
-    
-   
+    </div>
   </div>
-  <div class="pagenavi">
-    <div class="item">已是最新一页</div>
-    <div class="item"> · </div>
-    <div class="item"><a href="all_1.html">旧有文章</a></div>
-  </div>
- </div>
- <script>
-   let category = new Vue({
-    el: '#category',
-    data: {},
-    methods: {
-      indexOddandEven(index) {
-        return index%2 ? 'odd' : 'even';
-      },
-      timeformat(raw) {
-        return moment(raw).format("YYYY 年 MM 月 DD 日");
-      }
-    },
-    delimiters: ['$[', ']']
-  })
- </script>
-      <div class="container">
+</div>
+<script>
+    let post = new Vue({
+     el: '#post',
+     data: {
+       hidelikecoin: ''
+     },
+     methods: {
+       timeformat(raw) {
+         return moment(raw).format("YYYY 年 MM 月 DD 日");
+       }
+     },
+     delimiters: ['$[', ']']
+   })
+  </script>      <div class="container">
       <hr>
       <div class="footer" id="footer">
         <div class="slogan">提问🙋🏼、思考🤔、专注🙇🏻、解决问题💁🏻‍♂️</div>

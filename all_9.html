@@ -48,45 +48,35 @@
   
     
       <div class="article huge">
-        <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/Java BDDWithCucumberAndGherkin.png')"></div>
+        <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/MultithreadingAndConcurrency.png')"></div>
         <div class="row content">
           <div class="col-md-2"></div>
           <div class="col-md-10 main">
             <div class="row">
               <div class="col-md-10 post">
-                <div class="headline"><a href="15812327320844.html">Java BDD with Cucumber and Gherkin</a></div>
-                <div class="subtitle">The article covers the essence of behavior-driven development (BDD)</div>
-                <div class="meta"><span class="time">$[timeformat('2020-02-09T15:18:52+08:00')]</span></div>
+                <div class="headline"><a href="15813454180710.html">Multithreading and Concurrency</a></div>
+                
+                <div class="meta"><span class="time">$[timeformat('2020-02-10T22:36:58+08:00')]</span></div>
                 <div class="body">
-                    <p>In this article, I want to teach you about the best way I know to build great software: behavior-driven development. Behavior-driven development, or BDD, is one of the most effective and satisfying ways of delivering software. As one person once put it, BDD is the thing that makes you be agile, not just do agile. Automation plays a key role in BDD, and Cucumber is the world&#39;s most popular automation tool. But Cucumber is not just about automation, it&#39;s also a brilliant collaboration tool. It helps teams unite their efforts around a single source of truth in the form of clear, business-readable executable specifications. This course is a quick introduction to BDD with Cucumber and Java. Some of the major topics we&#39;ll be covering include the BDD requirements discovery process, writing requirements in Gherkin, the language of Cucumber, turning Gherkin requirements into automated tests, and how these tests can act as documentation for your features. By the end of this article, you&#39;ll understand what BDD is about and how you can use Cucumber to help your team deliver better features that will really delight your customers.</p>
-
-<h2 id="toc_0">What Is BDD Want Solve?</h2>
-
-<p><img src="media/15812327320844/%E6%88%AA%E5%B1%8F2020-02-09%E4%B8%8B%E5%8D%883.43.17.png" alt="截屏2020-02-09下午3.43.17"/><br/>
-In many large organizations we have functional analysts or architects who come up with the requirements on behalf of the business, or for teams doing some form of Scrum, it might be a product owner who writes up the new requirement in the form of a user story. Next, the BA(Business analyst) writes up this requirement in a more detailed form, maybe a more detailed user story, or a Word document, or it might go into an agile project management tool, like Jira. The development team picks up the story and uses it to start developing their code, and once the code is written, the testers pick up the feature to test. In many teams, these testers will have their own test plans that they derive from the requirements document. And once the feature is tested of course, it can be delivered. Can you see the flaws in this approach? It&#39;s the telephone game all over again. <strong>At each stage, the information passes from one person to another and it can be misinterpreted, or transformed, or forgotten.</strong> The features that we get aren&#39;t what the customer asked for, and they aren&#39;t what the customer really needs either. And at the end of the day, our users are unhappy. <strong>It&#39;s this communication gap that BDD tries to solve.</strong></p>
-
-<h2 id="toc_1">BDD Process</h2>
-
-<p>BDD always starts with a conversation. Instead of passing requirements from one person to another and hoping everyone gets it right, the teams that practice BDD get together early enough to have conversations about what the customer really needs, and what BDD does is it gives us techniques to structure and facilitate these conversations.<br/>
-<img src="media/15812327320844/%E6%88%AA%E5%B1%8F2020-02-09%E4%B8%8B%E5%8D%884.15.26.png" alt="截屏2020-02-09下午4.15.26"/><br/>
-The process contain four steps：</p>
+                    <h2 id="toc_0">Threading Foundation Types</h2>
 
 <ol>
-<li><strong>Collaboration and conversation(Discovery Phase, or Illustrate Phase)</strong>
-The team talks through concrete examples and counter examples of how a user would interact with the application and what outcomes they&#39;d like to achieve. And by the end of the conversation, the whole team has a really clear picture of what they need to build, and just as importantly, why it would be useful, and it&#39;s not a one-way street. The team members get to ask questions to clarify doubts, even to propose new ideas or suggestions that all go to making the features better.In the illustrate phase, the main tools we use are whiteboards and Post-its.</li>
-<li><strong>Concrete examples and business rules use common language(Formulate Phase)</strong>
-According illustration to produce a list of business rules and acceptance criteria that we can use for this feature. We pass these rules and examples to the next stage of the process, and this is where the team members, often a BA and a tester, turn these rules and examples into a format that can act both as specifications that a business person can read, and also as automated acceptance tests that we can execute as part of our test suite, and this is where Cucumber comes into play. We write these executable specifications in a special language called Gherkin, which uses the Given-When-Then notation.</li>
-<li><strong>Faster feedback through early and effective automation(Test Phase)</strong>
-We uses the Given-When-Then notation that you may have already seen. Next, we write test automation code to turn these Given-When-Then statements, or these executable specifications, into automated acceptance tests. This usually happens before development starts or during the same sprint. And once these tests pass, we can show the business concrete evidence that the feature does what it was expected to do. </li>
+<li><strong>Runnable interface</strong>
+<ul>
+<li>Represents a task to be run on a thread</li>
+<li>Only member is the run method</li>
+</ul></li>
+<li><strong>Thread class</strong>
+<ul>
+<li>Represents a thread of execution</li>
+<li>Can interact with and effect thread state</li>
+<li>Begin execution with start method</li>
+</ul></li>
 </ol>
-
-<h2 id="toc_2">Landscape of Code</h2>
-
-<p><img src="media/15812327320844/%E6%88%AA%E5%B1%8F2020-02-09%E4%B8%8B%E5%8D%885.37.47.png" alt="截屏2020-02-09下午5.37.47"/></p>
 
                 </div>
                 <div class="bottom">
-                  <a href="15812327320844.html" class="continue float-right">
+                  <a href="15813454180710.html" class="continue float-right">
                     继续阅读
                   </a>
                 </div>
@@ -100,12 +90,12 @@ We uses the Given-When-Then notation that you may have already seen. Next, we wr
   
     
         <div class="col-md-6">
-          <a href="15811346971820.html" class="item">
+          <a href="15812327320844.html" class="item">
             <div class="article normal">
-              <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/SpringFundamentals.png')"></div>
+              <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/Java BDDWithCucumberAndGherkin.png')"></div>
               <div class="articleinfo">
-                <div class="headline">Spring Framework：Spring Fundamentals</div>
-                
+                <div class="headline">Java BDD with Cucumber and Gherkin</div>
+                <div class="subtitle">The article covers the essence of behavior-driven development (BDD)</div>
               </div>
             </div>
           </a>
@@ -114,12 +104,12 @@ We uses the Given-When-Then notation that you may have already seen. Next, we wr
   
     
         <div class="col-md-6">
-          <a href="15812210243672.html" class="item">
+          <a href="15811346971820.html" class="item">
             <div class="article normal">
-              <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/SpringPicture.png')"></div>
+              <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/SpringFundamentals.png')"></div>
               <div class="articleinfo">
-                <div class="headline">Spring Picture</div>
-                <div class="subtitle">Spring Ecosystem的简单概述</div>
+                <div class="headline">Spring Framework：Spring Fundamentals</div>
+                
               </div>
             </div>
           </a>

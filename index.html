@@ -54,115 +54,23 @@
           <div class="col-md-10 main">
             <div class="row">
               <div class="col-md-10 post">
-                <div class="headline"><a href="16000890176454.html">递归、回溯、动态规划</a></div>
+                <div class="headline"><a href="16101646039208.html">鉴权和授权</a></div>
                 
-                <div class="meta"><span class="time">$[timeformat('2020-09-14T21:10:17+08:00')]</span></div>
+                <div class="meta"><span class="time">$[timeformat('2021-01-09T22:39:25+08:00')]</span></div>
                 <div class="body">
-                    <p>本文将递归、回溯、动态规划放在一起，通过一个例题探索三者之间的关系，从而达到融汇贯通的地步。回溯是递归的特殊情况，在递归调用后，有一个状态恢复的动作。动态规划是递归的升华，通过字问题分解、推导状态转移方程、使用DP table实现表的自底向上的更新。对于能有动态规划的问题，在采用递归方法并进行合理的剪枝，应该是能得倒和动规一样的时间复杂度。下面直接看题：</p>
+                    <p>最近在做安卓的scope存储拆分，涉及到比较多的与服务端的权限数据交互，觉得有必要结合之前搞过的奖金系统中权限处理进行一个总结，文中，我们不讲具体业务，只讲客户端到服务的的认证流程和常用处理方式。</p>
 
-<p><a href="https://leetcode-cn.com/problems/fibonacci-number/">斐波那契数</a><br/>
-递归实现</p>
+<p>当我们在浏览器中输入网址后，浏览器将与服务器进行三次握手🤝建立tcp链接。如果需要登录，登陆后发生了些什么呢？</p>
 
-<pre><code class="language-text">// 最朴素的递归方法
-class Solution {
-    public int fib(int N) {
-        if (N == 0||N==1) {
-            return N;
-        }
+<p>对于简单的单机场景，登陆后你更有可能会拿到一个叫sessionid的东西，但在servlet返回的数据中，一般不叫这个，而是JESSESSIONID，包装在cookie中，在后续每次与服务端的交互中会在https的请求头参数cookie中带上这个id，服务端拿到id后查询id对应的用户数据。那sessionid是怎么来的呢？回到登录场景，登录时向服务端发送用户名和密码，服务的收到密码后进行散列处理，因为密码不是直接存储在数据库的，而是存储散列后的字串，这种散列方式得到的字串在其他场景有的叫指纹，相关的散列算法有MD1、SHA256、BCrypt，推荐用BCrypt，因为前两者可以在短时间使用彩虹桥🌈进行破解，而后者需要花很久的时间。认证通过后，会获取相应的权限信息进行封装保存在服务端，并为其分配一个sessionid后返回给客户端。</p>
 
-        return fib(N -1) + fib(N - 2);
-    }
-}
-</code></pre>
+<p>session的方式在复杂的场景下带来了很多问题，如登录后还有支付的场景，涉及到多个服务实例部署的场景等，对此也有相应的处理方案，如：session黏贴、session复制、session统一存储Redis等。</p>
 
-<p>通过备忘录剪枝实现</p>
-
-<pre><code class="language-text">// 备忘录方法
-class Solution {
-    int[] memo;
-    public int fib(int N) {
-        if (N == 0||N==1) {
-            return N;
-        }
-        memo = new int[N + 1];
-        Arrays.fill(memo, Integer.MAX_VALUE);
-        memo[0] = 0;
-        memo[1] = 1;
-        return traversal(N);
-    }
-
-    private int traversal(int N) {
-        if (N == 0||N==1) {
-            return N;
-        }
-        int a,b;
-        a = memo[N-1] == Integer.MAX_VALUE?traversal(N-1):memo[N-1];
-        b = memo[N-2] == Integer.MAX_VALUE?traversal(N-2):memo[N-2];
-        memo[N] = a + b;
-        return memo[N];
-    }
-}
-</code></pre>
-
-<p>动态规划实现</p>
-
-<pre><code class="language-text">// DP table方法
-class Solution {
-    public int fib(int N) {
-        if(N &lt; 2) {
-            return N;
-        }
-
-        int[] dp = new int[N + 1];
-        dp[0] = 0;
-        dp[1] = 1;
-        for(int i = 2; i &lt;= N; i++) {
-            dp[i] = dp[i-1] + dp[i-2];
-        }
-        
-        return dp[N];
-    }
-}
-
-</code></pre>
-
-<h3 id="toc_0">回溯算法通用思路模板</h3>
-
-<pre><code class="language-text">class Solution {
-    List&lt;T&gt;/boolean/int result;//结果集/计数
-    public List/boolean/int alg(Object... input) {
-        T res = new T();//满足的结果集
-        //TODO 初始化
-        backTrack(各种状态);
-        return result;
-    }
-    
-    private void backTrack(各种状态) {
-        if() {//终止条件
-            更新result
-            1、List
-            2、boolean
-            3、自加int
-            return;
-        }
-        
-        for(){//当前层需要搜索的集合
-            if() {//剪枝，不满足条件
-                return;
-            }
-            if(){//满足条件
-                //TODO 更新中间状态
-                backTrack(新状态);
-                //TODO 恢复状态
-            }
-        }
-    }
-}
-</code></pre>
+<p>对于复杂场景，通常采用token的方式，将用户信息保存在客户端，从而减小服务端的压力。在这种方案下独立出统一认证服务UAA和网关服务来完成统一的认证授权服务。</p>
 
                 </div>
                 <div class="bottom">
-                  <a href="16000890176454.html" class="continue float-right">
+                  <a href="16101646039208.html" class="continue float-right">
                     继续阅读
                   </a>
                 </div>
@@ -176,11 +84,11 @@ class Solution {
   
     
         <div class="col-md-6">
-          <a href="16042429564926.html" class="item">
+          <a href="16000890176454.html" class="item">
             <div class="article normal">
               <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
               <div class="articleinfo">
-                <div class="headline">二叉树的遍历及应用</div>
+                <div class="headline">递归、回溯、动态规划</div>
                 
               </div>
             </div>
@@ -190,11 +98,11 @@ class Solution {
   
     
         <div class="col-md-6">
-          <a href="16043310560800.html" class="item">
+          <a href="16042429564926.html" class="item">
             <div class="article normal">
               <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
               <div class="articleinfo">
-                <div class="headline">Redis持久化</div>
+                <div class="headline">二叉树的遍历及应用</div>
                 
               </div>
             </div>

@@ -54,37 +54,42 @@
           <div class="col-md-10 main">
             <div class="row">
               <div class="col-md-10 post">
-                <div class="headline"><a href="15857401206120.html">Employing Ensemble Methods with scikit-learn</a></div>
+                <div class="headline"><a href="15865773197608.html">Hadoop Ecosystem</a></div>
                 
-                <div class="meta"><span class="time">$[timeformat('2020-04-01T19:22:00+08:00')]</span></div>
+                <div class="meta"><span class="time">$[timeformat('2020-04-11T11:55:19+08:00')]</span></div>
                 <div class="body">
-                    <p><img src="media/15857401206120/%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0-Ensemble%20Learning-.png" alt="集成学习-Ensemble Learning-"/></p>
+                    <p><img src="media/15865773197608/%E6%88%AA%E5%B1%8F2020-04-11%20%E4%B8%8B%E5%8D%8812.11.29.png" alt="截屏2020-04-11 下午12.11.29"/></p>
 
-<h2 id="toc_0">Bagging</h2>
+<p>Hive:Provides an SQL interface to Hadoop.（数据仓库）<br/>
+HBase:A database management system on top of Hadoop. Integrates with your application just like a traditional database<br/>
+Pig:A data manipulation language<br/>
+transforms unstructured data into a structured format.Query this structured data using interfaces like Hive.<br/>
+Spark:A distributed computing engine used along with Hadoop.Interactive shell to quickly process datasets.Has a bunch of built in libraries for machine learning, stream processing, graph processing etc.<br/>
+Flume/Sqoop:Tools to transfer data between other systems and Hadoop.</p>
 
-<p>个体学习器间不存在依赖关系，模型并行学习。关注方差。</p>
+<h1 id="toc_0">Hadoop</h1>
 
-<h3 id="toc_1">结合策略(combine)</h3>
+<h3 id="toc_1">Store Data</h3>
+
+<p>Break the data into blocks. Default blocks size is 128M.Name node store matedata to locate block.Data node physically stores the data in the files.</p>
+
+<h3 id="toc_2">Default Hadoop replication strategy(three replications)</h3>
 
 <ol>
-<li>Averageing<br/>
-Hard Voting：平均投票。<br/>
-Soft Voting：加权平均投票。 </li>
-<li>Stacking</li>
-<li>所谓Stacking 即，Model stacking: Train additional model to combine individual learners。</li>
+<li>First location chosen at radnom</li>
+<li>Second location has to be on a different rack</li>
+<li>Third replica is on the same rack as the second but on different nodes<br/>
+The purpose of the strategy:inter rack traffic and improves write performance.</li>
 </ol>
 
-<h2 id="toc_2">Boosting</h2>
+<p>MapReduce is a programming paradigm.<br/>
+Partition:Choose reducers such that keys are evenly distributed across partitions.<br/>
+Shuffle:The process of moving data from the mappers to the reducers.<br/>
+Combiner:解决数据从Mapper到Reducers时的性能问题。</p>
 
-<p>串行成序列化方法，关注损失函数，关注偏差。</p>
-
-<p>AdaBoost（adaptive boosting）实质上是基于加性(additive)模型以类似牛顿迭代法来优化指数损失函数，该模型使得对先前基学习器做错的训练样本在后续受到更多的关注，然后基于调整后的样本分布来训练下一个基学习器。</p>
-
-<p>Gradient Boosting对残差(负梯度)进行拟合。</p>
-<--基于scikit的模版待整理添加到github-->
                 </div>
                 <div class="bottom">
-                  <a href="15857401206120.html" class="continue float-right">
+                  <a href="15865773197608.html" class="continue float-right">
                     继续阅读
                   </a>
                 </div>
@@ -98,11 +103,11 @@ Soft Voting：加权平均投票。 </li>
   
     
         <div class="col-md-6">
-          <a href="15852382259972.html" class="item">
+          <a href="15857401206120.html" class="item">
             <div class="article normal">
               <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
               <div class="articleinfo">
-                <div class="headline">Java 8 Lambda Expression</div>
+                <div class="headline">Employing Ensemble Methods with scikit-learn</div>
                 
               </div>
             </div>
@@ -112,11 +117,11 @@ Soft Voting：加权平均投票。 </li>
   
     
         <div class="col-md-6">
-          <a href="15835098177103.html" class="item">
+          <a href="15852382259972.html" class="item">
             <div class="article normal">
-              <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/MasterGit.png')"></div>
+              <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
               <div class="articleinfo">
-                <div class="headline">Master Git</div>
+                <div class="headline">Java 8 Lambda Expression</div>
                 
               </div>
             </div>
