@@ -48,7 +48,7 @@
   
     
       <div class="article huge">
-        <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
+        <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/Authorization.png')"></div>
         <div class="row content">
           <div class="col-md-2"></div>
           <div class="col-md-10 main">
@@ -66,7 +66,15 @@
 
 <p>session的方式在复杂的场景下带来了很多问题，如登录后还有支付的场景，涉及到多个服务实例部署的场景等，对此也有相应的处理方案，如：session黏贴、session复制、session统一存储Redis等。</p>
 
-<p>对于复杂场景，通常采用token的方式，将用户信息保存在客户端，从而减小服务端的压力。在这种方案下独立出统一认证服务UAA和网关服务来完成统一的认证授权服务。</p>
+<p>对于复杂场景，通常采用token的方式，将用户信息保存在客户端，从而减小服务端的压力。在这种方案下独立出统一认证服务UAA和网关服务来完成统一的认证授权服务。不过目前我找到的关于token的材料除了JWT外，其他的在服务端拿到客户端token后还要与UAA进行交互，对token进行解析，从而获取到用户信息。JWT时token的一种实现方案，全名叫Json Web Token。格式如下：<br/>
+<img src="media/16101646039208/JWT2.png" alt="JWT2"/><br/>
+这是在token传输中的数据，是不是不好懂？数据分为三段，一段时Header、二段是Body、三段是签名。一段和二段数据通常采用Base64进行处理，三段通常先采用Base256对body进行摘要后再采用HMAC对称加密算法或RSA非对称算法进行加密，故综合起来叫HS256或RS256。上图数据进行解密后结果如下图：<br/>
+<img src="media/16101646039208/JWT1.png" alt="JWT1"/><br/>
+对于JST，解密在资源服务器上进行，也有可能在网关，而不在UAA进行。</p>
+
+<p>在目前架构总JWT广泛应用于OAuth2中，如果你理解“OAuth2 is actually for Delegated Authorization not Authorization”这句话的意思时，说明你对OAuth2的流程基本掌握了。如果你不理解，请看下图：<br/>
+<img src="media/16101646039208/OAuth2.jpeg" alt="OAuth2"/><br/>
+一句话概括为，通过第三方账号登陆服务，如利用facebook账号登陆到linkin。</p>
 
                 </div>
                 <div class="bottom">
