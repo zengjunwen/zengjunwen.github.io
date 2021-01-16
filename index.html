@@ -48,37 +48,81 @@
   
     
       <div class="article huge">
-        <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/Authorization.png')"></div>
+        <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
         <div class="row content">
           <div class="col-md-2"></div>
           <div class="col-md-10 main">
             <div class="row">
               <div class="col-md-10 post">
-                <div class="headline"><a href="16101646039208.html">鉴权和授权</a></div>
+                <div class="headline"><a href="15984401250115.html">HashMap底层原理</a></div>
                 
-                <div class="meta"><span class="time">$[timeformat('2021-01-09T22:39:25+08:00')]</span></div>
+                <div class="meta"><span class="time">$[timeformat('2020-08-26T19:08:45+08:00')]</span></div>
                 <div class="body">
-                    <p>最近在做安卓的scope存储拆分，涉及到比较多的与服务端的权限数据交互，觉得有必要结合之前搞过的奖金系统中权限处理进行一个总结，文中，我们不讲具体业务，只讲客户端到服务的的认证流程和常用处理方式。</p>
+                    <h2 id="toc_0">1.7版本</h2>
 
-<p>当我们在浏览器中输入网址后，浏览器将与服务器进行三次握手🤝建立tcp链接。如果需要登录，登陆后发生了些什么呢？</p>
+<h3 id="toc_1">数据结构</h3>
 
-<p>对于简单的单机场景，登陆后你更有可能会拿到一个叫sessionid的东西，但在servlet返回的数据中，一般不叫这个，而是JESSESSIONID，包装在cookie中，在后续每次与服务端的交互中会在https的请求头参数cookie中带上这个id，服务端拿到id后查询id对应的用户数据。那sessionid是怎么来的呢？回到登录场景，登录时向服务端发送用户名和密码，服务的收到密码后进行散列处理，因为密码不是直接存储在数据库的，而是存储散列后的字串，这种散列方式得到的字串在其他场景有的叫指纹，相关的散列算法有MD1、SHA256、BCrypt，推荐用BCrypt，因为前两者可以在短时间使用彩虹桥🌈进行破解，而后者需要花很久的时间。认证通过后，会获取相应的权限信息进行封装保存在服务端，并为其分配一个sessionid后返回给客户端。</p>
+<p>数组、链表</p>
 
-<p>session的方式在复杂的场景下带来了很多问题，如登录后还有支付的场景，涉及到多个服务实例部署的场景等，对此也有相应的处理方案，如：session黏贴、session复制、session统一存储Redis等。</p>
+<h3 id="toc_2">重要成员变量</h3>
 
-<p>对于复杂场景，通常采用token的方式，将用户信息保存在客户端，从而减小服务端的压力。在这种方案下独立出统一认证服务UAA和网关服务来完成统一的认证授权服务。不过目前我找到的关于token的材料除了JWT外，其他的在服务端拿到客户端token后还要与UAA进行交互，对token进行解析，从而获取到用户信息。JWT时token的一种实现方案，全名叫Json Web Token。格式如下：<br/>
-<img src="media/16101646039208/JWT2.png" alt="JWT2"/><br/>
-这是在token传输中的数据，是不是不好懂？数据分为三段，一段时Header、二段是Body、三段是签名。一段和二段数据通常采用Base64进行处理，三段通常先采用Base256对body进行摘要后再采用HMAC对称加密算法或RSA非对称算法进行加密，故综合起来叫HS256或RS256。上图数据进行解密后结果如下图：<br/>
-<img src="media/16101646039208/JWT1.png" alt="JWT1"/><br/>
-对于JST，解密在资源服务器上进行，也有可能在网关，而不在UAA进行。</p>
+<ul>
+<li>DEFAULT_INITIAL_CAPACITY = 1 &lt;&lt; 4; Hash表默认初始容量16</li>
+<li>MAXIMUM_CAPACITY = 1 &lt;&lt; 30; 最大Hash表容量 </li>
+<li>DEFAULT_LOAD_FACTOR = 0.75f;默认加载因子</li>
+</ul>
 
-<p>在目前架构总JWT广泛应用于OAuth2中，如果你理解“OAuth2 is actually for Delegated Authorization not Authorization”这句话的意思时，说明你对OAuth2的流程基本掌握了。如果你不理解，请看下图：<br/>
-<img src="media/16101646039208/OAuth2.jpeg" alt="OAuth2"/><br/>
-一句话概括为，通过第三方账号登陆服务，如利用facebook账号登陆到linkin。</p>
+<h3 id="toc_3">扩容</h3>
+
+<p>在扩容时，重新计算哈希值（多余的动作），扩容前的链表和扩容后的链表结点的顺序是相反的。多线程扩容，在未做并发控制的情况下，会导致链表环的产生。</p>
+
+<h2 id="toc_4">1.8版本</h2>
+
+<h3 id="toc_5">数据结构</h3>
+
+<p>数组、链表、红黑树</p>
+
+<h3 id="toc_6">重要成员变量</h3>
+
+<ul>
+<li>DEFAULT_INITIAL_CAPACITY = 1 &lt;&lt; 4; Hash表默认初始容量16</li>
+<li>MAXIMUM_CAPACITY = 1 &lt;&lt; 30; 最大Hash表容量 </li>
+<li>DEFAULT_LOAD_FACTOR = 0.75f;默认加载因子</li>
+<li>TREEIFY_THRESHOLD = 8;链表转红黑树阈值，链表长度大于8，则满足转红黑树的一个条件</li>
+<li>UNTREEIFY_THRESHOLD = 6;红黑树转链表阈值 </li>
+<li>MIN_TREEIFY_CAPACITY = 64;链表转红黑树时hash表数组长度最小容量阈值，达不到优先扩容。<br/>
+###初始化<br/>
+初始化的数组长度必定为2的整数次幂，如果不为2的整数次幂，程序在初始化时会将向上取2的整数次幂，目的是在根据hash值计算索引时，能够采用&amp;运算符与数组长度进行运算。</li>
+</ul>
+
+<h3 id="toc_7">扩容</h3>
+
+<ul>
+<li>涉及链表和红黑树的转换，数据结构涉及Node与TreeNode的转换。<br/>
+Node和TreeNode的关系
+<img src="media/15984401250115/%E6%88%AA%E5%B1%8F2020-08-26%20%E4%B8%8B%E5%8D%887.59.33.png" alt="截屏2020-08-26 下午7.59.33"/></li>
+<li>扩容只能成倍扩容，与初始化时数组长度只能为2的整数次幂的原因一样。</li>
+<li>扩容后的结点顺序不变。</li>
+<li>扩容后会对每个链表/树的结点重新进行索引计算，最终一个链表/树形成两个链表/树。</li>
+</ul>
+
+<h2 id="toc_8">并行Map的使用</h2>
+
+<p>为解决HashMap的并发问题，先后引入了HashTable、1.7版本的ConcurrentHashMap和1.8版本的ConcurrentHashMap。</p>
+
+<p>HashTable由于使用全表锁，性能底下，所以目前基本抛弃。</p>
+
+<p>1.7版本的ConcurrentHashMap引入了分段锁segment，一个segment对应多个bucket；而1.8版本直接去掉了segment，直接对bucket加锁，提高了并发效率。</p>
+
+<p>Java7 ConcurrentHashMap基于ReentrantLock实现分段锁。<br/>
+<img src="media/15984401250115/%E6%88%AA%E5%B1%8F2020-08-28%20%E4%B8%8B%E5%8D%8810.32.31.png" alt="截屏2020-08-28 下午10.32.31"/></p>
+
+<p>Java8中 ConcurrentHashMap基于分段锁+CAS保证线程安全，分段锁基于synchronized 关键字实现。<br/>
+<img src="media/15984401250115/%E6%88%AA%E5%B1%8F2020-08-28%20%E4%B8%8B%E5%8D%8810.32.49.png" alt="截屏2020-08-28 下午10.32.49"/></p>
 
                 </div>
                 <div class="bottom">
-                  <a href="16101646039208.html" class="continue float-right">
+                  <a href="15984401250115.html" class="continue float-right">
                     继续阅读
                   </a>
                 </div>
@@ -92,11 +136,11 @@
   
     
         <div class="col-md-6">
-          <a href="16000890176454.html" class="item">
+          <a href="16101646039208.html" class="item">
             <div class="article normal">
-              <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
+              <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/Authorization.png')"></div>
               <div class="articleinfo">
-                <div class="headline">递归、回溯、动态规划</div>
+                <div class="headline">鉴权和授权</div>
                 
               </div>
             </div>
@@ -106,11 +150,11 @@
   
     
         <div class="col-md-6">
-          <a href="16042429564926.html" class="item">
+          <a href="16000890176454.html" class="item">
             <div class="article normal">
               <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
               <div class="articleinfo">
-                <div class="headline">二叉树的遍历及应用</div>
+                <div class="headline">递归、回溯、动态规划</div>
                 
               </div>
             </div>
