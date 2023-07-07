@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="zh-cn">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,minimum-scale=1" />
+    <title>
+        
+      网格类 - Zjunwen
+      
+    </title>
+    <meta name="keywords" content="Zjunwen" />
+    
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:creator" content="@" />
+      <meta property="og:url" content="15914059244688.html" />
+      <meta property="og:title" content="网格类" />
+      
+        <meta property="og:description" content="网格类" />
+      
+      
+      <meta property="og:site_name" content="Zjunwen" />
+    
+    
+      <link rel="icon" href="media/15807816907881/截屏2020-02-04上午10.39.45.png">
+    
+    <link href="atom.xml" rel="alternate" title="Zjunwen" type="application/atom+xml">
+    <script src="https://cdn.bootcss.com/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="asset/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="head">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="blogname">Zjunwen</div>
+            <nav>
+              
+                <div class="item"><a target="_self" href="index.html">Home</a></div>
+              
+                <div class="item"><a target="_self" href="archives.html">Archives</a></div>
+              
+                <div class="item"><a target="_blank" href="Arcade-Game/index.html">Game</a></div>
+              
+            </nav>
+          </div>
+        </div>
+      </div>
+      <hr>
+    </div> <div class="container" id="post">
+  <div class="article huge">
+    <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
+    <img src="" style="display: none;" class="featureimgforexternal">
+    <div class="timeGTM" style="display:none;">2020-06-06T09:12:04+08:00</div>
+    <div class="row content">
+      <div class="col-md-2"></div>
+      <div class="col-md-10 main">
+        <div class="row">
+          <div class="col-md-10">
+            <div class="post">
+              <div class="headline"><a href="15914059244688.html">网格类</a></div>
+              
+              <div class="meta"><span class="time">$[timeformat('2020-06-06T09:12:04+08:00')]</span><br><span class="tags"></span></div>
+              <div class="body">
+                  <h2 id="toc_0">找梯子</h2>
+
+<p>给定一个训练场，训练场为一个n*m的矩阵，每个格子中有不同高度的箱子，训练人员需要从训练场左上方到达右下方。要从所在格子location到达附近格子locationNext需要一把梯子，梯子高度遵循以下规则：<br/>
+1、如果location中的箱子高度高于或等于locationNew中的箱子高度，需要高度为0的梯子；<br/>
+2、如果location中的箱子高度h低于locationNew中的箱子高度hNew，需要梯子高度为hNew-h。<br/>
+对于给定输入训练场信息，求所需高度最低的梯子。<br/>
+例：<br/>
+输入 [[1,2,2],[1,1,1]]<br/>
+输出 1</p>
+
+<p>方法一：使用队列进行BFS</p>
+
+<pre><code class="language-text">public class Solution {
+    Queue&lt;Pair&lt;Integer, Integer&gt;&gt; queue = new LinkedList&lt;&gt;();
+    int[][] heighs = null;
+    int[][] input = null;
+    int len = 0;
+    int heigh = 0;
+
+    public int minLengthLadder(int[][] grid) {
+        if (grid == null || grid.length == 0) {
+            return 0;
+        }
+
+        input = grid;
+        heigh = grid.length;
+        len = grid[0].length;
+        heighs = new int[heigh][len];
+        for (int i = 0; i &lt; heigh; i++) {
+            for (int j = 0; j &lt; len; j++) {
+                heighs[i][j] = Integer.MAX_VALUE;
+            }
+        }
+        heighs[0][0] = 0;
+        queue.add(new Pair&lt;&gt;(0, 0));
+
+        Pair&lt;Integer, Integer&gt; location = null;
+        while (!queue.isEmpty()) {
+            location = queue.poll();
+            bfs(location.getKey(), location.getValue());
+        }
+
+        return heighs[heigh - 1][len - 1];
+    }
+
+    private void bfs(Integer locationX, Integer locationY) {
+        int temp = 0;
+        if (locationX &gt; 0) {
+            temp = input[locationX - 1][locationY] - input[locationX][locationY];
+            temp = Math.max(temp, heighs[locationX][locationY]);
+            if (heighs[locationX - 1][locationY] &gt; temp) {
+                heighs[locationX - 1][locationY] = temp;
+                queue.add(new Pair&lt;&gt;(locationX - 1, locationY));
+            }
+        }
+        if (locationY &gt; 0) {
+            temp = input[locationX][locationY - 1] - input[locationX][locationY];
+            temp = Math.max(temp, heighs[locationX][locationY]);
+            if (heighs[locationX][locationY - 1] &gt; temp) {
+                heighs[locationX][locationY - 1] = temp;
+                queue.add(new Pair&lt;&gt;(locationX, locationY - 1));
+            }
+        }
+        if (locationX &lt; heigh - 1) {
+            temp = input[locationX + 1][locationY] - input[locationX][locationY];
+            temp = Math.max(temp, heighs[locationX][locationY]);
+            if (heighs[locationX + 1][locationY] &gt; temp) {
+                heighs[locationX + 1][locationY] = temp;
+                queue.add(new Pair&lt;&gt;(locationX + 1, locationY));
+            }
+        }
+        if (locationY &lt; len - 1) {
+            temp = input[locationX][locationY + 1] - input[locationX][locationY];
+            temp = Math.max(temp, heighs[locationX][locationY]);
+            if (heighs[locationX][locationY + 1] &gt; temp) {
+                heighs[locationX][locationY + 1] = temp;
+                queue.add(new Pair&lt;&gt;(locationX, locationY + 1));
+            }
+        }
+    }
+}
+</code></pre>
+
+<p>方法二 使用递归进行DFS</p>
+
+<pre><code class="language-text">public class Solution {
+    int[][] ladderLens = null;
+    int[][] input = null;
+    int len = 0;
+    int heigh = 0;
+
+    public int minLengthLadder(int[][] grid) {
+        if (grid == null || grid.length == 0) {
+            return 0;
+        }
+
+        input = grid;
+        heigh = grid.length;
+        len = grid[0].length;
+        ladderLens = new int[heigh][len];
+        for (int i = 0; i &lt; heigh; i++) {
+            for (int j = 0; j &lt; len; j++) {
+                ladderLens[i][j] = Integer.MAX_VALUE;
+            }
+        }
+
+        bfs(0, 0, 0, input[0][0]);
+
+        return ladderLens[heigh - 1][len - 1];
+    }
+
+    private void bfs(Integer locationX, Integer locationY, int ladderLen, int beforeHeigh) {
+        if (locationX &gt;= heigh || locationY &gt;= len || locationX &lt; 0 || locationY &lt; 0) {
+            return;
+        }
+        int temp = input[locationX][locationY] - beforeHeigh;
+        temp = Math.max(temp, ladderLen);
+        if (temp &lt; ladderLens[locationX][locationY]) {
+            ladderLens[locationX][locationY] = temp;
+
+            bfs(locationX + 1, locationY, ladderLens[locationX][locationY], input[locationX][locationY]);
+            bfs(locationX - 1, locationY, ladderLens[locationX][locationY], input[locationX][locationY]);
+            bfs(locationX, locationY + 1, ladderLens[locationX][locationY], input[locationX][locationY]);
+            bfs(locationX, locationY - 1, ladderLens[locationX][locationY], input[locationX][locationY]);
+        }
+    }
+}
+</code></pre>
+
+<p>对于网格总结为：<br/>
+1、使用递归进行DFS；此情况在非尾递归时会导致压栈，在输入数据很大时可能会导致堆栈溢出；如果是尾递归优先采用递归进行DFS，能大大减少代码量。<br/>
+2、使用队列进行BFS。</p>
+
+<p>reference：<br/>
+<a href="https://leetcode-cn.com/problems/max-area-of-island/">岛屿的最大面积</a></p>
+
+              </div>
+            </div>
+            
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+    let post = new Vue({
+     el: '#post',
+     data: {
+       hidelikecoin: ''
+     },
+     methods: {
+       timeformat(raw) {
+         return moment(raw).format("YYYY 年 MM 月 DD 日");
+       }
+     },
+     delimiters: ['$[', ']']
+   })
+  </script>      <div class="container">
+      <hr>
+      <div class="footer" id="footer">
+        <div class="slogan">提问🙋🏼、思考🤔、专注🙇🏻、解决问题💁🏻‍♂️</div>
+        <div class="meta">
+          <p><p>👨🏻‍💻<a href="https://github.com/zengjunwen" target="_blank">Github</a>  📧<a href="mailto:junwenzeng@foxmail.com?subject=【从你的博客联系到你】&body=你好！">eMail</a></p><p>除特殊注明外，博客所有文章使用CC-BY-NC-SA授权协议</p></p>
+          <p>「Zjunwen」</p>
+        </div>
+      </div>
+      <script>
+        let footer = new Vue({
+          el: '#footer',
+          data: {
+            message: 'hello'
+          },
+          delimiters: ['$[', ']']
+        })
+      </script>
+    </div>
+  </div>
+</body>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<style></style>
+</html>

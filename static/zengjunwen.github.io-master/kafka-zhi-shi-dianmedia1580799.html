@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="zh-cn">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,minimum-scale=1" />
+    <title>
+        
+      Kafka - Zjunwen
+      
+    </title>
+    <meta name="keywords" content="Zjunwen" />
+    
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:creator" content="@" />
+      <meta property="og:url" content="kafka-zhi-shi-dianmedia1580799.html" />
+      <meta property="og:title" content="Kafka" />
+      
+        <meta property="og:description" content="「Kafka基础知识」" />
+        <meta name="description" content="「Kafka基础知识」" />
+      
+      
+        <meta property="og:image" content="https://zengjunwen.github.io/topicImage/Kafka.png" />
+        <meta name="twitter:image" content="https://zengjunwen.github.io/topicImage/Kafka.png" />
+      
+      <meta property="og:site_name" content="Zjunwen" />
+    
+    
+      <link rel="icon" href="media/15807816907881/截屏2020-02-04上午10.39.45.png">
+    
+    <link href="atom.xml" rel="alternate" title="Zjunwen" type="application/atom+xml">
+    <script src="https://cdn.bootcss.com/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="asset/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="head">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="blogname">Zjunwen</div>
+            <nav>
+              
+                <div class="item"><a target="_self" href="index.html">Home</a></div>
+              
+                <div class="item"><a target="_self" href="archives.html">Archives</a></div>
+              
+                <div class="item"><a target="_blank" href="Arcade-Game/index.html">Game</a></div>
+              
+            </nav>
+          </div>
+        </div>
+      </div>
+      <hr>
+    </div> <div class="container" id="post">
+  <div class="article huge">
+    <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/Kafka.png')"></div>
+    <img src="https://zengjunwen.github.io/topicImage/Kafka.png" style="display: none;" class="featureimgforexternal">
+    <div class="timeGTM" style="display:none;">2020-02-04T14:53:44+08:00</div>
+    <div class="row content">
+      <div class="col-md-2"></div>
+      <div class="col-md-10 main">
+        <div class="row">
+          <div class="col-md-10">
+            <div class="post">
+              <div class="headline"><a href="kafka-zhi-shi-dianmedia1580799.html">Kafka</a></div>
+              <div class="subtitle">「Kafka基础知识」</div>
+              <div class="meta"><span class="time">$[timeformat('2020-02-04T14:53:44+08:00')]</span><br><span class="tags"></span></div>
+              <div class="body">
+                  <p><img src="media/15807992240443/15808019298485.jpg" alt=""/></p>
+
+<p>Kafka: A high-throughput distributed messaging system。客户端和服务器之间的通信通过简单、高性能、语言无关的TCP协议完成。</p>
+
+<h3 id="toc_0">1. What was the primary problem Apache Kafka was designed to address?</h3>
+
+<p>Reliable and scalable data distribution.<br/>
+特点：</p>
+
+<ul>
+<li>High throughput</li>
+<li>Horizontally scalable</li>
+<li>Reliable and durable</li>
+<li>Loosely coupled Producers and Consumers</li>
+<li>Flexible publish-subscirbe semantics<br/>
+应用场景：</li>
+<li>Database replication</li>
+<li>Log shipping</li>
+<li>Extract, Transform, and Load (ETL)</li>
+<li>Messaging</li>
+<li>Custom middleware magic</li>
+</ul>
+
+<h3 id="toc_1">2. Kafka三个关键功能</h3>
+
+<ul>
+<li>发布和订阅记录流</li>
+<li>以容错的持久方式存储记录流</li>
+<li>记录发生时处理流</li>
+</ul>
+
+<h3 id="toc_2">3. Kafka四大核心API</h3>
+
+<ul>
+<li>Producer API：允许应用程序发布的记录流至一个或多个Kafka的Topic。</li>
+<li>Comsumer API：允许应用程序订阅一个或多个Topic，并处理他们记录的数据流。</li>
+<li>Stream API：允许应用程序充当流处理器，从一个或多个主题消费的输入流，并产生一个输出流至一个或多输出的主题，有效的变换输入流和输出流。</li>
+<li>Connector API：允许构建和运行Kafka Topic链接到现有的应用程序或数据系统中重用生产者或消费者。例如，关系数据库的连接器可能捕捉每个对表的更改。</li>
+</ul>
+
+<h3 id="toc_3">4. Kafka&#39;s Architecture</h3>
+
+<p><strong>Worker node roles: Controllers, Leaders, and Followers.</strong><br/>
+<strong>Characteristics of distributed systems:</strong></p>
+
+<ul>
+<li>Worker node roles: Controllers, Leaders, and Followers</li>
+<li>Reliability through replication</li>
+<li>Consensus-based communication</li>
+</ul>
+
+<p>In Kafka, these worker nodes are the Kafka brokers where Kafka keeps and maintains topics. The Kafka Broker is a software process, also referred to as an executable or demon service that runs on a machine, a physical machine or a virtual machine. A synonym for a Broker is also a server, but I like to avoid using the term server, since it has a tendency to be overloaded. The Broker has access to resources on the machine, such as the file system, which it uses to store messages which it categorizes as topics.</p>
+
+<p><strong>Controller has some critical responsibilities:</strong></p>
+
+<ul>
+<li>Maintain an inventory of what workers are available to take on work.</li>
+<li>Maintain a list of work items that has been committed to and assigned to workers.</li>
+<li>Maintain active status of the staff and their progress on assigned tasks.</li>
+</ul>
+
+<p><img src="media/15807992240443/%E6%88%AA%E5%B1%8F2020-02-04%E4%B8%8B%E5%8D%884.41.55.png" alt="截屏2020-02-04下午4.41.55"/></p>
+
+<p><strong>Reliable work distribution:</strong><br/>
+If the controller determines redundancy is required, it will promote a worker into a leader, which will take direct ownership of the task assigned. It will be the leader&#39;s job to recruit two of its peers to take part in the replication. In Kafka, the risk policy to protect against loss is known as its replication factor. Once peers have committed to the leader, a quorum is formed, and these committed peers now take on a new role in relation to a leader, a follower.<br/>
+<img src="media/15807992240443/%E6%88%AA%E5%B1%8F2020-02-04%E4%B8%8B%E5%8D%884.43.12.png" alt="截屏2020-02-04下午4.43.12"/></p>
+
+<h3 id="toc_4">5. Kafka Topic</h3>
+
+<p>Central Kafka abstraction;<br/>
+Named feed or category of messages:</p>
+
+<ul>
+<li>Producers produce to a topic</li>
+<li>Consumers consume from a topic</li>
+</ul>
+
+<p>Logical entity;<br/>
+Physically represented as a log;</p>
+
+<p>Kafka topic stores a time-ordered sequence and immutable facts as events of messages that share the same category.<br/>
+<img src="media/15807992240443/%E6%88%AA%E5%B1%8F2020-02-04%E4%B8%8B%E5%8D%885.29.49.png" alt="截屏2020-02-04下午5.29.49"/><br/>
+Topics can span an entire cluster of Brokers for the benefit of scalability and fault-tolerance. With the abstraction of a topic, a producer simply needs to publish messages to that topic. How it&#39;s maintained and managed over the multiple Brokers is not its concern.<br/>
+<img src="media/15807992240443/%E6%88%AA%E5%B1%8F2020-02-04%E4%B8%8B%E5%8D%885.33.38.png" alt="截屏2020-02-04下午5.33.38"/></p>
+
+<h3 id="toc_5">6. Consumer offset</h3>
+
+<p>It&#39;s a placeholder(类似于书签):</p>
+
+<ul>
+<li>Last read message position</li>
+<li>Maintained by the Kafka Consumer</li>
+<li>Corresponds to the message identifier</li>
+</ul>
+
+<h3 id="toc_6">7. Message Retention Policy</h3>
+
+<p>Apache Kafka retains all published messages regardless of consumption<br/>
+Retention period is configurable</p>
+
+<ul>
+<li>Default is 168 hours or seven days Retention period is defined on a per-topic<br/>
+basis</li>
+</ul>
+
+<p>Physical storage resources can constrain message retention</p>
+
+<h3 id="toc_7">8. Kafka partition</h3>
+
+<p><img src="media/15807992240443/%E6%88%AA%E5%B1%8F2020-02-04%E4%B8%8B%E5%8D%8810.45.59.png" alt="截屏2020-02-04下午10.45.59"/><br/>
+The topic as a logical concept is represented by one or more physical log files called partitions. The number of partitions in a topic depends on the circumstances in which Apache Kafka is intended to be used. </p>
+
+<p>As you know, a physical node upon which the broker and the partition log resides is limited by a finite amount of computational resources, such as CPU, Memory, Disk Space, and Network.</p>
+
+<p>For topic with more partitions, the default, a specific partitioning scheme is not used, so the producer is just doing it round-robin. </p>
+
+<h3 id="toc_8">9. Distributed partition management</h3>
+
+<p>When a command to create a topic with three partitions is issued, it is handled by Zookeeper, who is maintaining metadata regarding the cluster. At this stage, Zookeeper is specifically going to look at the available brokers and decide which brokers will be made the responsible leaders for managing a single partition within a topic. When that assignment is made, each unique Kafka broker will create a log for the newly assigned partition.<br/>
+<img src="media/15807992240443/%E6%88%AA%E5%B1%8F2020-02-05%E4%B8%8A%E5%8D%888.59.20.png" alt="截屏2020-02-05上午8.59.20"/></p>
+
+<p>When a producer is ready to publish messages to a topic, it must have knowledge of at least one broker in the cluster, so it can find the leaders of the topic&#39;s partitions. Each broker knows which partitions are owned by which leader. The metadata related to the topic is sent back to the producer so it can begin to send messages to the individual brokers participating in managing the topic, or I should say, the partitions in that topic. <br/>
+<img src="media/15807992240443/%E6%88%AA%E5%B1%8F2020-02-05%E4%B8%8A%E5%8D%889.00.38.png" alt="截屏2020-02-05上午9.00.38"/></p>
+
+<p>When consuming messages from the cluster, the consumer inquires of Zookeeper which brokers own which partitions, and gets additional metadata that affects the consumer&#39;s consumption behavior, particularly in scenarios where there are large groups of consumers sharing the consumption workload. Once the consumer knows the brokers, with the partitions that make up the topic, it will pull the messages from the brokers based on the message offset per partition. Because messages are produced to multiple partitions and at potentially different times, consumers working with multiple partitions are likely going to consume messages in different orders, and will therefore be responsible for handling the order if it is required.<br/>
+<img src="media/15807992240443/%E6%88%AA%E5%B1%8F2020-02-05%E4%B8%8A%E5%8D%889.06.00.png" alt="截屏2020-02-05上午9.06.00"/></p>
+
+<h3 id="toc_9">10. Achieving reliability with Apache Kafka Replication</h3>
+
+<p>With a replication factor of three set, it is the leader&#39;s job to get peer brokers to participate in a quorum for the purposes of replicating the log to achieve the intended redundancy level. When the leader of a partition has a quorum, it will engage its peers and start copying the partition log. When all members of the replication quorum are caught up, and a full synchronized replica set is in place, it is reported throughout the cluster that the number of in-sync replicas, or ISRs is equal to the replication factor for that topic in each partition within it. Obviously, this is an important metric.<br/>
+<img src="media/15807992240443/%E6%88%AA%E5%B1%8F2020-02-05%E4%B8%8A%E5%8D%8810.50.21.png" alt="截屏2020-02-05上午10.50.21"/></p>
+
+<h3 id="toc_10">11. Producing Messages with Kafka Producers</h3>
+
+<p><img src="media/15807992240443/%E6%88%AA%E5%B1%8F2020-02-05%E4%B8%8B%E5%8D%885.02.35.png" alt="截屏2020-02-05下午5.02.35"/><br/>
+Properties(props)-&gt;ProducerConfig Class<br/>
+Message-&gt;ProducerRecord(myRecord)<br/>
+Processing Pipeline-&gt;Serializer and Partitioner<br/>
+Micro-batching-&gt;RecordAccunulator and RecordBuffer</p>
+
+<p>Configuration properties needed to start up a producer. As indicated here, there are three required properties needed: <strong>bootstrap. servers, and both key and value serializers.</strong> </p>
+
+<h4 id="toc_11">KafkaProducer</h4>
+
+<p>When we use the Kafka producer shell program, we simply needed to supply a list of brokers for the producer to connect to. This corresponds to the bootstrap. servers configuration setting needed for the producer to start up. The producer doesn&#39;t connect to every broker referenced in this list, just the first available one. It uses the broker it connects to for discovering the full membership of the cluster, which of course can change at any time. It uses this list to determine the partition owners or leaders so that when it&#39;s ready to send messages, it can do so immediately. It is a best practice to provide more than one broker in the broker list, in the unlikely event that the first broker specified is unavailable. </p>
+
+<p>About key and value serializers. This is to optimize the size of the messages, not only for network transmission, but for storage and even compression. In this example, you&#39;ll notice that for both the key and value serializer, we&#39;re using the string serializer class, which is the most common serializer scheme used in Kafka. </p>
+
+<p>We instantiated an object of type Kafka producers, and called it myProducer, and passed it a properties object named props. If you look inside the implementation of the Kafka producer, you will notice a type called ProducerConfig. When the Kafka producer object is created, the properties are used to instantiate an instance of the ProducerConfig class, and from there, all producer configuration is defined and referenced internally. </p>
+
+<pre><code class="language-java">    // Create the Properties class to instantiate the Consumer with the desired settings:
+    Properties props = new Properties();
+    props.put(&quot;bootstrap.servers&quot;, &quot;localhost:9092, localhost:9093&quot;);
+    props.put(&quot;key.serializer&quot;, &quot;org.apache.kafka.common.serialization.StringSerializer&quot;);
+    props.put(&quot;value.serializer&quot;, &quot;org.apache.kafka.common.serialization.StringSerializer&quot;);
+        
+    KafkaProducer&lt;String, String&gt; myProducer = new KafkaProducer&lt;String, String&gt;(props);
+</code></pre>
+
+<h4 id="toc_12">ProduceRecord</h4>
+
+<p>ProducerRecord, it represents what will be published by the Kafka producer. A ProducerRecord is also fairly basic and straightforward. It only requires two values to be set in order for it to be considered a valid record that can be sent by the Kafka producer. <strong>These two required values are the topic and the value</strong>. </p>
+
+<pre><code class="language-java">ProducerRecord&lt;String, String&gt;(&quot;my_topic&quot;, &quot;My Message 1&quot;)
+</code></pre>
+
+<p><strong>KafkaProducer instances can only send ProducerRecords that match the key and value serializers types it is configured with.</strong></p>
+
+<pre><code class="language-java">ProducerRecord&lt;String, String&gt;(&quot;my_topic&quot;, &quot;My Message 1&quot;)`
+SerializationException: Can&#39;t convert value of class ...
+</code></pre>
+
+<h4 id="toc_13">ProduceRecord&#39;s Optional Properties</h4>
+
+<p><strong>partition</strong>: specific partition within the topic to send ProduceRecord.<br/>
+<strong>timestamp</strong>: the Unix timestamp applied to the record.<br/>
+<strong>key</strong>: a value to be used as the basis of determining the partitioning strategy to be employed by the Kafka Producer.Defined a key has two useful purposes:</p>
+
+<ul>
+<li>Additional information in the message.</li>
+<li>Can determine what partitions the message will be written to.</li>
+</ul>
+
+<p>Downside:</p>
+
+<ul>
+<li>Additional overhead.</li>
+<li>Depends on the serializer type used.</li>
+</ul>
+
+<h4 id="toc_14">The Process of Sending Message</h4>
+
+<p>Now that we have a ProducerRecord for the producer to send, the message sending process in two parts. </p>
+
+<p><strong>Part 1</strong><br/>
+When calling the send method, the producer will reach out to the cluster using the bootstrap servers list to discover the cluster membership. The response comes back as metadata, containing detailed information related to the topics, their partitions, and their managing brokers on the cluster. This metadata is used to instantiate a metadata object in the producer, and throughout the producer&#39;s life cycle, it will keep this object fresh with the latest information about the cluster. Additionally, a pseudo processing pipeline within the Kafka producer is engaged. With the producer now having an actual producer record to work with, the first step in this pipeline will be to pass the message through the serializer using the configured serializer. The next step in the pipeline is the partitioner, whose job it is to determine what partition to send the record to. Here the producer can employ different partitioning strategies depending on the values being passed to it in the producer record, and the information it has regarding the cluster membership.<br/>
+<img src="media/15807992240443/%E6%88%AA%E5%B1%8F2020-02-05%E4%B8%8B%E5%8D%8810.30.42.png" alt="截屏2020-02-05下午10.30.42"/></p>
+
+<p><strong>Part 2</strong><br/>
+The RecordAccumulator gives the producer its ability to micro-batch records intended to be sent at high volumes and high frequencies. When a ProducerRecord has been assigned to a partition through the partitioner, it will get handed over to a RecordAccumulator, where it will be added to a collection of RecordBatch objects for each topic partition combination needed by the producer instance. Each of these RecordBatch objects, as the name suggests, is a small batch of records that is going to be sent to the broker that owns the assigned partition. There are a lot of factors that determine how many ProducerRecords are to be accumulated and buffered into a RecordBatch before it is sent off to the brokers. Most of these factors are based on advanced configuration settings defined at the producer level, that are set using a properties object, similar to the way the other properties were set.<br/>
+<img src="media/15807992240443/%E6%88%AA%E5%B1%8F2020-02-05%E4%B8%8B%E5%8D%884.58.04.png" alt="截屏2020-02-05下午4.58.04"/></p>
+
+<p><strong>About Delivery Guarantees:</strong></p>
+
+<p>Broker acknowledgement (“acks”)</p>
+
+<ul>
+<li>0: fire and forget</li>
+<li>1: leader acknowledged</li>
+<li>2: replication quorum acknowledged</li>
+</ul>
+
+<p>Broker responds with error</p>
+
+<ul>
+<li>“retries”</li>
+<li>“retry.backoff.ms”</li>
+</ul>
+
+<p><strong>In future, advanced topics we will dive into:</strong></p>
+
+<ul>
+<li>Custom Serializers</li>
+<li>Custom Partitioners</li>
+<li>Asynchronous Send</li>
+<li>Compression</li>
+</ul>
+
+<h3 id="toc_15">12. Consuming Messages with Kafka Consumers and Consumer Groups</h3>
+
+<p><img src="media/15807992240443/%E6%88%AA%E5%B1%8F2020-02-06%E4%B8%8B%E5%8D%883.31.53.png" alt="截屏2020-02-06下午3.31.53"/><br/>
+Configuration properties needed to start up a consumer. As indicated here, there are three required properties needed: <strong>bootstrap. servers, and both key and value deserialization.</strong></p>
+
+<h4 id="toc_16">Creating a Kafka Consumer</h4>
+
+<pre><code class="language-java">Properties props = new Properties();
+props.put(“bootstrap.servers”, “BROKER-1:9092, BROKER-2:9093”);
+props.put(“key.deserializer”, “org.apache.kafka.common.serialization.StringDeserializer”); 
+props.put(“value.deserializer”, “org.apache.kafka.common.serialization.StringDeserializer”);
+
+KafkaConsumer myConsumer = new KafkaConsumer(props);
+</code></pre>
+
+<h4 id="toc_17">Subscribing to Topics</h4>
+
+<p>There are two methods: subscribe and assign. It&#39;s as simple as calling the subscribe method, and passing it a list. By calling this method, you are asking for automatic or dynamic partition assignment. That is to say that you&#39;re enlisting the single consumer instance to eventually pull from every partition within that topic, which can be at least one, but likely many. When adding multiple topics to the list, you&#39;re enlisting the consumer instance to pull from every partition within every topic, which is guaranteed to be many. Besides subscribing to topics, there&#39;s another option: subscribing to individual partitions. This is done through the assign method. The assign method is only valid for subscribing to a list containing the class topic partition.</p>
+
+<ul>
+<li><strong>subscribe method</strong></li>
+</ul>
+
+<pre><code class="language-java">// Properties code ommitted...
+KafkaConsumer myConsumer = new KafkaConsumer(props); 
+myConsumer.subscribe(Arrays.asList(“my-topic”));// Remember this is NOT incremental!
+
+// Alternatively, use regular expressions: 
+myConsumer.subscribe(“my-*”);// Remember this is NOT incremental!
+
+</code></pre>
+
+<ul>
+<li><strong>assign method</strong></li>
+</ul>
+
+<pre><code class="language-java">// Similar pattern as subscribe():
+TopicPartition partition0 = new TopicPartition(“myTopic”, 0); 
+ArrayList&lt;TopicPartition&gt; partitions = new ArrayList&lt;TopicPartition&gt;(); 
+partitions.add(partition0);
+myConsumer.assign(partitions); // Remember this is NOT incremental!
+</code></pre>
+
+<h3 id="toc_18">Unsubscribing to Topics</h3>
+
+<pre><code class="language-java">ArrayList&lt;String&gt; topics = new ArrayList&lt;String&gt;(); 
+topics.add(“myTopic”);
+topics.add(“myOtherTopic”);
+myConsumer.subscribe(topics);
+myConsumer.unsubscribe();
+
+// Less-than-intuitive unsubscribe alternative:
+topics.clear(); // Emptying out the list
+myConsumer.subscribe(topics); // passing the subscribe() method a list of empty strings
+</code></pre>
+
+<pre><code class="language-text">// Similar pattern as subscribe():
+TopicPartition partition0 = new TopicPartition(“myTopic”, 0); 
+ArrayList&lt;TopicPartition&gt; partitions = new ArrayList&lt;TopicPartition&gt;(); 
+partitions.add(partition0);
+myConsumer.assign(partitions); // Remember this is NOT incremental!
+partitions.clear();
+myConsumer.assign(partitions); // Remember this is NOT incremental!
+</code></pre>
+
+<h4 id="toc_19">Poll Loop</h4>
+
+<p>poll() is the primary function of the Kafka Consumer, it Continuously poll the brokers for data.</p>
+
+<pre><code class="language-java">// Set the topic subscription or partition assignments:
+myConsumer.subscribe(topics); 
+myConsumer.assign(partitions); 
+try {
+    while (true) {
+        ConsumerRecords&lt;String, String&gt; records =
+        myConsumer.poll(100); 
+        // Your processing logic goes here...
+    } finally {
+        myConsumer.close();
+    } 
+}
+</code></pre>
+
+<h4 id="toc_20">Processing Messages</h4>
+
+<p><img src="media/15807992240443/%E6%88%AA%E5%B1%8F2020-02-06%E4%B8%8B%E5%8D%884.45.09.png" alt="截屏2020-02-06下午4.45.09"/><br/>
+When the subscriber assign method is invoked, the content of the collections they were passed to are used to set fields within the <strong>subscription state object</strong>. This object serves as the source of truth for any and all details related to the topics and partitions this consumer instance is subscribed or assigned to. This object also plays a very important role with the consumer coordinator in managing the offsets. When poll is invoked, consumer settings, particularly those referring to the bootstrap servers, is used to request the metadata about the cluster. The <strong>Fetcher</strong> servers as the responsible object for most of the communication between the consumer and the cluster. Within it, there are several fetch-related operations that are executed to initiate communication with the cluster, but the Fetcher itself doesn&#39;t actually communicate with the cluster, that is the job of the <strong>Consumer Network Client</strong>. With the client open and sending TCP packets, the consumer starts sending heartbeats, which enable the cluster to know what consumers are still connected. Additionally, the initial request for metadata is sent and received. The response is used to instantiate its internal metadata object, which will keep up to date while the poll method runs, getting periodic updates from the cluster, when cluster details change. With metadata available, other major elements become more involved. With information about the cluster, the consumer <strong>coordinator</strong> can now take responsibility to coordinate between the consumer. This object has two main duties:</p>
+
+<ul>
+<li>First, being aware of automatic or dynamic partition reassignment, and notification of assignment changes to the subscription state object. </li>
+<li>second, for committing offsets to the cluster, the confirmation of which will cause the update of the subscription state, so it can always be aware of the status of topics and partitions. </li>
+</ul>
+
+<p>To actually start retrieving messages, the Fetcher needs to know what topics or individual partitions it should be asking for. It gets this information from the subscription state object, and with it, starts requesting messages. </p>
+
+<p>An important thing to understand about Kafka consumers is that they are essentially single-threaded. There is one poll loop per Kafka consumer, and you can only have a single thread per Kafka consumer. </p>
+
+<p><img src="media/15807992240443/%E6%88%AA%E5%B1%8F2020-02-06%E4%B8%8B%E5%8D%8811.02.28.png" alt="截屏2020-02-06下午11.02.28"/></p>
+
+<p>If a consumer is continous running, last committed offset is useless for it. But when consumer is shutdown and adding a new customer, will tigger rebalance. New consumer will according to, or not the last committed offset to consume topic record. The a gap between last committed offset and current position of old consumer. Witch is determined by the commit behavior configuration:</p>
+
+<ul>
+<li>enable.auto.commit = true (default)</li>
+<li>auto.commit.interval.ms = 5000 (default) </li>
+<li>auto.offset.reset = “latest” (default) , “earliest”, “none”</li>
+</ul>
+
+<p>Kafka stores the committed offsets in a special topic called __consumer_offsets. It has 50 partitions. Consumer coordinator is the responsible object for communicating to the cluster and ensuring the committed offsets are produced into the topic. This means that a consumer is also a producer of sorts.</p>
+
+<p>You would not use the auto-commit log method when you want precise control over when to consider a record truly processed. There are two methods to control:</p>
+
+<ul>
+<li><p><strong>commitSync</strong> </p>
+<p>Synchronous</p>
+<ul>
+<li>blocks until receives response from cluster Retries until succeeds or unrecoverable error</li>
+<li>retry.backoff.ms (default: 100)</li>
+</ul>
+<pre><code class="language-java">try {
+for (...) { <br/>
+    // Processing batches of records... <br/>
+}<br/>
+    // Commit when you know you’re done, after the batch is processed:<br/>
+    myConsumer.commitSync();<br/>
+} catch (CommitFailedException) {<br/>
+    log.error(“there’s not much else we can do at this point...”); <br/>
+}
+</code></pre></li>
+<li><p><strong>commitAsync</strong><br/>
+Asynchronous</p>
+<ul>
+<li>non-blocking but non-deterministic </li>
+</ul>
+<p>No retries<br/>
+Callback option</p>
+<pre><code class="language-java">try {
+    for (...) { // Processing batches of records... }<br/>
+    // Not recommended:<br/>
+    myConsumer.commitAsync();<br/>
+    // Recommended:<br/>
+    myConsumer.commitAsync(new OffsetCommitCallback() {<br/>
+            public void onComplete(..., ..., ...) { <br/>
+            // do something...<br/>
+            } <br/>
+        }<br/>
+    );
+</code></pre></li>
+</ul>
+
+<h4 id="toc_21">When to Manager Your Own Offsets Altogether？</h4>
+
+<p>The place where offset management occurs is after the poll method has timed out and presented records for processing. Whether this is an auto commit operation happening behind the scenes, or an explicit call to one of the commit APIs, the commit process will take a batch of records, determine their offsets, and ask the consumer coordinator to commit them to the Kafka cluster via the consumer network client, which it does immediately. When the offsets have been confirmed to be committed, the consumer coordinator updates the subscription state object accordingly, so the Fetcher can always know what offsets have bene committed and what next records it should be retrieving. </p>
+
+<h4 id="toc_22">Consumer Group Rebalancing</h4>
+
+<p><img src="media/15807992240443/%E6%88%AA%E5%B1%8F2020-02-07%E4%B8%8B%E5%8D%8812.06.53.png" alt="截屏2020-02-07下午12.06.53"/></p>
+
+<p><center><a href="https://github.com/zengjunwen/kafka">reference code</a></center></p>
+
+              </div>
+            </div>
+            
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+    let post = new Vue({
+     el: '#post',
+     data: {
+       hidelikecoin: ''
+     },
+     methods: {
+       timeformat(raw) {
+         return moment(raw).format("YYYY 年 MM 月 DD 日");
+       }
+     },
+     delimiters: ['$[', ']']
+   })
+  </script>      <div class="container">
+      <hr>
+      <div class="footer" id="footer">
+        <div class="slogan">提问🙋🏼、思考🤔、专注🙇🏻、解决问题💁🏻‍♂️</div>
+        <div class="meta">
+          <p><p>👨🏻‍💻<a href="https://github.com/zengjunwen" target="_blank">Github</a>  📧<a href="mailto:junwenzeng@foxmail.com?subject=【从你的博客联系到你】&body=你好！">eMail</a></p><p>除特殊注明外，博客所有文章使用CC-BY-NC-SA授权协议</p></p>
+          <p>「Zjunwen」</p>
+        </div>
+      </div>
+      <script>
+        let footer = new Vue({
+          el: '#footer',
+          data: {
+            message: 'hello'
+          },
+          delimiters: ['$[', ']']
+        })
+      </script>
+    </div>
+  </div>
+</body>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<style></style>
+</html>

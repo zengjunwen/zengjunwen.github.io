@@ -1,0 +1,578 @@
+<!doctype html>
+<html lang="zh-cn">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,minimum-scale=1" />
+    <title>
+        
+      Zjunwen
+      
+    </title>
+    <meta name="keywords" content="Zjunwen" />
+    
+    
+    
+      <link rel="icon" href="media/15807816907881/截屏2020-02-04上午10.39.45.png">
+    
+    <link href="atom.xml" rel="alternate" title="Zjunwen" type="application/atom+xml">
+    <script src="https://cdn.bootcss.com/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="asset/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="head">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="blogname">Zjunwen</div>
+            <nav>
+              
+                <div class="item"><a target="_self" href="index.html">Home</a></div>
+              
+                <div class="item"><a target="_self" href="archives.html">Archives</a></div>
+              
+                <div class="item"><a target="_blank" href="Arcade-Game/index.html">Game</a></div>
+              
+            </nav>
+          </div>
+        </div>
+      </div>
+      <hr>
+    </div> <div class="container" id="category">
+  
+    
+      <div class="article huge">
+        <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/创建型模式.png')"></div>
+        <div class="row content">
+          <div class="col-md-2"></div>
+          <div class="col-md-10 main">
+            <div class="row">
+              <div class="col-md-10 post">
+                <div class="headline"><a href="15809754787359.html">创建型模式</a></div>
+                <div class="subtitle">「五种创建型模式」UML及Java代码实现</div>
+                <div class="meta"><span class="time">$[timeformat('2020-02-06T15:51:18+08:00')]</span></div>
+                <div class="body">
+                    <p>讨论的创建型模式有以下几种：单例模式（Singleton pattern）、建造者模式（Builder pattern）、原型模式（Prototype pattern）、工厂模式（Factory pattern）、抽象工厂模式（Abstract factory pattern）。通过JAVA代码实现各个模式并进行对比、讨论合适使用何种模式最好。</p>
+
+<h2 id="toc_0">一、单例模式</h2>
+
+<h5 id="toc_1">contrast to 工厂模式</h5>
+
+<p>单例模式：单例模式总是返回同一个实例；只有一个无参的私有构造函数；典型的特征是没有接口（interface）。<br/>
+工厂模式：可以返回多种类型的实例。拥有多个构造函数。通常是基于接口驱动。通过对外暴露接口使得单元测试变得简单。</p>
+
+<h5 id="toc_2">单例模式缺陷（pitfalls）</h5>
+
+<p>由于单例模式不对外暴露任何借口（interface）、拥有私有构造函数和私有成员变量，所以比较难进行单元测试。在使用单例模式时，要考虑线程安全问题。</p>
+
+<h5 id="toc_3">饿汉单例模式</h5>
+
+<pre><code class="language-text">public class MySingleton {
+    public String description = &quot;This is a singleton example.&quot;;
+    private static MySingleton instance = new MySingleton();
+    private MySingleton(){
+
+    }
+
+    public static MySingleton getInstance () {
+        return instance;
+    }
+}
+</code></pre>
+
+<h5 id="toc_4">带线程安全的懒汉单例模式</h5>
+
+<pre><code class="language-text">public class MySingleton {
+    public String description = &quot;This is a singleton example.&quot;;
+    private static volatile MySingleton instance = null;
+    private MySingleton(){
+
+    }
+
+    public static MySingleton getInstance () {
+        if(instance == null){
+            synchronized(MySingleton.class){
+                if(instance == null){
+                    instance = new MySingleton();
+                }
+            }
+        }
+
+        return instance;
+    }
+}
+</code></pre>
+
+<p>volatile的目的是禁止JVM的指令重排，保证在多线程环境下也能正常进行。<br/>
+synchronized()括号中地址一样的将实现同步。</p>
+
+<h2 id="toc_5">二、建造者模式</h2>
+
+<p>对于建造者模式，通常考虑的是对象的构建是否复杂，包括多造函数和多setters。<br/>
+Java 中用到建造者模式的API有StringBuilder、DocumentBuilder。</p>
+
+<p>建造者模式的实现有两种方式：</p>
+
+<ul>
+<li>通过抽象类（Builder）、具体实现类（ConcreteBuilder）和产品类（Product）形成的建造者模式；</li>
+<li><p>通过静态内部类实现。</p></li>
+</ul>
+
+<ol>
+<li><p>方式一<br/>
+main.java</p>
+<pre><code class="language-text">public class Main {
+public static void main(String[] args) {<br/>
+ConcreteBuilder concreteBuilder = new ConcreteBuilder();<br/>
+concreteBuilder.buildBread(&quot;bread&quot;).buildCondiments(&quot;condimets&quot;);<br/>
+Product product = concreteBuilder.getProduct();<br/>
+System.out.println(product.getBread());<br/>
+}
+</code></pre>
+<p>Product.java</p>
+<pre><code class="language-text">public class Product {
+private String bread;<br/>
+private String condiments;<br/>
+private String dressing;<br/>
+private String meat;<br/>
+public String getBread() {<br/>
+    return bread;<br/>
+}<br/>
+public void setBread(String bread) {<br/>
+    this.bread = bread;<br/>
+}<br/>
+public String getCondiments() {<br/>
+    return condiments;<br/>
+}<br/>
+public void setCondiments(String condiments) {<br/>
+    this.condiments = condiments;<br/>
+}<br/>
+public String getDressing() {<br/>
+    return dressing;<br/>
+}<br/>
+public void setDressing(String dressing) {<br/>
+    this.dressing = dressing;<br/>
+}<br/>
+public String getMeat() {<br/>
+    return meat;<br/>
+}<br/>
+public void setMeat(String meat) {<br/>
+    this.meat = meat;<br/>
+}<br/>
+}
+</code></pre>
+<p>Builder.java</p>
+<pre><code class="language-text">abstract class Bulider {
+abstract Bulider buildBread(String mes);<br/>
+abstract Bulider buildCondiments(String mes);<br/>
+abstract Bulider buildDressing(String mes);<br/>
+abstract Bulider buildMeat(String mes);<br/>
+abstract Product getProduct();<br/>
+}
+</code></pre>
+<p>ConcreteBuilder.java</p>
+<pre><code class="language-text">public class ConcreteBuilder extends Bulider {
+private Product product = new Product();<br/>
+@Override<br/>
+public Bulider buildBread(String mes){<br/>
+    product.setBread(mes);<br/>
+    return this;<br/>
+}<br/>
+@Override<br/>
+public Bulider buildCondiments(String mes){<br/>
+    product.setCondiments(mes);<br/>
+    return this;<br/>
+}<br/>
+@Override<br/>
+public Bulider buildDressing(String mes){<br/>
+    product.setDressing(mes);<br/>
+    return this;<br/>
+}<br/>
+@Override<br/>
+public Bulider buildMeat(String mes){<br/>
+    product.setMeat(mes);<br/>
+    return this;<br/>
+}<br/>
+@Override<br/>
+public Product getProduct(){<br/>
+    return product;<br/>
+}<br/>
+}
+</code></pre>
+<p>上述方法有助于对建造模式的理解，除此之外还有一个更简单的方法，只需要写一个类即可：<br/>
+Product.java</p>
+<pre><code class="language-text">public class Product {
+private String bread;<br/>
+private String condiments;<br/>
+private String dressing;<br/>
+private String meat;<br/>
+public String getBread() {<br/>
+    return bread;<br/>
+}<br/>
+public Product setBread(String bread) {<br/>
+    this.bread = bread;<br/>
+    return this;<br/>
+}<br/>
+public String getCondiments() {<br/>
+    return condiments;<br/>
+}<br/>
+public Product setCondiments(String condiments) {<br/>
+    this.condiments = condiments;<br/>
+    return this;<br/>
+}<br/>
+public String getDressing() {<br/>
+    return dressing;<br/>
+}<br/>
+public Product setDressing(String dressing) {<br/>
+    this.dressing = dressing;<br/>
+    return this;<br/>
+}<br/>
+public String getMeat() {<br/>
+    return meat;<br/>
+}<br/>
+public Product setMeat(String meat) {<br/>
+    this.meat = meat;<br/>
+    return this;<br/>
+}<br/>
+}
+</code></pre>
+<p>Main.java</p>
+<pre><code class="language-text">public class Main {
+public static void main(String[] args) {<br/>
+    Product product = new Product().setBread(&quot;bread&quot;).setCondiments(&quot;condiments&quot;);<br/>
+    System.out.println(product.getBread());<br/>
+}<br/>
+}
+</code></pre></li>
+<li><p>方式二 静态内部类实现</p>
+<pre><code class="language-text">public class Product {
+private String bread;<br/>
+private String condiments;<br/>
+private String dressing;<br/>
+private String meat;<br/>
+public String getBread() {<br/>
+    return bread;<br/>
+}<br/>
+public String getCondiments() {<br/>
+    return condiments;<br/>
+}<br/>
+public String getDressing() {<br/>
+    return dressing;<br/>
+}<br/>
+public String getMeat() {<br/>
+    return meat;<br/>
+}<br/>
+public static class Builder{<br/>
+    String bread;<br/>
+    String condiments;<br/>
+    String dressing;<br/>
+    String meat;<br/>
+    Builder setBread(String bread){<br/>
+        this.bread = bread;<br/>
+        return this;<br/>
+    }<br/>
+    Builder setCondiments(String condiments){<br/>
+        this.condiments = condiments;<br/>
+        return this;<br/>
+    }<br/>
+    Builder setDressing(String dressing){<br/>
+        this.dressing = dressing;<br/>
+        return this;<br/>
+    }<br/>
+    Builder setMeat(String meat){<br/>
+        this.meat = meat;<br/>
+        return this;<br/>
+    }<br/>
+    Product build(){<br/>
+        return new Product(this);<br/>
+    }<br/>
+}<br/>
+Product(Builder builder){<br/>
+    this.bread = builder.bread;<br/>
+    this.condiments = builder.condiments;<br/>
+    this.dressing = builder.dressing;<br/>
+    this.meat = builder.meat;<br/>
+}<br/>
+}
+</code></pre>
+<h2 id="toc_6">三、原型模式</h2>
+<p>通过实现借口Cloneable可以定义一个原型类，在原型中重写接口中的clone方法，从而快速实现对已有对象的快速拷贝。原型模式带来的优势是提高性能，不用new对象，消耗的资源少。缺点是拷贝时需要考虑引用的情况，避免浅拷贝。原型的使用通常会和注册机一起使用，在组册机中我们将最初的原型定义好，需要使用时从注册机中获取。以下是一个例子。</p></li>
+</ol>
+
+<p>Item.java</p>
+
+<pre><code class="language-text">public abstract class Item implements Cloneable {
+    private String title;
+    private double price;
+    private String url;
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+
+    public String getTitle() {
+        return title;
+    }
+    public void setTitle(String title) {
+        this.title = title;
+    }
+    public double getPrice() {
+        return price;
+    }
+    public void setPrice(double price) {
+        this.price = price;
+    }
+    public String getUrl() {
+        return url;
+    }
+    public void setUrl(String url) {
+        this.url = url;
+    }
+}
+</code></pre>
+
+<p>Movie.java</p>
+
+<pre><code class="language-text">public class Movie extends Item {
+    private String runtime;
+
+    public String getRuntime() {
+        return runtime;
+    }
+
+    public void setRuntime(String runtime) {
+        this.runtime = runtime;
+    }
+}
+</code></pre>
+
+<p>Book.java</p>
+
+<pre><code class="language-text">public class Book extends Item {
+    private int numberOfPages;
+
+    public int getNumberOfPages() {
+        return numberOfPages;
+    }
+
+    public void setNumberOfPages(int numberOfPages) {
+        this.numberOfPages = numberOfPages;
+    }
+}
+</code></pre>
+
+<p>Registry.java</p>
+
+<pre><code class="language-text">public class Registry {
+    private Map&lt;String,Item&gt; items= new HashMap&lt;&gt;();
+    public Registry(){
+        loadItems();
+    }
+
+    private void loadItems(){
+        Movie movie = new Movie();
+        movie.setTitle(&quot;Basic Movie&quot;);
+        movie.setPrice(24.99);
+        movie.setRuntime(&quot;2 hours&quot;);
+        items.put(&quot;Movie&quot;, movie);
+
+        Book book = new Book();
+        book.setNumberOfPages(335);
+        book.setPrice(19.99);
+        book.setTitle(&quot;Basic Book&quot;);
+        items.put(&quot;Book&quot;, book);
+    }
+
+    public Item createItem(String type){
+        Item item = null;
+
+        try {
+            item = (Item)items.get(type).clone();
+        }
+        catch (CloneNotSupportedException e){
+            e.printStackTrace();
+        }
+
+        return item;
+    }
+}
+</code></pre>
+
+<p>Main.java</p>
+
+<pre><code class="language-text">public class Main {
+public static void main(String[] args) {
+    Registry registry = new Registry();
+    Book book = (Book) registry.createItem(&quot;Book&quot;);
+    System.out.print(book.getNumberOfPages());
+}
+}
+</code></pre>
+
+<h2 id="toc_7">四、工厂模式</h2>
+
+<p>工厂模式不会对外暴露类的内部逻辑，对客户端而言，工厂类的具体实现逻辑通过其子类实现，客户端知道的是工厂类暴露出来的公共接口。JAVA API中，工厂模式的有：Calendar、ResourceBundles、NumberFormat。由于Caldendar的构造实例的方法和单例模式一样（方法为getInsatance，且无参），容易被开发人员以为是单例模式，其实它是工厂模式实现的类。<br/>
+一个网站工厂类：<br/>
+Main.java</p>
+
+<pre><code class="language-text">public class Main {
+
+    public static void main(String[] args) {
+        Website blog = WebsiteFactory.getWebsite(WebsiteType.BLOG);
+        System.out.println(blog.getPages());
+    }
+}
+</code></pre>
+
+<p>WebsiteFactory.java</p>
+
+<pre><code class="language-text">public class WebsiteFactory {
+    public static Website getWebsite(WebsiteType siteType) {
+        switch (siteType) {
+            case BLOG: {
+                return new Blog();
+            }
+            case SHOP: {
+                return new Shop();
+            }
+            default: {
+                return null;
+            }
+        }
+    }
+}
+</code></pre>
+
+<p>WebsiteType.java</p>
+
+<pre><code class="language-text">public enum WebsiteType {
+    BLOG,SHOP;
+}
+</code></pre>
+
+<p>Website.java</p>
+
+<pre><code class="language-text">public abstract class Website {
+    protected List&lt;Integer&gt; pages = new ArrayList&lt;&gt;();
+
+    public List&lt;Integer&gt; getPages() {
+        return pages;
+    }
+
+    public Website(){
+        this.createWebsite();
+    }
+
+    public abstract void createWebsite();
+}
+</code></pre>
+
+<p>Blog.java</p>
+
+<pre><code class="language-text">public class Blog extends Website {
+    @Override
+    public void createWebsite(){
+        pages.add(1);
+        pages.add(2);
+    }
+}
+</code></pre>
+
+<p>Shop.java</p>
+
+<pre><code class="language-text">public class Shop extends Website {
+    @Override
+    public void createWebsite(){
+        pages.add(1);
+        pages.add(2);
+    }
+}
+</code></pre>
+
+<h2 id="toc_8">五、抽象工厂模式</h2>
+
+<p>这个比较好理解，抽象工厂模式是工厂的工厂模式。</p>
+
+                </div>
+                <div class="bottom">
+                  <a href="15809754787359.html" class="continue float-right">
+                    继续阅读
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="otherposts row">
+    
+  
+    
+        <div class="col-md-6">
+          <a href="neo4j-zhi-shi-dian1-if-we-have.html" class="item">
+            <div class="article normal">
+              <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/Noe4j.png')"></div>
+              <div class="articleinfo">
+                <div class="headline">Neo4j知识点</div>
+                <div class="subtitle">「Neo4j学习小记」</div>
+              </div>
+            </div>
+          </a>
+        </div>
+    
+   
+  </div>
+  <div class="pagenavi">
+    <div class="item"><a href="all_10.html">更新文章</a></div>
+    <div class="item"> · </div>
+    <div class="item">已是最旧一页</div>
+  </div>
+ </div>
+ <script>
+   let category = new Vue({
+    el: '#category',
+    data: {},
+    methods: {
+      indexOddandEven(index) {
+        return index%2 ? 'odd' : 'even';
+      },
+      timeformat(raw) {
+        return moment(raw).format("YYYY 年 MM 月 DD 日");
+      }
+    },
+    delimiters: ['$[', ']']
+  })
+ </script>
+      <div class="container">
+      <hr>
+      <div class="footer" id="footer">
+        <div class="slogan">提问🙋🏼、思考🤔、专注🙇🏻、解决问题💁🏻‍♂️</div>
+        <div class="meta">
+          <p><p>👨🏻‍💻<a href="https://github.com/zengjunwen" target="_blank">Github</a>  📧<a href="mailto:junwenzeng@foxmail.com?subject=【从你的博客联系到你】&body=你好！">eMail</a></p><p>除特殊注明外，博客所有文章使用CC-BY-NC-SA授权协议</p></p>
+          <p>「Zjunwen」</p>
+        </div>
+      </div>
+      <script>
+        let footer = new Vue({
+          el: '#footer',
+          data: {
+            message: 'hello'
+          },
+          delimiters: ['$[', ']']
+        })
+      </script>
+    </div>
+  </div>
+</body>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<style></style>
+</html>

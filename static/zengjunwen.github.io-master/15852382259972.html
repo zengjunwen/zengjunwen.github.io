@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="zh-cn">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,minimum-scale=1" />
+    <title>
+        
+      Java 8 Lambda Expression - Zjunwen
+      
+    </title>
+    <meta name="keywords" content="Zjunwen" />
+    
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:creator" content="@" />
+      <meta property="og:url" content="15852382259972.html" />
+      <meta property="og:title" content="Java 8 Lambda Expression" />
+      
+        <meta property="og:description" content="Java 8 Lambda Expression" />
+      
+      
+      <meta property="og:site_name" content="Zjunwen" />
+    
+    
+      <link rel="icon" href="media/15807816907881/截屏2020-02-04上午10.39.45.png">
+    
+    <link href="atom.xml" rel="alternate" title="Zjunwen" type="application/atom+xml">
+    <script src="https://cdn.bootcss.com/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="asset/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="head">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="blogname">Zjunwen</div>
+            <nav>
+              
+                <div class="item"><a target="_self" href="index.html">Home</a></div>
+              
+                <div class="item"><a target="_self" href="archives.html">Archives</a></div>
+              
+                <div class="item"><a target="_blank" href="Arcade-Game/index.html">Game</a></div>
+              
+            </nav>
+          </div>
+        </div>
+      </div>
+      <hr>
+    </div> <div class="container" id="post">
+  <div class="article huge">
+    <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
+    <img src="" style="display: none;" class="featureimgforexternal">
+    <div class="timeGTM" style="display:none;">2020-03-26T23:57:05+08:00</div>
+    <div class="row content">
+      <div class="col-md-2"></div>
+      <div class="col-md-10 main">
+        <div class="row">
+          <div class="col-md-10">
+            <div class="post">
+              <div class="headline"><a href="15852382259972.html">Java 8 Lambda Expression</a></div>
+              
+              <div class="meta"><span class="time">$[timeformat('2020-03-26T23:57:05+08:00')]</span><br><span class="tags"></span></div>
+              <div class="body">
+                  <h2 id="toc_0">什么是Lambda表达式</h2>
+
+<p>Lambda表达式又称匿名函数，其并非一个函数，而是一个没有标识的一个对象，它提供了一种便于实例化匿名类和代码阅读的书写方式。1、它是一个功能/函数接口；2、它是功能/函数接口的实现类；3、它是一个对象。</p>
+
+<p>在没有Lambda表达式之前，对于功能/函数接口：</p>
+
+<pre><code class="language-text">public interface FileFilter {
+        boolean accept(File file) ;
+}
+</code></pre>
+
+<p>通过过匿名函数实现的方式为：</p>
+
+<pre><code class="language-text">FileFilter fileFilter = new FileFilter() {
+    @Override
+    public boolean accept(Filefile) {
+        return file.getName().endsWith(&quot;.java&quot;); 
+    }
+};
+</code></pre>
+
+<p>有了Lambda表达式之后，上面的代码可以简写为：</p>
+
+<pre><code class="language-text">FileFilter filter = (File file) -&gt; file.getName().endsWith(&quot;.java&quot;);
+</code></pre>
+
+<p>OR</p>
+
+<pre><code class="language-text">FileFilter filter = (file) -&gt; file.getName().endsWith(&quot;.java&quot;);
+</code></pre>
+
+<h2 id="toc_1">功能/函数接口</h2>
+
+<p>只拥有一个抽象方法的接口，可以有多个静态、默认方法。通常会使用@FunctionalInterface进行注解。如：</p>
+
+<pre><code class="language-text">@FunctionalInterface
+public interface Supplier&lt;T&gt; {
+    T get(); 
+}
+</code></pre>
+
+<p>Java提供的java.util.function中包含了很多常用的功能/函数接口，如：</p>
+
+<h3 id="toc_2">Supplier</h3>
+
+<pre><code class="language-text">@FunctionalInterface
+public interface Supplier&lt;T&gt; {
+    T get(); 
+}
+</code></pre>
+
+<h3 id="toc_3">Consumer</h3>
+
+<pre><code class="language-text">@FunctionalInterface
+public interface Consumer&lt;T&gt; {
+   void accept(T t);
+}
+</code></pre>
+
+<h3 id="toc_4">Predicate</h3>
+
+<pre><code class="language-text">@FunctionalInterface
+public interface Predicate&lt;T&gt; {
+    boolean test(T t);
+   
+    default Predicate&lt;T&gt; and(Predicate&lt;? super T&gt; other) { 
+    Objects.requireNonNull(other);
+    return (t) -&gt; test(t) &amp;&amp; other.test(t); }
+}
+
+Predicate&lt;String&gt; p1 = s -&gt; s.length() &lt; 20;
+Predicate&lt;String&gt; p2 = s -&gt; s.length() &gt; 10;
+Predicate&lt;String&gt; p3 = p1.and(p2);
+</code></pre>
+
+<h2 id="toc_5">用对象的方法、类的静态方法实例化功能/函数接口</h2>
+
+<pre><code class="language-text">Consumer&lt;String&gt; c = s -&gt; System.out.println(s);
+</code></pre>
+
+<p>可写为</p>
+
+<pre><code class="language-text">Consumer&lt;String&gt; c = System.out::println;
+</code></pre>
+
+<h2 id="toc_6">默认方法</h2>
+
+<p>在方法前加default关键字，目的是在兼容老接口实现类的情况下，将接口改造为功能/函数接口。</p>
+
+<p><strong>待补充高级用法，在设计模式中的使用》〉》〉</strong></p>
+
+              </div>
+            </div>
+            
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+    let post = new Vue({
+     el: '#post',
+     data: {
+       hidelikecoin: ''
+     },
+     methods: {
+       timeformat(raw) {
+         return moment(raw).format("YYYY 年 MM 月 DD 日");
+       }
+     },
+     delimiters: ['$[', ']']
+   })
+  </script>      <div class="container">
+      <hr>
+      <div class="footer" id="footer">
+        <div class="slogan">提问🙋🏼、思考🤔、专注🙇🏻、解决问题💁🏻‍♂️</div>
+        <div class="meta">
+          <p><p>👨🏻‍💻<a href="https://github.com/zengjunwen" target="_blank">Github</a>  📧<a href="mailto:junwenzeng@foxmail.com?subject=【从你的博客联系到你】&body=你好！">eMail</a></p><p>除特殊注明外，博客所有文章使用CC-BY-NC-SA授权协议</p></p>
+          <p>「Zjunwen」</p>
+        </div>
+      </div>
+      <script>
+        let footer = new Vue({
+          el: '#footer',
+          data: {
+            message: 'hello'
+          },
+          delimiters: ['$[', ']']
+        })
+      </script>
+    </div>
+  </div>
+</body>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<style></style>
+</html>

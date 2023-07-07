@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="zh-cn">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,minimum-scale=1" />
+    <title>
+        
+      递归、回溯、动态规划 - Zjunwen
+      
+    </title>
+    <meta name="keywords" content="Zjunwen" />
+    
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:creator" content="@" />
+      <meta property="og:url" content="16000890176454.html" />
+      <meta property="og:title" content="递归、回溯、动态规划" />
+      
+        <meta property="og:description" content="递归、回溯、动态规划" />
+      
+      
+      <meta property="og:site_name" content="Zjunwen" />
+    
+    
+      <link rel="icon" href="media/15807816907881/截屏2020-02-04上午10.39.45.png">
+    
+    <link href="atom.xml" rel="alternate" title="Zjunwen" type="application/atom+xml">
+    <script src="https://cdn.bootcss.com/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="asset/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="head">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="blogname">Zjunwen</div>
+            <nav>
+              
+                <div class="item"><a target="_self" href="index.html">Home</a></div>
+              
+                <div class="item"><a target="_self" href="archives.html">Archives</a></div>
+              
+                <div class="item"><a target="_blank" href="Arcade-Game/index.html">Game</a></div>
+              
+            </nav>
+          </div>
+        </div>
+      </div>
+      <hr>
+    </div> <div class="container" id="post">
+  <div class="article huge">
+    <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
+    <img src="" style="display: none;" class="featureimgforexternal">
+    <div class="timeGTM" style="display:none;">2020-09-14T21:10:17+08:00</div>
+    <div class="row content">
+      <div class="col-md-2"></div>
+      <div class="col-md-10 main">
+        <div class="row">
+          <div class="col-md-10">
+            <div class="post">
+              <div class="headline"><a href="16000890176454.html">递归、回溯、动态规划</a></div>
+              
+              <div class="meta"><span class="time">$[timeformat('2020-09-14T21:10:17+08:00')]</span><br><span class="tags"></span></div>
+              <div class="body">
+                  <p>本文将递归、回溯、动态规划放在一起，通过一个例题探索三者之间的关系，从而达到融汇贯通的地步。回溯是递归的特殊情况，在递归调用后，有一个状态恢复的动作。动态规划是递归的升华，通过字问题分解、推导状态转移方程、使用DP table实现表的自底向上的更新。对于能有动态规划的问题，在采用递归方法并进行合理的剪枝，应该是能得倒和动规一样的时间复杂度。下面直接看题：</p>
+
+<p><a href="https://leetcode-cn.com/problems/fibonacci-number/">斐波那契数</a><br/>
+递归实现</p>
+
+<pre><code class="language-text">// 最朴素的递归方法
+class Solution {
+    public int fib(int N) {
+        if (N == 0||N==1) {
+            return N;
+        }
+
+        return fib(N -1) + fib(N - 2);
+    }
+}
+</code></pre>
+
+<p>通过备忘录剪枝实现</p>
+
+<pre><code class="language-text">// 备忘录方法
+class Solution {
+    int[] memo;
+    public int fib(int N) {
+        if (N == 0||N==1) {
+            return N;
+        }
+        memo = new int[N + 1];
+        Arrays.fill(memo, Integer.MAX_VALUE);
+        memo[0] = 0;
+        memo[1] = 1;
+        return traversal(N);
+    }
+
+    private int traversal(int N) {
+        if (N == 0||N==1) {
+            return N;
+        }
+        int a,b;
+        a = memo[N-1] == Integer.MAX_VALUE?traversal(N-1):memo[N-1];
+        b = memo[N-2] == Integer.MAX_VALUE?traversal(N-2):memo[N-2];
+        memo[N] = a + b;
+        return memo[N];
+    }
+}
+</code></pre>
+
+<p>动态规划实现</p>
+
+<pre><code class="language-text">// DP table方法
+class Solution {
+    public int fib(int N) {
+        if(N &lt; 2) {
+            return N;
+        }
+
+        int[] dp = new int[N + 1];
+        dp[0] = 0;
+        dp[1] = 1;
+        for(int i = 2; i &lt;= N; i++) {
+            dp[i] = dp[i-1] + dp[i-2];
+        }
+        
+        return dp[N];
+    }
+}
+
+</code></pre>
+
+<h3 id="toc_0">回溯算法通用思路模板</h3>
+
+<pre><code class="language-text">class Solution {
+    List&lt;T&gt;/boolean/int result;//结果集/计数
+    public List/boolean/int alg(Object... input) {
+        T res = new T();//满足的结果集
+        //TODO 初始化
+        backTrack(各种状态);
+        return result;
+    }
+    
+    private void backTrack(各种状态) {
+        if() {//终止条件
+            更新result
+            1、List
+            2、boolean
+            3、自加int
+            return;
+        }
+        
+        for(){//当前层需要搜索的集合
+            if() {//剪枝，不满足条件
+                return;
+            }
+            if(){//满足条件
+                //TODO 更新中间状态
+                backTrack(新状态);
+                //TODO 恢复状态
+            }
+        }
+    }
+}
+</code></pre>
+
+              </div>
+            </div>
+            
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+    let post = new Vue({
+     el: '#post',
+     data: {
+       hidelikecoin: ''
+     },
+     methods: {
+       timeformat(raw) {
+         return moment(raw).format("YYYY 年 MM 月 DD 日");
+       }
+     },
+     delimiters: ['$[', ']']
+   })
+  </script>      <div class="container">
+      <hr>
+      <div class="footer" id="footer">
+        <div class="slogan">提问🙋🏼、思考🤔、专注🙇🏻、解决问题💁🏻‍♂️</div>
+        <div class="meta">
+          <p><p>👨🏻‍💻<a href="https://github.com/zengjunwen" target="_blank">Github</a>  📧<a href="mailto:junwenzeng@foxmail.com?subject=【从你的博客联系到你】&body=你好！">eMail</a></p><p>除特殊注明外，博客所有文章使用CC-BY-NC-SA授权协议</p></p>
+          <p>「Zjunwen」</p>
+        </div>
+      </div>
+      <script>
+        let footer = new Vue({
+          el: '#footer',
+          data: {
+            message: 'hello'
+          },
+          delimiters: ['$[', ']']
+        })
+      </script>
+    </div>
+  </div>
+</body>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<style></style>
+</html>

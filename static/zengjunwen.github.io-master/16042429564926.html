@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="zh-cn">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,minimum-scale=1" />
+    <title>
+        
+      二叉树的遍历及应用 - Zjunwen
+      
+    </title>
+    <meta name="keywords" content="Zjunwen" />
+    
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:creator" content="@" />
+      <meta property="og:url" content="16042429564926.html" />
+      <meta property="og:title" content="二叉树的遍历及应用" />
+      
+        <meta property="og:description" content="二叉树的遍历及应用" />
+      
+      
+      <meta property="og:site_name" content="Zjunwen" />
+    
+    
+      <link rel="icon" href="media/15807816907881/截屏2020-02-04上午10.39.45.png">
+    
+    <link href="atom.xml" rel="alternate" title="Zjunwen" type="application/atom+xml">
+    <script src="https://cdn.bootcss.com/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="asset/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="head">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="blogname">Zjunwen</div>
+            <nav>
+              
+                <div class="item"><a target="_self" href="index.html">Home</a></div>
+              
+                <div class="item"><a target="_self" href="archives.html">Archives</a></div>
+              
+                <div class="item"><a target="_blank" href="Arcade-Game/index.html">Game</a></div>
+              
+            </nav>
+          </div>
+        </div>
+      </div>
+      <hr>
+    </div> <div class="container" id="post">
+  <div class="article huge">
+    <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
+    <img src="" style="display: none;" class="featureimgforexternal">
+    <div class="timeGTM" style="display:none;">2020-11-01T23:02:36+08:00</div>
+    <div class="row content">
+      <div class="col-md-2"></div>
+      <div class="col-md-10 main">
+        <div class="row">
+          <div class="col-md-10">
+            <div class="post">
+              <div class="headline"><a href="16042429564926.html">二叉树的遍历及应用</a></div>
+              
+              <div class="meta"><span class="time">$[timeformat('2020-11-01T23:02:36+08:00')]</span><br><span class="tags"></span></div>
+              <div class="body">
+                  <p>以中序遍历为例，其他一通百通<br/>
+1、递归方式</p>
+
+<pre><code class="language-text">
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public List&lt;Integer&gt; inorderTraversal(TreeNode root) {
+        List&lt;Integer&gt; result = new ArrayList&lt;&gt;();
+
+        if(root == null) return result;
+
+        List&lt;Integer&gt; temp1 = inorderTraversal(root.left);
+        if(temp1 != null) result.addAll(temp1);
+
+        result.add(root.val);
+
+        List&lt;Integer&gt; temp2 = inorderTraversal(root.right);
+        if(temp2 != null) result.addAll(temp2);
+
+        return result;
+    }
+}
+</code></pre>
+
+<p>2、使用栈和循环的方式</p>
+
+<pre><code class="language-text">class Solution {
+    public List&lt;Integer&gt; inorderTraversal(TreeNode root) {
+        List&lt;Integer&gt; result = new ArrayList&lt;&gt;();
+
+        if(root == null) return result;
+
+        LinkedList&lt;TreeNode&gt; stack = new LinkedList&lt;&gt;();
+        stack.push(root);
+
+        while(!stack.isEmpty()) {
+            TreeNode temp = stack.pop();
+
+            if(temp != null) {
+                if(temp.right != null) {
+                    stack.push(temp.right);
+                }
+
+                stack.push(temp);
+                stack.push(null);
+
+                if(temp.left != null) {
+                    stack.push(temp.left);
+                }
+            } else {
+                result.add(stack.pop().val);
+            }
+        }
+
+        return result;
+    }
+}
+</code></pre>
+
+<h3 id="toc_0">前序遍历的应用</h3>
+
+<p><a href="https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/">105. 从前序与中序遍历序列构造二叉树</a></p>
+
+<h3 id="toc_1">中序遍历的应用</h3>
+
+<p><a href="https://leetcode-cn.com/problems/recover-binary-search-tree/">99. 恢复二叉搜索树</a></p>
+
+<h3 id="toc_2">后序遍历的应用</h3>
+
+<p><a href="https://leetcode-cn.com/problems/binary-tree-maximum-path-sum/">124. 二叉树中的最大路径和</a></p>
+
+              </div>
+            </div>
+            
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+    let post = new Vue({
+     el: '#post',
+     data: {
+       hidelikecoin: ''
+     },
+     methods: {
+       timeformat(raw) {
+         return moment(raw).format("YYYY 年 MM 月 DD 日");
+       }
+     },
+     delimiters: ['$[', ']']
+   })
+  </script>      <div class="container">
+      <hr>
+      <div class="footer" id="footer">
+        <div class="slogan">提问🙋🏼、思考🤔、专注🙇🏻、解决问题💁🏻‍♂️</div>
+        <div class="meta">
+          <p><p>👨🏻‍💻<a href="https://github.com/zengjunwen" target="_blank">Github</a>  📧<a href="mailto:junwenzeng@foxmail.com?subject=【从你的博客联系到你】&body=你好！">eMail</a></p><p>除特殊注明外，博客所有文章使用CC-BY-NC-SA授权协议</p></p>
+          <p>「Zjunwen」</p>
+        </div>
+      </div>
+      <script>
+        let footer = new Vue({
+          el: '#footer',
+          data: {
+            message: 'hello'
+          },
+          delimiters: ['$[', ']']
+        })
+      </script>
+    </div>
+  </div>
+</body>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<style></style>
+</html>
