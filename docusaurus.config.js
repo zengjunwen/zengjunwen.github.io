@@ -15,12 +15,12 @@ const config = {
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
-  deploymentBranch: 'master',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'zengjunwen', // Usually your GitHub org/user name.
   projectName: 'zengjunwen.github.io', // Usually your repo name.
+  deploymentBranch: 'delpoy',
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -88,10 +88,10 @@ const config = {
       },
       algolia: {
         // The application ID provided by Algolia
-        appId: 'YOUR_APP_ID',
+        appId: '3Y0U86592Z',
   
         // Public API key: it is safe to commit it
-        apiKey: 'YOUR_SEARCH_API_KEY',
+        apiKey: '36c46cda1cdbfcf93f7f44f65ed8df41',
   
         indexName: 'YOUR_INDEX_NAME',
   
