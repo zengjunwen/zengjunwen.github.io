@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="zh-cn">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,minimum-scale=1" />
+    <title>
+        
+      Tuning the JVM - Zjunwen
+      
+    </title>
+    <meta name="keywords" content="Zjunwen" />
+    
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:creator" content="@" />
+      <meta property="og:url" content="15815193362338.html" />
+      <meta property="og:title" content="Tuning the JVM" />
+      
+        <meta property="og:description" content="Tuning the JVM" />
+      
+      
+        <meta property="og:image" content="https://zengjunwen.github.io/topicImage/TuningTheJVM.png" />
+        <meta name="twitter:image" content="https://zengjunwen.github.io/topicImage/TuningTheJVM.png" />
+      
+      <meta property="og:site_name" content="Zjunwen" />
+    
+    
+      <link rel="icon" href="media/15807816907881/截屏2020-02-04上午10.39.45.png">
+    
+    <link href="atom.xml" rel="alternate" title="Zjunwen" type="application/atom+xml">
+    <script src="https://cdn.bootcss.com/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="asset/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="head">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="blogname">Zjunwen</div>
+            <nav>
+              
+                <div class="item"><a target="_self" href="index.html">Home</a></div>
+              
+                <div class="item"><a target="_self" href="archives.html">Archives</a></div>
+              
+                <div class="item"><a target="_blank" href="Arcade-Game/index.html">Game</a></div>
+              
+            </nav>
+          </div>
+        </div>
+      </div>
+      <hr>
+    </div> <div class="container" id="post">
+  <div class="article huge">
+    <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/TuningTheJVM.png')"></div>
+    <img src="https://zengjunwen.github.io/topicImage/TuningTheJVM.png" style="display: none;" class="featureimgforexternal">
+    <div class="timeGTM" style="display:none;">2020-02-12T22:55:36+08:00</div>
+    <div class="row content">
+      <div class="col-md-2"></div>
+      <div class="col-md-10 main">
+        <div class="row">
+          <div class="col-md-10">
+            <div class="post">
+              <div class="headline"><a href="15815193362338.html">Tuning the JVM</a></div>
+              
+              <div class="meta"><span class="time">$[timeformat('2020-02-12T22:55:36+08:00')]</span><br><span class="tags"></span></div>
+              <div class="body">
+                  <h2 id="toc_0">Outline</h2>
+
+<p><img src="media/15815193362338/%E6%88%AA%E5%B1%8F2020-02-12%E4%B8%8B%E5%8D%8811.17.14.png" alt="截屏2020-02-12下午11.17.14"/><br/>
+The performance of interpreted bytecode still lags behind the performance of precompiled binary code. So in 1999, the JIT compiler was introduced and added to Sun&#39;s HotSpot JVM. The function of the JIT compiler is that during runtime, it identifies the parts of the application where the most time is spent executing bytecode, commonly known as hotspots, and then compiles the bytecode dynamically into machine code so that the program can run faster. The code is compiled just before execution, hence the name just-in-time, and is cached for future runs in the code cache. In this module, we&#39;ll talk about different types of JIT compilers in Java and how to choose a compilation mode. Then we&#39;ll look at the tuning flags for JIT compilation and what their effects are. Afterwards, we&#39;ll pivot to a detailed discussion of Java garbage collection. We&#39;ll discuss the different types of garbage collectors, how to monitor and measure garbage collection performance, and how to select and tune your garbage collector.</p>
+
+<h2 id="toc_1">JIT Compilation Modes</h2>
+
+<p>In the HotSpot JVM, there are two JIT compilers, compiler 1, commonly known as the C1 compiler, or the client compiler, and compiler 2, commonly known as the C2 compiler, or server compiler. The C1 compiler is intended to be used by client applications, so for that reason, it&#39;s optimized for startup performance. This means that it tries to find hot methods pretty early on, produces some basic, relatively unintrusive optimizations, and then compiles the method&#39;s bytecode to machine code. The C2 compiler is intended for use by server applications. The C2 compiler waits for a longer period of time before deciding to compile a hot method. This gives the compiler more time to learn about the method&#39;s execution pattern so that it can infer and apply more aggressive optimizations. As a result, methods compiled with C2 are generally faster than methods compiled with C1. However, because the C1 starts earlier than C2, an application running with the C1 compiler will be faster earlier on in its lifecycle before the C2 catches up and overtakes it. Therefore, if an application is short lived or sensitive to startup times, then the C1 compiler is actually a better choice for it. But what if you could combine the two? What if you could have an application start running, and then after some runs, the C1 compiler picks up a method and optimizes it get the intermediate performance benefit. And then at a later time, after some more runs, the method is reoptimized with the C2 compiler to get the faster machine code. This is exactly what the tiered compilation does. Tiered compilation is a compilation mode that was introduced in Java 7, and in tiered compilation, hot methods are first compiled with C1, and then as they get hotter, they are recompiled with C2. Although tiered compilation was introduced in Java 7, it wasn&#39;t until Java 8 that it became the default JIT compilation mode in the HotSpot JVM. The actual mechanism of tiered compilation is a bit complex, so I&#39;ll present a simplified version of it here. In tiered compilation, there are five execution levels. <br/>
+<img src="media/15815193362338/%E6%88%AA%E5%B1%8F2020-02-13%E4%B8%8A%E5%8D%8812.02.34.png" alt="截屏2020-02-13上午12.02.34"/></p>
+
+<h2 id="toc_2">Definition of Hot Method</h2>
+
+<p><img src="media/15815193362338/%E6%88%AA%E5%B1%8F2020-02-13%E4%B8%8A%E5%8D%8812.07.16.png" alt="截屏2020-02-13上午12.07.16"/></p>
+
+<h2 id="toc_3">Garage Collection</h2>
+
+<p>Garbage collection is the mechanism by which the JVM reclaims memory on behalf of the application when it&#39;s no longer needed. At a high level, it consists of finding objects that are no longer in use, freeing the memory associated with these objects, and occasionally compacting the heap to prevent memory fragmentation. <br/>
+<img src="media/15815193362338/%E6%88%AA%E5%B1%8F2020-02-13%E4%B8%8B%E5%8D%889.22.06.png" alt="截屏2020-02-13下午9.22.06"/><br/>
+The garbage collector performs its work using one or more threads. But in order to do the job of tracking down object references and moving objects around in memory, it needs to make sure that the application threads are not currently using the objects because if, for example, an application thread is using an object and the memory location of the object changes due to GC, then bad and unpredictable things could happen. This is why garbage collection must pause all application threads while running. These pauses are sometimes called stop-the-world pauses, and the minimization of them is the primary concern of GC tuning, as they can have a huge impact on the performance of a Java application. <br/>
+<img src="media/15815193362338/%E6%88%AA%E5%B1%8F2020-02-13%E4%B8%8B%E5%8D%889.22.30.png" alt="截屏2020-02-13下午9.22.30"/><br/>
+There are four main garbage collectors available in current JVMs. They are the serial collector; the parallel collector, which is also known as the throughput collector; the Concurrent Mark Sweep collector, or CMS collector; and the garbage first garbage collector, or G1GC.<br/>
+<img src="media/15815193362338/%E6%88%AA%E5%B1%8F2020-02-13%E4%B8%8B%E5%8D%889.43.27.png" alt="截屏2020-02-13下午9.43.27"/><br/>
+The standard garbage collection architecture today is generational garbage collection, and all four aforementioned collectors are generational garbage collectors. Generational garbage collectors divide the heap into two areas, the young generation area and the old generation, or tenured area. The young generation itself is split into two logical areas, eden space, also known as the allocation space, and the survivor space. Finally, the survivor space is also split up into two, survivor space 0, S0, and survivor space 1, S1. <br/>
+<img src="media/15815193362338/%E6%88%AA%E5%B1%8F2020-02-13%E4%B8%8B%E5%8D%8810.04.33.png" alt="截屏2020-02-13下午10.04.33"/><br/>
+Objects are created in the eden space of the young generation area, and when eden fills up, a minor garbage collection takes place. Minor GCs are optimized with the assumption that objects have a high mortality rate and are typically very fast. During the minor GC, objects are first checked to see if they&#39;re still reachable or not and then marked accordingly. Then reachable objects in eden have their age incremented and are then copied to a designated survivor space. Objects in the other survivor space also have their age incremented, and if they reach a certain threshold known as the tenured age, they get promoted to the tenured generation. But if they&#39;re under the tenured age, then they also get copied to the currently designated survivor space. Then both eden and the other survivor space are cleared, freeing the memory and compacting the space at the same time. The process is the same on the next minor GC run, but the survivor spaces switch roles, and the empty survivor space becomes the designated survivor space. Referenced objects are copied to this survivor space or tenured to the old generation, while eden and the other survivor space get cleared after the GC. And it goes back and forth from there. Eventually, the old generation also gets filled up and must be garbage collected. This is called a major, or full, garbage collection, and it usually takes up more time because the search space and number of objects is higher. This is where GC algorithms have their biggest differences. Basic collections will stop all application threads, mark the unreachable objects, free their memory, compact the heap, and then resume the application threads. Whereas more advanced collectors are able to scan for unreachable objects, even when the application threads are still running, and only pause all application threads to free the memory and compact the heap. These collectors are known as concurrent collectors, mostly concurrent collectors, or low-pause collectors. The Concurrent Mark Sweep and G1GC collectors are concurrent collectors, while the parallel collector is a basic collector.<br/>
+<img src="media/15815193362338/%E6%88%AA%E5%B1%8F2020-02-13%E4%B8%8B%E5%8D%8810.06.20.png" alt="截屏2020-02-13下午10.06.20"/><br/>
+<img src="media/15815193362338/%E6%88%AA%E5%B1%8F2020-02-13%E4%B8%8B%E5%8D%8810.06.36.png" alt="截屏2020-02-13下午10.06.36"/></p>
+
+<h2 id="toc_4">Choosing a GC</h2>
+
+<p>The serial collector is the simplest garbage collector available in HotSpot. It uses only one thread to process the heap, both for minor and major collections, and it&#39;ll stop all application threads while doing so. To enable the serial collector, use the +UseSerialGC flag. If your application will run on systems with only one processor or virtual processor and there are no pause time requirements, or if you&#39;re running a lot of small JVMs on a single machine, then you should use the serial collector. Another use case for the serial collector is if you have a small live set of data, up to appropriate 100 MB. In this case, using multiple threads to process the heap may not produce much of an advantage, especially considering the interthread communication overhead involved.<br/>
+<img src="media/15815193362338/%E6%88%AA%E5%B1%8F2020-02-13%E4%B8%8B%E5%8D%8810.23.49.png" alt="截屏2020-02-13下午10.23.49"/><br/>
+In this case, using multiple threads to process the heap may not produce much of an advantage, especially considering the interthread communication overhead involved. For machines with multiple cores or 64-bit JVMs, <strong>the parallel collector is the default collector if you&#39;re running Java 7 or 8.</strong> The parallel collector uses multiple threads for minor and major collections and fully stops all application threads for both collections. This means that use of the parallel collector can result in long pause times of sometimes over a second, but overall, application throughput should be higher with the parallel collector than with a low-pause collector. Therefore, if you&#39;re running a non-interactive batch application where overall application performance is more important than low pause times, then you should go with this collector. If you&#39;re running Java 9 or later, then to enable to the parallel collector, you would set the +UseParallelGC flag. For Java 7 or 8, you shouldn&#39;t need this flag, as it&#39;s the default.<br/>
+<img src="media/15815193362338/%E6%88%AA%E5%B1%8F2020-02-13%E4%B8%8B%E5%8D%8810.29.36.png" alt="截屏2020-02-13下午10.29.36"/><br/>
+As a concurrent collector, it&#39;s able to trace reachable objects and clean up unreachable ones all while live application threads are still running, allowing it achieve short GC pauses. However, since the GC threads run concurrently with application threads, the GC threads may compete with application threads for CPU resources. Therefore, a CPU-bound application may see a reduction in application throughput when GC threads are running.<br/>
+<img src="media/15815193362338/%E6%88%AA%E5%B1%8F2020-02-13%E4%B8%8B%E5%8D%8810.32.50.png" alt="截屏2020-02-13下午10.32.50"/><br/>
+G1GC, which is the newer JVM concurrent collector, has been pegged as the replacement for the CMS collector, and since Java 9, the CMS collector has been marked as deprecated and will eventually be removed from the JVM code base. The garbage first garbage collector, G1GC, is the replacement for the CMS collector, and is the default collector in Java 9 and above. It&#39;s designed for multi-processor machines with large heaps, and it tries to achieve the best balance between latency and throughput. With G1GC, you can specify a goal for the maximum pause time you would want your application to encounter, and the collector will try to meet the requirement by trying to reclaim as much space as it can within the given constraints. G1GC is a mostly concurrent collector. G1GC threads mark unreachable objects concurrently while the application threads are running. This means that like the CMS collector, overhead from the concurrent execution may affect application throughput. Therefore, G1GC should be used if you have an interactive application, application response time is more important than overall throughput, and there&#39;s a requirement to keep pause times short.<br/>
+<img src="media/15815193362338/%E6%88%AA%E5%B1%8F2020-02-13%E4%B8%8B%E5%8D%8810.35.41.png" alt="截屏2020-02-13下午10.35.41"/></p>
+
+<h2 id="toc_5">垃圾回收算法:</h2>
+
+<ol>
+<li><p>标记-清除：首先标记出所有需要回收的对象，在标记完成后统一回收所有被标记的对象。<br/>
+不足：</p>
+<ul>
+<li>效率问题，标记和清除两个过程的效率都不高。</li>
+<li>空间问题，标记清除后会产生大量不连续的内存碎片。</li>
+</ul></li>
+<li><p>复制：为了解决效率问题，将内存按照容量划分为大小相等的两块，每次只使用其中的一块。当这块内存用完了，将还存活的对象复制到另一块上面，然后再把已使用过的内存空间一次清理掉，这样使得每次都对整个半区进行内存回收。<br/>
+优点：实现简单，运行高效。<br/>
+不足：代价高（将内存缩小为原来的一半）</p></li>
+<li><p>标记-整理：首先标记出所有需要回收的对象，然后让所有存活的对象都向一端移动，直接清理掉端边界以外的内存。</p></li>
+<li><p><strong>分代收集</strong>：在新生代中，每次垃圾收集时都有大量对象死去，只有少量存活，选用复制算法，只需要付出少量存活对象的复制成本就可以完成收集。而老年代中因为对象存活率高，没有额外空间对它进行分配担保，使用标记-清除或标记-整理算法来进行回收。（为什么要分新生代和老年代？）</p></li>
+</ol>
+
+<h2 id="toc_6">JVM中堆和栈的区别</h2>
+
+<p>栈内存主要用来存放基本数据类型的局部变量和对象的引用变量。堆内存用来存放运行时创建的对象，通过new关键字创建出来的对象都存放到堆内存中。</p>
+
+<p>栈内存是线程私有的，生命周期随线程创建而创建，随线程结束而死亡。堆内存是线程共享的，多线程访问堆中的数据时需要对数据进行同步。</p>
+
+<p>栈内存的管理是通过压栈和弹栈操作来完成的。堆内存的释放由垃圾回收器来负责执行。</p>
+
+<p>栈主要用来执行程序的，堆主要用来存放对象的。</p>
+
+<p>栈的存取速度快于堆。</p>
+
+<p>栈的大小和生存期是确定的。堆在运行时动态地分配内存大小，生命周期不确定。</p>
+
+              </div>
+            </div>
+            
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+    let post = new Vue({
+     el: '#post',
+     data: {
+       hidelikecoin: ''
+     },
+     methods: {
+       timeformat(raw) {
+         return moment(raw).format("YYYY 年 MM 月 DD 日");
+       }
+     },
+     delimiters: ['$[', ']']
+   })
+  </script>      <div class="container">
+      <hr>
+      <div class="footer" id="footer">
+        <div class="slogan">提问🙋🏼、思考🤔、专注🙇🏻、解决问题💁🏻‍♂️</div>
+        <div class="meta">
+          <p><p>👨🏻‍💻<a href="https://github.com/zengjunwen" target="_blank">Github</a>  📧<a href="mailto:junwenzeng@foxmail.com?subject=【从你的博客联系到你】&body=你好！">eMail</a></p><p>除特殊注明外，博客所有文章使用CC-BY-NC-SA授权协议</p></p>
+          <p>「Zjunwen」</p>
+        </div>
+      </div>
+      <script>
+        let footer = new Vue({
+          el: '#footer',
+          data: {
+            message: 'hello'
+          },
+          delimiters: ['$[', ']']
+        })
+      </script>
+    </div>
+  </div>
+</body>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<style></style>
+</html>

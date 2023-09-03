@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="zh-cn">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,minimum-scale=1" />
+    <title>
+        
+      Spring Framework：Spring Fundamentals - Zjunwen
+      
+    </title>
+    <meta name="keywords" content="Zjunwen" />
+    
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:creator" content="@" />
+      <meta property="og:url" content="15811346971820.html" />
+      <meta property="og:title" content="Spring Framework：Spring Fundamentals" />
+      
+        <meta property="og:description" content="Spring Framework：Spring Fundamentals" />
+      
+      
+        <meta property="og:image" content="https://zengjunwen.github.io/topicImage/SpringFundamentals.png" />
+        <meta name="twitter:image" content="https://zengjunwen.github.io/topicImage/SpringFundamentals.png" />
+      
+      <meta property="og:site_name" content="Zjunwen" />
+    
+    
+      <link rel="icon" href="media/15807816907881/截屏2020-02-04上午10.39.45.png">
+    
+    <link href="atom.xml" rel="alternate" title="Zjunwen" type="application/atom+xml">
+    <script src="https://cdn.bootcss.com/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="asset/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="head">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="blogname">Zjunwen</div>
+            <nav>
+              
+                <div class="item"><a target="_self" href="index.html">Home</a></div>
+              
+                <div class="item"><a target="_self" href="archives.html">Archives</a></div>
+              
+                <div class="item"><a target="_blank" href="Arcade-Game/index.html">Game</a></div>
+              
+            </nav>
+          </div>
+        </div>
+      </div>
+      <hr>
+    </div> <div class="container" id="post">
+  <div class="article huge">
+    <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/SpringFundamentals.png')"></div>
+    <img src="https://zengjunwen.github.io/topicImage/SpringFundamentals.png" style="display: none;" class="featureimgforexternal">
+    <div class="timeGTM" style="display:none;">2020-02-08T12:04:57+08:00</div>
+    <div class="row content">
+      <div class="col-md-2"></div>
+      <div class="col-md-10 main">
+        <div class="row">
+          <div class="col-md-10">
+            <div class="post">
+              <div class="headline"><a href="15811346971820.html">Spring Framework：Spring Fundamentals</a></div>
+              
+              <div class="meta"><span class="time">$[timeformat('2020-02-08T12:04:57+08:00')]</span><br><span class="tags"></span></div>
+              <div class="body">
+                  <h2 id="toc_0">What is Spring Framework?</h2>
+
+<p><img src="media/15811346971820/%E6%88%AA%E5%B1%8F2020-02-08%E4%B8%8B%E5%8D%8812.18.27.png" alt="截屏2020-02-08下午12.18.27"/><br/>
+Spring Framework started out as just an inversion of control container. This technique is often referred to as dependency injection. It was conceived to reduce or replace some of the complex configuration of the earlier Java Enterprise Edition. Spring was later built around using Java without EJBs, so its original concept was how to work better with EJBs, and then they realized they just didn&#39;t need those for a lot of situations. Dependency injection is very simply removing hard-coded wiring in your app and using a framework to inject dependency resources where they are needed.The solution we&#39;re looking to get from Spring or from using the <strong>Spring Framework is that we can remove configuration code or lookup code, and developers can focus on the business needs and increase code Testability Maintainability and Scalability.</strong><br/>
+<img src="media/15811346971820/%E6%88%AA%E5%B1%8F2020-02-08%E4%B8%8B%E5%8D%8812.17.19.png" alt="截屏2020-02-08下午12.17.19"/><br/>
+The Spring Framework utilizes a modular architecture, meaning that it&#39;s broken up into separate individual components that can be connected together. And each of those components is then responsible for providing a specific set of functionality, and together as a whole, they make up the Spring Framework. <strong>The Spring Framework can be broken up into six different key areas, core, web, AOP, or aspect-oriented programming, data access, integration, and testing.</strong> For the remainder of the module, we&#39;ll take a look at each of these key areas and understand what they are, what they provide, and how they simplify Java development.<br/>
+<img src="media/15811346971820/%E6%88%AA%E5%B1%8F2020-02-09%E4%B8%8B%E5%8D%883.03.36.png" alt="截屏2020-02-09下午3.03.36"/></p>
+
+<h2 id="toc_1">Spring Framework Foundation</h2>
+
+<p>The Spring Framework&#39;s Core module, or Spring Core as it&#39;s often called, is one of the most important of the Spring Framework. It serves as the foundational module upon which every other module is built. Spring Core is responsible for providing a number of different functionalities, such as internationalization support, validation support, data binding support, type conversion support, and a whole lot more; <strong>however, at the center of Spring Core is something called dependency injection</strong>. <br/>
+<img src="media/15811346971820/%E6%88%AA%E5%B1%8F2020-02-09%E4%B8%8B%E5%8D%883.08.40.png" alt="截屏2020-02-09下午3.08.40"/></p>
+
+<h2 id="toc_2">Spring Download</h2>
+
+<p>Spring wants you to download their tools using Maven.The main reason Spring wants you to use Maven is because of their transitive dependencies that are required to run the projects. Spring Boot could be used to set up your application as well, but it&#39;s much too complex and a black box for trying to show you just the basic fundamentals of what Spring needs to run in order how to set it up. </p>
+
+<h2 id="toc_3">Java Configuration Approach</h2>
+
+<ul>
+<li>Java configuration</li>
+<li>Annotation Configuration</li>
+<li>XML configuration</li>
+</ul>
+
+              </div>
+            </div>
+            
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+    let post = new Vue({
+     el: '#post',
+     data: {
+       hidelikecoin: ''
+     },
+     methods: {
+       timeformat(raw) {
+         return moment(raw).format("YYYY 年 MM 月 DD 日");
+       }
+     },
+     delimiters: ['$[', ']']
+   })
+  </script>      <div class="container">
+      <hr>
+      <div class="footer" id="footer">
+        <div class="slogan">提问🙋🏼、思考🤔、专注🙇🏻、解决问题💁🏻‍♂️</div>
+        <div class="meta">
+          <p><p>👨🏻‍💻<a href="https://github.com/zengjunwen" target="_blank">Github</a>  📧<a href="mailto:junwenzeng@foxmail.com?subject=【从你的博客联系到你】&body=你好！">eMail</a></p><p>除特殊注明外，博客所有文章使用CC-BY-NC-SA授权协议</p></p>
+          <p>「Zjunwen」</p>
+        </div>
+      </div>
+      <script>
+        let footer = new Vue({
+          el: '#footer',
+          data: {
+            message: 'hello'
+          },
+          delimiters: ['$[', ']']
+        })
+      </script>
+    </div>
+  </div>
+</body>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<style></style>
+</html>

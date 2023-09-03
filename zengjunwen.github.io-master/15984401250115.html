@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="zh-cn">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,minimum-scale=1" />
+    <title>
+        
+      HashMap底层原理 - Zjunwen
+      
+    </title>
+    <meta name="keywords" content="Zjunwen" />
+    
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:creator" content="@" />
+      <meta property="og:url" content="15984401250115.html" />
+      <meta property="og:title" content="HashMap底层原理" />
+      
+        <meta property="og:description" content="HashMap底层原理" />
+      
+      
+      <meta property="og:site_name" content="Zjunwen" />
+    
+    
+      <link rel="icon" href="media/15807816907881/截屏2020-02-04上午10.39.45.png">
+    
+    <link href="atom.xml" rel="alternate" title="Zjunwen" type="application/atom+xml">
+    <script src="https://cdn.bootcss.com/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="asset/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="head">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="blogname">Zjunwen</div>
+            <nav>
+              
+                <div class="item"><a target="_self" href="index.html">Home</a></div>
+              
+                <div class="item"><a target="_self" href="archives.html">Archives</a></div>
+              
+                <div class="item"><a target="_blank" href="Arcade-Game/index.html">Game</a></div>
+              
+            </nav>
+          </div>
+        </div>
+      </div>
+      <hr>
+    </div> <div class="container" id="post">
+  <div class="article huge">
+    <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
+    <img src="" style="display: none;" class="featureimgforexternal">
+    <div class="timeGTM" style="display:none;">2020-08-26T19:08:45+08:00</div>
+    <div class="row content">
+      <div class="col-md-2"></div>
+      <div class="col-md-10 main">
+        <div class="row">
+          <div class="col-md-10">
+            <div class="post">
+              <div class="headline"><a href="15984401250115.html">HashMap底层原理</a></div>
+              
+              <div class="meta"><span class="time">$[timeformat('2020-08-26T19:08:45+08:00')]</span><br><span class="tags"></span></div>
+              <div class="body">
+                  <h2 id="toc_0">1.7版本</h2>
+
+<h3 id="toc_1">数据结构</h3>
+
+<p>数组、链表</p>
+
+<h3 id="toc_2">重要成员变量</h3>
+
+<ul>
+<li>DEFAULT_INITIAL_CAPACITY = 1 &lt;&lt; 4; Hash表默认初始容量16</li>
+<li>MAXIMUM_CAPACITY = 1 &lt;&lt; 30; 最大Hash表容量 </li>
+<li>DEFAULT_LOAD_FACTOR = 0.75f;默认加载因子</li>
+</ul>
+
+<h3 id="toc_3">扩容</h3>
+
+<p>在扩容时，重新计算哈希值（多余的动作），扩容前的链表和扩容后的链表结点的顺序是相反的。多线程扩容，在未做并发控制的情况下，会导致链表环的产生。</p>
+
+<h2 id="toc_4">1.8版本</h2>
+
+<h3 id="toc_5">数据结构</h3>
+
+<p>数组、链表、红黑树</p>
+
+<h3 id="toc_6">重要成员变量</h3>
+
+<ul>
+<li>DEFAULT_INITIAL_CAPACITY = 1 &lt;&lt; 4; Hash表默认初始容量16</li>
+<li>MAXIMUM_CAPACITY = 1 &lt;&lt; 30; 最大Hash表容量 </li>
+<li>DEFAULT_LOAD_FACTOR = 0.75f;默认加载因子</li>
+<li>TREEIFY_THRESHOLD = 8;链表转红黑树阈值，链表长度大于8，则满足转红黑树的一个条件</li>
+<li>UNTREEIFY_THRESHOLD = 6;红黑树转链表阈值 </li>
+<li>MIN_TREEIFY_CAPACITY = 64;链表转红黑树时hash表数组长度最小容量阈值，达不到优先扩容。<br/>
+###初始化<br/>
+初始化的数组长度必定为2的整数次幂，如果不为2的整数次幂，程序在初始化时会将向上取2的整数次幂，目的是在根据hash值计算索引时，能够采用&amp;运算符与数组长度进行运算。</li>
+</ul>
+
+<h3 id="toc_7">扩容</h3>
+
+<ul>
+<li>涉及链表和红黑树的转换，数据结构涉及Node与TreeNode的转换。<br/>
+Node和TreeNode的关系
+<img src="media/15984401250115/%E6%88%AA%E5%B1%8F2020-08-26%20%E4%B8%8B%E5%8D%887.59.33.png" alt="截屏2020-08-26 下午7.59.33"/></li>
+<li>扩容只能成倍扩容，与初始化时数组长度只能为2的整数次幂的原因一样。</li>
+<li>扩容后的结点顺序不变。</li>
+<li>扩容后会对每个链表/树的结点重新进行索引计算，最终一个链表/树形成两个链表/树。</li>
+</ul>
+
+<h2 id="toc_8">并行Map的使用</h2>
+
+<p>为解决HashMap的并发问题，先后引入了HashTable、1.7版本的ConcurrentHashMap和1.8版本的ConcurrentHashMap。</p>
+
+<p>HashTable由于使用全表锁，性能底下，所以目前基本抛弃。</p>
+
+<p>1.7版本的ConcurrentHashMap引入了分段锁segment，一个segment对应多个bucket；而1.8版本直接去掉了segment，直接对bucket加锁，提高了并发效率。</p>
+
+<p>Java7 ConcurrentHashMap基于ReentrantLock实现分段锁。<br/>
+<img src="media/15984401250115/%E6%88%AA%E5%B1%8F2020-08-28%20%E4%B8%8B%E5%8D%8810.32.31.png" alt="截屏2020-08-28 下午10.32.31"/></p>
+
+<p>Java8中 ConcurrentHashMap基于分段锁+CAS保证线程安全，分段锁基于synchronized 关键字实现。<br/>
+<img src="media/15984401250115/%E6%88%AA%E5%B1%8F2020-08-28%20%E4%B8%8B%E5%8D%8810.32.49.png" alt="截屏2020-08-28 下午10.32.49"/></p>
+
+              </div>
+            </div>
+            
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+    let post = new Vue({
+     el: '#post',
+     data: {
+       hidelikecoin: ''
+     },
+     methods: {
+       timeformat(raw) {
+         return moment(raw).format("YYYY 年 MM 月 DD 日");
+       }
+     },
+     delimiters: ['$[', ']']
+   })
+  </script>      <div class="container">
+      <hr>
+      <div class="footer" id="footer">
+        <div class="slogan">提问🙋🏼、思考🤔、专注🙇🏻、解决问题💁🏻‍♂️</div>
+        <div class="meta">
+          <p><p>👨🏻‍💻<a href="https://github.com/zengjunwen" target="_blank">Github</a>  📧<a href="mailto:junwenzeng@foxmail.com?subject=【从你的博客联系到你】&body=你好！">eMail</a></p><p>除特殊注明外，博客所有文章使用CC-BY-NC-SA授权协议</p></p>
+          <p>「Zjunwen」</p>
+        </div>
+      </div>
+      <script>
+        let footer = new Vue({
+          el: '#footer',
+          data: {
+            message: 'hello'
+          },
+          delimiters: ['$[', ']']
+        })
+      </script>
+    </div>
+  </div>
+</body>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<style></style>
+</html>

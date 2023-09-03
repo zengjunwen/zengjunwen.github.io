@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="zh-cn">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,minimum-scale=1" />
+    <title>
+        
+      Zjunwen
+      
+    </title>
+    <meta name="keywords" content="Zjunwen" />
+    
+    
+    
+      <link rel="icon" href="media/15807816907881/截屏2020-02-04上午10.39.45.png">
+    
+    <link href="atom.xml" rel="alternate" title="Zjunwen" type="application/atom+xml">
+    <script src="https://cdn.bootcss.com/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="asset/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="head">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="blogname">Zjunwen</div>
+            <nav>
+              
+                <div class="item"><a target="_self" href="index.html">Home</a></div>
+              
+                <div class="item"><a target="_self" href="archives.html">Archives</a></div>
+              
+                <div class="item"><a target="_blank" href="Arcade-Game/index.html">Game</a></div>
+              
+            </nav>
+          </div>
+        </div>
+      </div>
+      <hr>
+    </div> <div class="container" id="category">
+  
+    
+      <div class="article huge">
+        <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
+        <div class="row content">
+          <div class="col-md-2"></div>
+          <div class="col-md-10 main">
+            <div class="row">
+              <div class="col-md-10 post">
+                <div class="headline"><a href="15918899724025.html">手撕JVM类加载机制源码</a></div>
+                
+                <div class="meta"><span class="time">$[timeformat('2020-06-11T23:39:32+08:00')]</span></div>
+                <div class="body">
+                    <p>先来看下通过Java命令执行代码的大体流程<br/>
+<img src="media/15918899724025/%E6%88%AA%E5%B1%8F2020-06-12%20%E4%B8%8A%E5%8D%8810.13.54.png" alt="截屏2020-06-12 上午10.13.54"/><br/>
+C++引导类调用Launche类中的静态方法getLauncher创建Lanuncher实例。创建实例时，1、在构造函数中创建扩展类加载器和应用程序类加载器；2、指定Launcher中的ClassLoader为应用程序加载器；3、应用类加载器和扩展类加载器通过应用加载器中的parent参数关联；4、ClassLoader中的loadClass方法实现双亲委派机制；5、调用类加载器中的findClass方法实现类加载，该方在AppClassLoader和ExtClassLoader的父类URLClassLoader中实现；6、findClass调用defineClass实现<strong>加载 &gt;&gt; 验证 &gt;&gt; 准备 &gt;&gt; 解析 &gt;&gt; 初始化</strong>。<br/>
+<img src="media/15918899724025/15919292512787.jpg" alt=""/></p>
+
+<h3 id="toc_0">加载到内存中的流程</h3>
+
+<p><img src="media/15918899724025/%E6%88%AA%E5%B1%8F2020-06-12%20%E4%B8%8A%E5%8D%8810.11.56.png" alt="截屏2020-06-12 上午10.11.56"/></p>
+
+<h3 id="toc_1">触发类加载的条件</h3>
+
+<p>new<br/>
+访问静态方法、静态变量<br/>
+反射<br/>
+初始化子类</p>
+
+<h3 id="toc_2">为什么设计双亲委派机制？</h3>
+
+<ul>
+<li>沙箱安全机制：自己写的java.lang.String.class类不会被加载，这样便可以防止核心API库被随意篡改；</li>
+<li>避免类的重复加载：当父亲已经加载了该类时，就没有必要子ClassLoader再加载一次，保证被加载类的唯一性。</li>
+</ul>
+
+<h3 id="toc_3">如何写自己定义的类加载器？</h3>
+
+<p>自定义类加载器只需要继承 java.lang.ClassLoader 类，该类有两个核心方法，一个是loadClass(String, boolean)，实现了双亲委派机制，还有一个方法是findClass，默认实现是空方法，所以我们自定义类加载器主要是重写findClass方法。findClass方法重写可参考URLClassLoader中的方法实现。</p>
+
+<h3 id="toc_4">如何打破已有的双亲委派机制？</h3>
+
+<p>双亲委派机制的实现已在ClassLoader的loadClass方法中实现，要打破，只需重写该方法即可。</p>
+
+<p><strong>总结：</strong><br/>
+核心方法调用流程为getLanucher(Lanuncher中的静态方法)-&gt;getClassLoader(Launcher)-&gt;loadClass(ClassLoder，实现双亲委派或重写打破双亲委派)-&gt;findClass(ClasserLoer子类实现)-&gt;defineClass(ClassLoder，装载、验证、准备、解析、初始化)。</p>
+
+                </div>
+                <div class="bottom">
+                  <a href="15918899724025.html" class="continue float-right">
+                    继续阅读
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="otherposts row">
+    
+  
+    
+        <div class="col-md-6">
+          <a href="15914059244688.html" class="item">
+            <div class="article normal">
+              <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
+              <div class="articleinfo">
+                <div class="headline">网格类</div>
+                
+              </div>
+            </div>
+          </a>
+        </div>
+    
+  
+    
+        <div class="col-md-6">
+          <a href="15867880029166.html" class="item">
+            <div class="article normal">
+              <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
+              <div class="articleinfo">
+                <div class="headline">Spring AOP</div>
+                
+              </div>
+            </div>
+          </a>
+        </div>
+    
+   
+  </div>
+  <div class="pagenavi">
+    <div class="item"><a href="all_5.html">更新文章</a></div>
+    <div class="item"> · </div>
+    <div class="item"><a href="all_7.html">旧有文章</a></div>
+  </div>
+ </div>
+ <script>
+   let category = new Vue({
+    el: '#category',
+    data: {},
+    methods: {
+      indexOddandEven(index) {
+        return index%2 ? 'odd' : 'even';
+      },
+      timeformat(raw) {
+        return moment(raw).format("YYYY 年 MM 月 DD 日");
+      }
+    },
+    delimiters: ['$[', ']']
+  })
+ </script>
+      <div class="container">
+      <hr>
+      <div class="footer" id="footer">
+        <div class="slogan">提问🙋🏼、思考🤔、专注🙇🏻、解决问题💁🏻‍♂️</div>
+        <div class="meta">
+          <p><p>👨🏻‍💻<a href="https://github.com/zengjunwen" target="_blank">Github</a>  📧<a href="mailto:junwenzeng@foxmail.com?subject=【从你的博客联系到你】&body=你好！">eMail</a></p><p>除特殊注明外，博客所有文章使用CC-BY-NC-SA授权协议</p></p>
+          <p>「Zjunwen」</p>
+        </div>
+      </div>
+      <script>
+        let footer = new Vue({
+          el: '#footer',
+          data: {
+            message: 'hello'
+          },
+          delimiters: ['$[', ']']
+        })
+      </script>
+    </div>
+  </div>
+</body>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<style></style>
+</html>

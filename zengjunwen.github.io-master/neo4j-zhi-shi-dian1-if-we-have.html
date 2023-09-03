@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="zh-cn">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,minimum-scale=1" />
+    <title>
+        
+      Neo4j知识点 - Zjunwen
+      
+    </title>
+    <meta name="keywords" content="Zjunwen" />
+    
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:creator" content="@" />
+      <meta property="og:url" content="neo4j-zhi-shi-dian1-if-we-have.html" />
+      <meta property="og:title" content="Neo4j知识点" />
+      
+        <meta property="og:description" content="「Neo4j学习小记」" />
+        <meta name="description" content="「Neo4j学习小记」" />
+      
+      
+        <meta property="og:image" content="https://zengjunwen.github.io/topicImage/Noe4j.png" />
+        <meta name="twitter:image" content="https://zengjunwen.github.io/topicImage/Noe4j.png" />
+      
+      <meta property="og:site_name" content="Zjunwen" />
+    
+    
+      <link rel="icon" href="media/15807816907881/截屏2020-02-04上午10.39.45.png">
+    
+    <link href="atom.xml" rel="alternate" title="Zjunwen" type="application/atom+xml">
+    <script src="https://cdn.bootcss.com/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="asset/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="head">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="blogname">Zjunwen</div>
+            <nav>
+              
+                <div class="item"><a target="_self" href="index.html">Home</a></div>
+              
+                <div class="item"><a target="_self" href="archives.html">Archives</a></div>
+              
+                <div class="item"><a target="_blank" href="Arcade-Game/index.html">Game</a></div>
+              
+            </nav>
+          </div>
+        </div>
+      </div>
+      <hr>
+    </div> <div class="container" id="post">
+  <div class="article huge">
+    <div class="featureimg" style="background-image: url('https://zengjunwen.github.io/topicImage/Noe4j.png')"></div>
+    <img src="https://zengjunwen.github.io/topicImage/Noe4j.png" style="display: none;" class="featureimgforexternal">
+    <div class="timeGTM" style="display:none;">2020-02-04T10:01:30+08:00</div>
+    <div class="row content">
+      <div class="col-md-2"></div>
+      <div class="col-md-10 main">
+        <div class="row">
+          <div class="col-md-10">
+            <div class="post">
+              <div class="headline"><a href="neo4j-zhi-shi-dian1-if-we-have.html">Neo4j知识点</a></div>
+              <div class="subtitle">「Neo4j学习小记」</div>
+              <div class="meta"><span class="time">$[timeformat('2020-02-04T10:01:30+08:00')]</span><br><span class="tags"></span></div>
+              <div class="body">
+                  <h3 id="toc_0">1. If we have a database with TV episodes, what a good way to model the data if we want to query episodes by year?</h3>
+
+<p><strong>Ceate nodes for years and setup relationships between the episode and the year nodes.</strong><br/>
+We could choose to create a property in the episodes with date. When you want make a query that shows all episodes that were aired in December 2014. If the date was in a property, getting the desired result would <strong>involve inspecting and parsing the property, and create some logic to determine the right episodes.</strong></p>
+
+<h3 id="toc_1">2. What is a good way to come up with a Cypher pattern?</h3>
+
+<p><strong>You should picture a pattern in your mind, then translate to ASCII.</strong><br/>
+<img src="media/15807816907881/%E6%88%AA%E5%B1%8F2020-02-05%E4%B8%8B%E5%8D%881.09.50.png" alt="截屏2020-02-05下午1.09.50"/><br/>
+Cypher is declarative, that means you specify what you want to retrieve, not how Neo4j should retrieve it.<br/>
+Easy on the brain, it&#39;s not as steep as a learning curve you would have if you started with SQL from scratch. Because use patterns to match the data in the database.</p>
+
+              </div>
+            </div>
+            
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+    let post = new Vue({
+     el: '#post',
+     data: {
+       hidelikecoin: ''
+     },
+     methods: {
+       timeformat(raw) {
+         return moment(raw).format("YYYY 年 MM 月 DD 日");
+       }
+     },
+     delimiters: ['$[', ']']
+   })
+  </script>      <div class="container">
+      <hr>
+      <div class="footer" id="footer">
+        <div class="slogan">提问🙋🏼、思考🤔、专注🙇🏻、解决问题💁🏻‍♂️</div>
+        <div class="meta">
+          <p><p>👨🏻‍💻<a href="https://github.com/zengjunwen" target="_blank">Github</a>  📧<a href="mailto:junwenzeng@foxmail.com?subject=【从你的博客联系到你】&body=你好！">eMail</a></p><p>除特殊注明外，博客所有文章使用CC-BY-NC-SA授权协议</p></p>
+          <p>「Zjunwen」</p>
+        </div>
+      </div>
+      <script>
+        let footer = new Vue({
+          el: '#footer',
+          data: {
+            message: 'hello'
+          },
+          delimiters: ['$[', ']']
+        })
+      </script>
+    </div>
+  </div>
+</body>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<style></style>
+</html>

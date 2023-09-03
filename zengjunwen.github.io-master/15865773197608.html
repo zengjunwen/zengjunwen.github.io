@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="zh-cn">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,minimum-scale=1" />
+    <title>
+        
+      Hadoop Ecosystem - Zjunwen
+      
+    </title>
+    <meta name="keywords" content="Zjunwen" />
+    
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:creator" content="@" />
+      <meta property="og:url" content="15865773197608.html" />
+      <meta property="og:title" content="Hadoop Ecosystem" />
+      
+        <meta property="og:description" content="Hadoop Ecosystem" />
+      
+      
+      <meta property="og:site_name" content="Zjunwen" />
+    
+    
+      <link rel="icon" href="media/15807816907881/截屏2020-02-04上午10.39.45.png">
+    
+    <link href="atom.xml" rel="alternate" title="Zjunwen" type="application/atom+xml">
+    <script src="https://cdn.bootcss.com/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="asset/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="head">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="blogname">Zjunwen</div>
+            <nav>
+              
+                <div class="item"><a target="_self" href="index.html">Home</a></div>
+              
+                <div class="item"><a target="_self" href="archives.html">Archives</a></div>
+              
+                <div class="item"><a target="_blank" href="Arcade-Game/index.html">Game</a></div>
+              
+            </nav>
+          </div>
+        </div>
+      </div>
+      <hr>
+    </div> <div class="container" id="post">
+  <div class="article huge">
+    <div class="featureimg" style="background-image: url('asset/defaultfeaimg.jpg')"></div>
+    <img src="" style="display: none;" class="featureimgforexternal">
+    <div class="timeGTM" style="display:none;">2020-04-11T11:55:19+08:00</div>
+    <div class="row content">
+      <div class="col-md-2"></div>
+      <div class="col-md-10 main">
+        <div class="row">
+          <div class="col-md-10">
+            <div class="post">
+              <div class="headline"><a href="15865773197608.html">Hadoop Ecosystem</a></div>
+              
+              <div class="meta"><span class="time">$[timeformat('2020-04-11T11:55:19+08:00')]</span><br><span class="tags"></span></div>
+              <div class="body">
+                  <p><img src="media/15865773197608/%E6%88%AA%E5%B1%8F2020-04-11%20%E4%B8%8B%E5%8D%8812.11.29.png" alt="截屏2020-04-11 下午12.11.29"/></p>
+
+<p>Hive:Provides an SQL interface to Hadoop.（数据仓库）<br/>
+HBase:A database management system on top of Hadoop. Integrates with your application just like a traditional database<br/>
+Pig:A data manipulation language<br/>
+transforms unstructured data into a structured format.Query this structured data using interfaces like Hive.<br/>
+Spark:A distributed computing engine used along with Hadoop.Interactive shell to quickly process datasets.Has a bunch of built in libraries for machine learning, stream processing, graph processing etc.<br/>
+Flume/Sqoop:Tools to transfer data between other systems and Hadoop.</p>
+
+<h1 id="toc_0">Hadoop</h1>
+
+<h3 id="toc_1">Store Data</h3>
+
+<p>Break the data into blocks. Default blocks size is 128M.Name node store matedata to locate block.Data node physically stores the data in the files.</p>
+
+<h3 id="toc_2">Default Hadoop replication strategy(three replications)</h3>
+
+<ol>
+<li>First location chosen at radnom</li>
+<li>Second location has to be on a different rack</li>
+<li>Third replica is on the same rack as the second but on different nodes<br/>
+The purpose of the strategy:inter rack traffic and improves write performance.</li>
+</ol>
+
+<p>MapReduce is a programming paradigm.<br/>
+Partition:Choose reducers such that keys are evenly distributed across partitions.<br/>
+Shuffle:The process of moving data from the mappers to the reducers.<br/>
+Combiner:解决数据从Mapper到Reducers时的性能问题。</p>
+
+              </div>
+            </div>
+            
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+    let post = new Vue({
+     el: '#post',
+     data: {
+       hidelikecoin: ''
+     },
+     methods: {
+       timeformat(raw) {
+         return moment(raw).format("YYYY 年 MM 月 DD 日");
+       }
+     },
+     delimiters: ['$[', ']']
+   })
+  </script>      <div class="container">
+      <hr>
+      <div class="footer" id="footer">
+        <div class="slogan">提问🙋🏼、思考🤔、专注🙇🏻、解决问题💁🏻‍♂️</div>
+        <div class="meta">
+          <p><p>👨🏻‍💻<a href="https://github.com/zengjunwen" target="_blank">Github</a>  📧<a href="mailto:junwenzeng@foxmail.com?subject=【从你的博客联系到你】&body=你好！">eMail</a></p><p>除特殊注明外，博客所有文章使用CC-BY-NC-SA授权协议</p></p>
+          <p>「Zjunwen」</p>
+        </div>
+      </div>
+      <script>
+        let footer = new Vue({
+          el: '#footer',
+          data: {
+            message: 'hello'
+          },
+          delimiters: ['$[', ']']
+        })
+      </script>
+    </div>
+  </div>
+</body>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<style></style>
+</html>
