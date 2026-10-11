@@ -170,6 +170,11 @@ const config = {
         // ],
         copyright: `Copyright © Jon ${new Date().getFullYear()}`,
       },
+      blog: {
+        sidebar: {
+          groupByYear: false,
+        },
+      },
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
