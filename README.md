@@ -1,6 +1,8 @@
 # Website
 
-This website is built using [Docusaurus 2](https://docusaurus.io/), a modern static website generator.
+This website is built using [Docusaurus 3](https://docusaurus.io/), a modern static website generator.
+
+Requires Node.js 20 or newer. This project uses Yarn (classic, `yarn.lock`); please don't commit a `package-lock.json`.
 
 ### Installation
 
@@ -39,4 +41,4 @@ $ GIT_USER=<Your GitHub username> yarn deploy
 eg：GIT_USER=zengjunwen GIT_PASS= yarn deploy
 ```
 
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+This command builds the website and pushes it to the `delpoy` branch (see `deploymentBranch` in `docusaurus.config.js`), which GitHub Pages serves.
